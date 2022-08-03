@@ -283,7 +283,9 @@ document.body.oncopy=function(){warning();}
                         <?php if ($this->options->JScan === 'on') : ?>
                             <a href="<?php $this->options->adminUrl(); ?>">扫码登录</a>
                         <?php endif; ?>
-                        <a style="font-size:10px; color:var(--theme);" id="toRegister" href="<?php $this->options->adminUrl(); ?>register.php">没有账号？点击注册</a>
+                        <?php if ($this->options->allowRegister) : ?>
+                            <a style="font-size:10px; color:var(--theme);" id="toRegister" href="<?php $this->options->adminUrl(); ?>register.php">没有账号？点击注册</a>
+                        <?php endif; ?>
                     </div>
                 </form>
             </div>
