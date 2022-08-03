@@ -7571,7 +7571,7 @@ transform:rotate(360deg);
 
     /* 登录弹窗 */
 .shadow {
-    position: absolute;
+    position: fixed;
     top: 0;
     left: 0;
     width: 100%;
