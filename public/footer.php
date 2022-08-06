@@ -278,6 +278,7 @@ document.body.oncopy=function(){warning();}
                         <div>密码</div>
                         <input class="password" placeholder="请输入密码" type="password" maxlength="25" name="password" autocomplete="off" />
                     </div>
+		    <p style="font-size: 10px;"><label for="remember"><input type="checkbox" name="remember" class="checkbox" value="1" id="remember" /> 下次自动登录</label></p>
                     <div class="form-item">
                          <button type="submit">登 录</button><br><br>
                         <?php if ($this->options->JScan === 'on') : ?>
