@@ -247,20 +247,58 @@
                 </svg><?php echo $rankingStr[0] ?></h3>
             <ul class="list">
                 <?php
-                $result = GetRequest("https://the.top/v1/" . $rankingStr[1] . "/1/20", "get");
-                $res = json_decode($result, true);
-                if ($res['code'] === 0) {
-                    for ($i = 0; $i < count($res['data']); $i++) {
-                        if ($i < 9) {
-                            echo
-                                "<li title=" . $res['data'][$i]['title'] . ">
-                                    <span>" . ($i + 1) . "</span>
-                                    <a target='_blank' href=" . $res['data'][$i]['url'] . ">" . $res['data'][$i]['title'] . "</a>
-                                </li>";
-                        }
+                if($rankingStr[1]==="bilibili"){
+                    if($rankingStr[2]==="video"){
+                        $result = GetRequest("https://api.bilibili.com/x/web-interface/ranking/v2?rid=0&type=all", "get");
+                    }else{
+                        $result = GetRequest("https://api.bilibili.com/x/web-interface/popular?ps=10&pn=1", "get");
                     }
-                } else {
-                    echo "<li>获取失败！</li>";
+                    $res = json_decode($result, true);
+                    if ($res['code'] === 0) {
+                        for ($i = 0; $i < count($res['data']['list']); $i++) {
+                            if ($i < 9) {
+                                echo
+                                    "<li title=" . $res['data']['list'][$i]['title'] . ">
+                                        <span>" . ($i + 1) . "</span>
+                                        <a target='_blank' href=" . $res['data']['list'][$i]['short_link'] . ">" . $res['data']['list'][$i]['title'] . "</a>
+                                    </li>";
+                            }
+                        }
+                    } else {
+                        echo "<li>获取失败！</li>";
+                    }
+                }elseif($rankingStr[1]==="bilibili_fan"){
+                    $result = GetRequest("https://api.bilibili.com/pgc/web/rank/list?day=3&season_type=1", "get");
+                    $res = json_decode($result, true);
+                    if ($res['code'] === 0) {
+                        for ($i = 0; $i < count($res['result']['list']); $i++) {
+                            if ($i < 9) {
+                                echo
+                                    "<li title=" . $res['result']['list'][$i]['title'] . ">
+                                        <span>" . ($i + 1) . "</span>
+                                        <a target='_blank' href=" . $res['result']['list'][$i]['url'] . ">" . $res['result']['list'][$i]['title'] . "</a>
+                                    </li>";
+                            }
+                        }
+                    } else {
+                        echo "<li>获取失败！</li>";
+                    }
+                }else{
+                    $result = GetRequest("https://the.top/api/v1/item/" . $rankingStr[1] . "?limit=10", "get");
+                    $res = json_decode($result, true);
+                    if ($res['code'] === 0) {
+                        for ($i = 0; $i < count($res['data']); $i++) {
+                            if ($i < 9) {
+                                echo
+                                    "<li title=" . $res['data'][$i]['title'] . ">
+                                        <span>" . ($i + 1) . "</span>
+                                        <a target='_blank' href=" . $res['data'][$i]['url'] . ">" . $res['data'][$i]['title'] . "</a>
+                                    </li>";
+                            }
+                        }
+                    } else {
+                        echo "<li>获取失败！</li>";
+                    }
                 }
                 ?>
             </ul>
