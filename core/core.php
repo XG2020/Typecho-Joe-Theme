@@ -8,7 +8,7 @@ require 'ipdata.class.php';
 /* 获取模板版本号 */
 function JoeVersion()
 {
-    return "1.1.5";
+    return "1.1.6";
 }
 
 /* 获取懒加载图片 */
