@@ -1,0 +1,64 @@
+ .file {
+    position: relative;
+    display: inline-block;
+    background: #D0EEFF;
+    border: 1px solid #99D3F5;
+    border-radius: 4px;
+    padding: 4px 5px;
+    overflow: hidden;
+    height: 32px;
+    color: #1E88C7;
+    text-decoration: none;
+    text-indent: 0;
+    line-height: 18px;
+}
+.file input {
+        position: absolute;
+        font-size: 100px;
+        right: 0;
+        top: 0;
+        opacity: 0;
+}
+.file:hover {
+        background: #AADFFD;
+        border-color: #78C3F3;
+        color: #004974;
+        text-decoration: none;
+}
+.xgimg{
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+.xgimg button {
+    background: var(--classD);
+    padding: 0 15px;
+    height: 32px;
+    border: none;
+    font-size: 13px;
+    transition: all 0.35s;
+    color: var(--main);
+}
+.xgimg button:active {
+    color: #fff;
+    background: var(--theme);
+}
+.showFileName{
+    width:40%;
+    font-size: 12px;
+    text-align: right;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+}
+@media screen and (max-width: 768px){
+    .showFileName{
+    width:0px;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+}
+}
+
+
+

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="34px" height="34px" viewBox="0 0 34 34" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 52.5 (67469) - http://www.bohemiancoding.com/sketch -->
+    <title>企业认证大</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <polygon id="path-1" points="0 33.4979 33.498 33.4979 33.498 -0.0001 0 -0.0001"></polygon>
+    </defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Desktop-HD" transform="translate(-1653.000000, -388.000000)">
+            <g id="Page-1" transform="translate(1653.000000, 388.000000)">
+                <path d="M32.3642,16.7489 C32.3642,25.3729 25.3732,32.3639 16.7492,32.3639 C8.1252,32.3639 1.1332,25.3729 1.1332,16.7489 C1.1332,8.1249 8.1252,1.1339 16.7492,1.1339 C25.3732,1.1339 32.3642,8.1249 32.3642,16.7489 Z" id="Fill-1" fill="#FFE300"></path>
+                <polygon id="Fill-3" fill="#262727" points="15.1817 23.4301 10.6107 16.9181 11.6857 15.5001 15.1817 19.6851 22.7287 11.9771 24.6527 12.0921"></polygon>
+                <polygon id="Fill-5" fill="#262727" points="12.3756 16.3082 9.4396 18.1902 8.8456 17.4872 11.4886 15.2572"></polygon>
+                <mask id="mask-2" fill="white">
+                    <use xlink:href="#path-1"></use>
+                </mask>
+                <g id="Clip-8"></g>
+                <polygon id="Fill-7" fill="#262727" mask="url(#mask-2)" points="22.7 13.3519 24.652 13.3519 24.652 11.9769 22.7 11.9769"></polygon>
+                <path d="M16.749,0 C7.514,0 0,7.514 0,16.749 C0,25.984 7.514,33.498 16.749,33.498 C25.984,33.498 33.498,25.984 33.498,16.749 C33.498,7.514 25.984,0 16.749,0 M16.749,2.835 C24.434,2.835 30.663,9.064 30.663,16.749 C30.663,24.434 24.434,30.663 16.749,30.663 C9.064,30.663 2.835,24.434 2.835,16.749 C2.835,9.064 9.064,2.835 16.749,2.835" id="Fill-9" fill="#FFFFFF" mask="url(#mask-2)"></path>
+            </g>
+        </g>
+    </g>
+</svg>
