@@ -218,7 +218,10 @@
 	right:20px
 }
 }@media (max-width:768px) {
-	.j-search-down-xs {
+.description{
+    display:none;
+}
+.j-search-down-xs {
 	display:block
 }
 .j-sidebar-xs {
