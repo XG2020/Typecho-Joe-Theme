@@ -10,6 +10,6 @@
         <span>篇与</span>
         <span class="active ellipsis"><?php echo $this->_keywords; ?></span>
         <span>的结果</span>
-		
+	<span class="description" style="width:350px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color: var(--main);font-size: 18px;margin: 10px;"> ———<?php echo $this->getDescription(); ?></span>
     </section>
 </section>
