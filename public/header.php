@@ -2,14 +2,14 @@
 <!-- 该处用于密码、输入框等其他异步判断是否正确使用，请勿修改成其他内容！！！ -->
 <div style="display: none;">TypechoJoeTheme</div>
 
- <!-- 雪花背景 -->
- <?php if ($this->options->JSnow === 'on') : ?>
-    <div class="snow-container"></div>
-<?php endif; ?>
-
 <!-- 跑马灯 -->
 <?php if ($this->options->JHorseStatus === 'on' && $this->options->JHeaderStyle === 'default') : ?>
     <div class="j-horse"></div>
+<?php endif; ?>
+
+ <!-- 雪花背景 -->
+<?php if ($this->options->JSnow === 'on') : ?>
+    <div class="snow-container"></div>
 <?php endif; ?>
 
 <?php if ($this->options->JHeaderStyle === 'default') : ?>
@@ -540,13 +540,23 @@
     <div class="content">
         <div class="item user">
             <?php /* 登录了 */ if ($this->user->hasLogin()): ?>
+                <?php if ($this->user->bgimg !== "" && $this->user->bgimg !== null && $this->options->JasideBg === "on") : ?>
+                    <?php  echo ('<style>.j-sidebar-xs .content .user{background: url(')?><?php echo($this->user->bgimg); ?><?php  echo (') no-repeat;background-size: cover;}</style>') ?>
+                <?php endif; ?>
                 <img src="<?php $this->options->JAuthorAvatar ? $this->options->JAuthorAvatar() : ParseAvatar($this->user->mail); ?>"/>
-                <p class="name"><a href="<?php echo getUserPermalink($this->user->uid); ?>"><?php $this->user->screenName(); ?></a></p>
-                <p style="font-size:12px;" class="j-aside-motto"><?php echo($this->user->sign); ?></p>
-            <?php else:?>    
+                <div class="Jcader">
+                    <p class="name"><a href="<?php echo getUserPermalink($this->user->uid); ?>"><?php $this->user->screenName(); ?></a></p>
+                    <p style="font-size:12px;" class="j-aside-motto"><?php echo($this->user->sign); ?></p>
+                </div>
+            <?php else:?>
+                <?php if ($this->author->bgimg !== "" && $this->author->bgimg !== null && $this->options->JasideBg === "on") : ?>
+                    <?php  echo ('<style>.j-sidebar-xs .content .user{background: url(')?><?php echo($this->author->bgimg); ?><?php  echo (') no-repeat;background-size: cover;}</style>') ?>
+                <?php endif; ?>
                 <img src="<?php $this->options->JAuthorAvatar ? $this->options->JAuthorAvatar() : ParseAvatar($this->author->mail); ?>" />
-                <p class="name"><a href="<?php echo getUserPermalink($this->author->uid); ?>"><?php $this->author->screenName(); ?></a></p>
-                <p style="font-size:12px;" class="j-aside-motto"><?php echo($this->author->sign); ?></p>
+                <div class="Jcader">
+                    <p class="name"><a href="<?php echo getUserPermalink($this->author->uid); ?>"><?php $this->author->screenName(); ?></a></p>
+                    <p style="font-size:12px;" class="j-aside-motto"><?php echo($this->author->sign); ?></p>
+                </div>
             <?php endif; ?>
         </div>
         <div class="item">
