@@ -3857,7 +3857,7 @@ table {
     position: relative;
     font-style: normal;
     color: var(--theme);
-	cursor: pointer
+    cursor: pointer
 }
 
 .j-post .main .markdown .need-reply span:hover {
