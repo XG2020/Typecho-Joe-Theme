@@ -11,6 +11,16 @@
 .dplayer-controller .dplayer-icons .dplayer-full .dplayer-full-in-icon {
 	display: none !important
 }
+.Jcader{
+    margin-bottom: 15px;
+    background: var(--background);
+    border-radius: var(--radius-wap);
+    padding: 10px;
+}
+.Jcader a{
+    color:var(--theme);
+}
+
 
 @-webkit-keyframes rotateCount {
 	0% {
@@ -6194,8 +6204,7 @@ pre code {
 	width: 80px;
 	height: 80px;
 	border-radius: 50%;
-	padding: 5px;
-	border: 1px solid var(--classB);
+	border: 4px solid var(--background);
 	box-shadow: 0px 5px 15px rgba(56,94,209,0.2);
 	margin-bottom: 15px
 }
