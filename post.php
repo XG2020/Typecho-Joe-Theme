@@ -99,7 +99,7 @@ if (isset($_POST['agree'])) {
                                     ->where('mail = ?', $this->remember('mail', true))
                                     ->limit(1);
                                 $result = $db->fetchAll($sql);
-                                if ($this->user->hasLogin() || $result) {
+                                if ($this->user->group == 'administrator' || $result) {
                                     $content = preg_replace("/\[hide\](.*?)\[\/hide\]/sm", '<div class="reply-content">$1</div>', $this->content);
                                 } else {
                                     $content = preg_replace("/\[hide\](.*?)\[\/hide\]/sm", '<p class="need-reply">此处内容 <span data-href="comments">回复</span> 可见</p>', $this->content);
@@ -122,7 +122,7 @@ if (isset($_POST['agree'])) {
                                 ->where('mail = ?', $this->remember('mail', true))
                                 ->limit(1);
                             $result = $db->fetchAll($sql);
-                            if ($this->user->hasLogin() || $result) {
+                            if ($this->user->group == 'administrator' || $result) {
                                 $content = preg_replace("/\[hide\](.*?)\[\/hide\]/sm", '<div class="reply-content">$1</div>', $this->content);
                             } else {
                                 $content = preg_replace("/\[hide\](.*?)\[\/hide\]/sm", '<p class="need-reply">此处内容 <span data-href="comments">回复</span> 可见</p>', $this->content);
