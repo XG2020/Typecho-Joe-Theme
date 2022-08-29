@@ -1812,6 +1812,15 @@
 
 new Joe({});
 
+/* 根据时间变换模式 */  
+window.onload = function(){
+    let time = new Date().getHours();
+    if (time<7 || time>18){
+         change_mode('dark');
+         document.querySelector(".js-promo-color-modes-toggle").setAttribute("aria-checked", "true");
+    }
+}
+
 /* 暗夜模式 */       
             // 切换按钮
 function set_mode_toggle(e) {
