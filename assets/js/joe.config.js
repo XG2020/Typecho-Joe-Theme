@@ -140,6 +140,8 @@
 
             /* 初始化图片懒加载 */
             this.init_lazy_load();
+            
+            this.init_auto_mode();
         }
 
         /* 格式化url参数 */
@@ -1802,6 +1804,22 @@
         init_lazy_load() {
             new LazyLoad('.lazyload');
         }
+        
+        /* 初始化自动模式 */
+        init_auto_mode(){
+            let time = new Date().getHours();
+            if (time<6 || time>18){
+                if("light" === get_user_scheme_mode()){
+                     change_mode('dark');
+                     document.querySelector(".js-promo-color-modes-toggle").setAttribute("aria-checked", "true");
+                }
+            }else{
+                if("dark" === get_user_scheme_mode()){
+                    change_mode('light');
+                    document.querySelector(".js-promo-color-modes-toggle").setAttribute("aria-checked", "false");
+                }
+            }
+        }
     }
     if (typeof module !== 'undefined' && typeof module.exports !== 'undefined') {
         module.exports = Joe;
@@ -1811,15 +1829,6 @@
 })();
 
 new Joe({});
-
-/* 根据时间变换模式 */  
-window.onload = function(){
-    let time = new Date().getHours();
-    if (time<7 || time>18){
-         change_mode('dark');
-         document.querySelector(".js-promo-color-modes-toggle").setAttribute("aria-checked", "true");
-    }
-}
 
 /* 暗夜模式 */       
             // 切换按钮
