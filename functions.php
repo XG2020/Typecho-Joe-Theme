@@ -21,7 +21,7 @@ function themeConfig($form)
     }
 ?>
     <div class="j-setting-contain">
-        <link href="<?php echo THEME_URL ?>/assets/css/joe.setting.min.css" rel="stylesheet" type="text/css" />
+        <link href="<?php echo autoCdnUrl('assets/css/joe.setting.min.css'); ?>" rel="stylesheet" type="text/css" />
         <div>
             <div class="j-aside">
                 <div class="logo">Joe <?php echo JoeVersion() ?></div>
@@ -40,7 +40,7 @@ function themeConfig($form)
         </div>
         <span id="j-version" style="display: none;"><?php echo JoeVersion() ?></span>
         <div class="j-setting-notice">请求数据中...</div>
-        <script src="<?php echo THEME_URL ?>/assets/js/joe.setting.min.js"></script>
+        <script src="<?php echo autoCdnUrl('assets/js/joe.setting.min.js'); ?>"></script>
     <?php
 
 

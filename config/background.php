@@ -29,11 +29,7 @@
 <?php else : ?>
     <!-- 如果开启了动态背景，则显示动态背景 -->
     <?php if ($this->options->JDocumentCanvasBG !== 'off') : ?>
-        <?php if ($this->options->JCDN === 'on') : ?>
-            <script src="//cdn.jsdelivr.net/npm/typecho_joe_theme@<?php echo JoeVersion() ?>/assets/background/<?php $this->options->JDocumentCanvasBG() ?>"></script>
-        <?php else : ?>
-            <script src="<?php $this->options->themeUrl('assets/background/' . $this->options->JDocumentCanvasBG); ?>"></script>
-        <?php endif; ?>
+        <script src="<?php echo autoCdnUrl('assets/background/' . $this->options->JDocumentCanvasBG); ?>"></script>
     <?php else : ?>
         <!-- 如果填写了背景图，则优先显示背景图 -->
         <?php if ($this->options->JDocumentPCBG) : ?>

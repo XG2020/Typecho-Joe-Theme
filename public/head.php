@@ -34,11 +34,12 @@
         location.href = "https://baidu.com"
     }
 </script>
-<script src="/usr/themes/Typecho-Joe-Theme/js/npm/jquery.min.js"></script>
-<script src="/usr/themes/Typecho-Joe-Theme/js/alert.js"></script>
-<script src="/usr/themes/Typecho-Joe-Theme/assets/js/snow.js"></script>
-<link rel="stylesheet" type="text/css" href="/usr/themes/Typecho-Joe-Theme/css/alert.css">
-<link rel="stylesheet" type="text/css" href="/usr/themes/Typecho-Joe-Theme/css/btn.css">
+
+<script src="<?php echo autoCdnUrl('assets/js-local/npm/jquery.min.js'); ?>"></script>
+<script src="<?php echo autoCdnUrl('assets/js-local/alert.js'); ?>"></script>
+<script src="<?php echo autoCdnUrl('assets/js/snow.js'); ?>"></script>
+<link rel="stylesheet" type="text/css" href="<?php echo autoCdnUrl('assets/css-local/alert.css'); ?>">
+<link rel="stylesheet" type="text/css" href="<?php echo autoCdnUrl('assets/css-local/btn.css'); ?>">
 <!-- favicon图标 -->
 <link rel="shortcut icon" href="<?php echo $this->options->JFavicon ? $this->options->JFavicon : 'https://xggm.top/logo1.png'; ?>" />
 
@@ -65,13 +66,13 @@
     <?php $this->options->title(); ?>
 </title>
 
-<link rel="stylesheet" href="/usr/themes/Typecho-Joe-Theme/css/npm/bootstrap-grid.min.css" />
-<link rel="stylesheet" href="/usr/themes/Typecho-Joe-Theme/css/npm/jquery.fancybox.min.css" />
-<link rel="stylesheet" href="/usr/themes/Typecho-Joe-Theme/css/npm/animate.min.css">
+<link rel="stylesheet" type="text/css" href="<?php echo autoCdnUrl('assets/css-local/npm/bootstrap-grid.min.css'); ?>">
+<link rel="stylesheet" type="text/css" href="<?php echo autoCdnUrl('assets/css-local/npm/jquery.fancybox.min.css'); ?>">
+<link rel="stylesheet" type="text/css" href="<?php echo autoCdnUrl('assets/css-local/npm/animate.min.css'); ?>">
 
 <!-- 颜色选择器 -->
 <?php if ($this->options->JGlobalThemeStatus === 'on') : ?>
-    <link rel="stylesheet" href="/usr/themes/Typecho-Joe-Theme/css/npm/colpick.min.css" />
+    <link rel="stylesheet" type="text/css" href="<?php echo autoCdnUrl('assets/css-local/npm/colpick.min.css'); ?>">
 <?php endif; ?>
 
 <!-- 代码高亮 -->
@@ -81,36 +82,30 @@
 
 <!-- 页面加载 -->
 <?php if ($this->options->JPageLoading !== "off") : ?>
-    <link rel="stylesheet" href="/usr/themes/Typecho-Joe-Theme/css/npm/fakeLoader.min.css" />
+    <link rel="stylesheet" type="text/css" href="<?php echo autoCdnUrl('assets/css-local/npm/fakeLoader.min.css'); ?>">
 <?php endif; ?>
 
 <!-- 播放器 -->
 <?php if ($this->options->JPlayer) : ?>
-    <link href="/usr/themes/Typecho-Joe-Theme/css/npm/APlayer.min.css" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="<?php echo autoCdnUrl('assets/css-local/npm/APlayer.min.css'); ?>">
 <?php endif; ?>
 
 <!-- 轮播图 -->
 <?php if ($this->options->JIndexCarousel) : ?>
-    <link rel="stylesheet" href="/usr/themes/Typecho-Joe-Theme/css/npm/swiper.min.css">
+    <link rel="stylesheet" type="text/css" href="<?php echo autoCdnUrl('assets/css-local/npm/swiper.min.css'); ?>">
 <?php endif; ?>
 
-<?php if ($this->options->JCDN === 'on') : ?>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typecho_joe_theme@<?php echo JoeVersion() ?>/assets/css/OwO.min.css" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typecho_joe_theme@<?php echo JoeVersion() ?>/assets/css/joe.min.css?v=<?php echo JoeVersion() ?>" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typecho_joe_theme@<?php echo JoeVersion() ?>/assets/css/joe.responsive.min.css?v=<?php echo JoeVersion() ?>" />
-<?php else : ?>
-    <link rel="stylesheet" href="<?php $this->options->themeUrl('assets/css/OwO.min.css'); ?>" />
-    <link rel="stylesheet" href="<?php $this->options->themeUrl('assets/css/joe.min.css?v=' . JoeVersion()); ?>" />
-    <link rel="stylesheet" href="<?php $this->options->themeUrl('assets/css/joe.responsive.min.css?v=' . JoeVersion()); ?>" />
-<?php endif; ?>
+<link rel="stylesheet" href="<?php echo autoCdnUrl('assets/css/OwO.min.css'); ?>" />
+<link rel="stylesheet" href="<?php echo autoCdnUrl('assets/css/joe.min.css'); ?>" />
+<link rel="stylesheet" href="<?php echo autoCdnUrl('assets/css/joe.responsive.min.css'); ?>" />
 
 <!-- joe 弹窗提示 -->
-<link rel="stylesheet" href="/usr/themes/Typecho-Joe-Theme/css/npm/joe.toast.min.css" />
+<link rel="stylesheet" type="text/css" href="<?php echo autoCdnUrl('assets/css-local/npm/joe.toast.min.css'); ?>">
 
 <style>
     :root {
         --element: #409eff;
-        cursor: <?php echo $this->options->JCursorType !== 'off' ? 'url(' . THEME_URL . '\/assets\/cur\/' . $this->options->JCursorType . '), auto' : 'auto' ?>;
+        cursor: <?php echo $this->options->JCursorType !== 'off' ? 'url(' . autoCdnUrl('assets/cur/') . $this->options->JCursorType . '), auto' : 'auto' ?>;
         --classA: <?php echo $this->options->JClassA ? $this->options->JClassA : '#dcdfe6' ?>;
         --classB: <?php echo $this->options->JClassB ? $this->options->JClassB : '#e4e7ed' ?>;
         --classC: <?php echo $this->options->JClassC ? $this->options->JClassC : '#ebeef5' ?>;
