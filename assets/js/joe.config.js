@@ -563,7 +563,7 @@
                     video: {
                         url: $('#j-video .episodes ul li').first().attr('data-url'),
                         type: 'auto',
-                        pic: '//cdn.jsdelivr.net/npm/typecho_joe_theme@3.2.0/assets/img/player.jpg'
+                        pic: window.JOE_CONFIG.THEME_URL + '/assets/img/player.jpg'
                     }
                 };
                 if (window.JOE_CONFIG.DPLAYER_DANMAKU_API !== '') {
