@@ -8,7 +8,7 @@ require 'ipdata.class.php';
 /* 获取模板版本号 */
 function JoeVersion()
 {
-    return "1.1.9";
+    return "1.2.0";
 }
 
 function autoCdnUrl($path) {
