@@ -107,8 +107,19 @@ function themeConfig($form)
          注意：如果样式异常，请关闭此项！！！
         '
     );
-    $JCDN->setAttribute('class', 'j-setting-content j-setting-global');
-    $form->addInput($JCDN->multiMode());
+    $JDayNight->setAttribute('class', 'j-setting-content j-setting-global');
+    $form->addInput($JDayNight->multiMode());
+    
+    $JCDNUrl = new Typecho_Widget_Helper_Form_Element_Text(
+        'JCDNUrl',
+        NULL, 'https://gcore.jsdelivr.net/gh/Carnia/Typecho-Joe-Theme@latest/',       
+        'cdn链接前缀(/结尾)',
+        '默认为空，则指向服务器typecho/usr/themes/Typecho-Joe-Theme/<br />
+        填cdn可以是https://gcore.jsdelivr.net/gh/Carnia/Typecho-Joe-Theme@latest/<br />
+        cdn挂了的时候可以置空'
+    );
+    $JCDNUrl->setAttribute('class', 'j-setting-content j-setting-global');
+    $form->addInput($JCDNUrl);
 
     $JDefend = new Typecho_Widget_Helper_Form_Element_Select(
         'JDefend',

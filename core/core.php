@@ -11,13 +11,28 @@ function JoeVersion()
     return "1.1.9";
 }
 
+function autoCdnUrl($path) {
+    if (Helper::options()->JCDNUrl) {
+        $url = Helper::options()->JCDNUrl;
+        if (substr($url, strlen($url) - 1) != "/") {
+            $url = $url . '/';
+        }
+        if (substr($path, 0, 1) == "/") {
+            $path = substr($path, 1);
+        }
+        return  $url . $path;
+    } else {
+        Helper::options()->themeUrl($path);
+    }
+}
+
 /* 获取懒加载图片 */
 function GetLazyLoad()
 {
     if (Helper::options()->JLazyLoad) {
         return Helper::options()->JLazyLoad;
     } else {
-        return "https://cdn.jsdelivr.net/npm/typecho_joe_theme/assets/img/lazyload.jpg";
+        return autoCdnUrl("/assets/img/lazyload.jpg");
     }
 }
 
@@ -686,16 +701,16 @@ function GetParentReply($parent)
 
 function ParsePaopaoBiaoqingCallback($match)
 {
-    return '<img class="owo" src="' . THEME_URL . '/assets/owo/paopao/' . str_replace('%', '', urlencode($match[1])) . '_2x.png">';
+    return '<img class="owo" src="' . autoCdnUrl('assets/owo/paopao/') . str_replace('%', '', urlencode($match[1])) . '_2x.png">';
 }
 
 function ParseAruBiaoqingCallback($match)
 {
-    return '<img class="owo" src="' . THEME_URL . '/assets/owo/aru/' . str_replace('%', '', urlencode($match[1])) . '_2x.png">';
+    return '<img class="owo" src="' . autoCdnUrl('assets/owo/aru/') . str_replace('%', '', urlencode($match[1])) . '_2x.png">';
 }
 function ParseBiliBiaoqingCallback($match)
 {
-    return '<img class="owo" src="' . THEME_URL . '/assets/owo/bili/' . str_replace('%', '', urlencode($match[1])) . '_2x.png">';
+    return '<img class="owo" src="' . autoCdnUrl('assets/owo/bili/') . str_replace('%', '', urlencode($match[1])) . '_2x.png">';
 }
 
 /* 格式化 */
