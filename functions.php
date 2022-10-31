@@ -98,14 +98,12 @@ function themeConfig($form)
     $JCommentStatus->setAttribute('class', 'j-setting-content j-setting-global');
     $form->addInput($JCommentStatus->multiMode());
 
-    $JCDN = new Typecho_Widget_Helper_Form_Element_Select(
-        'JCDN',
+    $JDayNight = new Typecho_Widget_Helper_Form_Element_Select(
+        'JDayNight',
         array('off' => '关闭（默认）', 'on' => '开启'),
         'off',
-        '请选择是否启用CDN',
-        '介绍：开启后，网站内的部分静态资源（css、js）将不会从本地进行读取，而采用cdn方式引入。<br />
-         注意：如果样式异常，请关闭此项！！！
-        '
+        '是否启用自动根据时间切换白天黑夜模式',
+        ''
     );
     $JDayNight->setAttribute('class', 'j-setting-content j-setting-global');
     $form->addInput($JDayNight->multiMode());
