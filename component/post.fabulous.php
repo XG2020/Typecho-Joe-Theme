@@ -26,7 +26,7 @@
                 <img src=" <?php $this->options->JAdmire() ?>" alt="">
             </section>
             <section class="tips">
-                <img src="<?php $this->options->themeUrl('assets/img/tips.png'); ?>">                
+                <img src="<?php echo autoCdnUrl('assets/img/tips.png'); ?>">
             </section>
             
             

@@ -21,7 +21,7 @@ function themeConfig($form)
     }
 ?>
     <div class="j-setting-contain">
-        <link href="<?php echo THEME_URL ?>/assets/css/joe.setting.min.css" rel="stylesheet" type="text/css" />
+        <link href="<?php echo autoCdnUrl('assets/css/joe.setting.min.css'); ?>" rel="stylesheet" type="text/css" />
         <div>
             <div class="j-aside">
                 <div class="logo">Joe <?php echo JoeVersion() ?></div>
@@ -40,7 +40,7 @@ function themeConfig($form)
         </div>
         <span id="j-version" style="display: none;"><?php echo JoeVersion() ?></span>
         <div class="j-setting-notice">请求数据中...</div>
-        <script src="<?php echo THEME_URL ?>/assets/js/joe.setting.min.js"></script>
+        <script src="<?php echo autoCdnUrl('assets/js/joe.setting.min.js'); ?>"></script>
     <?php
 
 
@@ -98,17 +98,26 @@ function themeConfig($form)
     $JCommentStatus->setAttribute('class', 'j-setting-content j-setting-global');
     $form->addInput($JCommentStatus->multiMode());
 
-    $JCDN = new Typecho_Widget_Helper_Form_Element_Select(
-        'JCDN',
+    $JDayNight = new Typecho_Widget_Helper_Form_Element_Select(
+        'JDayNight',
         array('off' => '关闭（默认）', 'on' => '开启'),
         'off',
-        '请选择是否启用CDN',
-        '介绍：开启后，网站内的部分静态资源（css、js）将不会从本地进行读取，而采用cdn方式引入。<br />
-         注意：如果样式异常，请关闭此项！！！
-        '
+        '是否启用自动根据时间切换白天黑夜模式',
+        ''
     );
-    $JCDN->setAttribute('class', 'j-setting-content j-setting-global');
-    $form->addInput($JCDN->multiMode());
+    $JDayNight->setAttribute('class', 'j-setting-content j-setting-global');
+    $form->addInput($JDayNight->multiMode());
+    
+    $JCDNUrl = new Typecho_Widget_Helper_Form_Element_Text(
+        'JCDNUrl',
+        NULL, 'https://gcore.jsdelivr.net/gh/Carnia/Typecho-Joe-Theme@latest/',       
+        'cdn链接前缀(/结尾)',
+        '默认为空，则指向服务器typecho/usr/themes/Typecho-Joe-Theme/<br />
+        填cdn可以是https://gcore.jsdelivr.net/gh/Carnia/Typecho-Joe-Theme@latest/<br />
+        cdn挂了的时候可以置空'
+    );
+    $JCDNUrl->setAttribute('class', 'j-setting-content j-setting-global');
+    $form->addInput($JCDNUrl);
 
     $JDefend = new Typecho_Widget_Helper_Form_Element_Select(
         'JDefend',

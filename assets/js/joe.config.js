@@ -563,7 +563,7 @@
                     video: {
                         url: $('#j-video .episodes ul li').first().attr('data-url'),
                         type: 'auto',
-                        pic: '//cdn.jsdelivr.net/npm/typecho_joe_theme@3.2.0/assets/img/player.jpg'
+                        pic: window.JOE_CONFIG.THEME_URL + '/assets/img/player.jpg'
                     }
                 };
                 if (window.JOE_CONFIG.DPLAYER_DANMAKU_API !== '') {
@@ -1807,16 +1807,18 @@
         
         /* 初始化自动模式 */
         init_auto_mode(){
-            let time = new Date().getHours();
-            if (time<6 || time>18){
-                if("light" === get_user_scheme_mode()){
-                     change_mode('dark');
-                     document.querySelector(".js-promo-color-modes-toggle").setAttribute("aria-checked", "true");
-                }
-            }else{
-                if("dark" === get_user_scheme_mode()){
-                    change_mode('light');
-                    document.querySelector(".js-promo-color-modes-toggle").setAttribute("aria-checked", "false");
+            if (window.JOE_CONFIG.JDayNight === 'on') {
+                let time = new Date().getHours();
+                if (time<6 || time>18){
+                    if("light" === get_user_scheme_mode()){
+                        change_mode('dark');
+                        document.querySelector(".js-promo-color-modes-toggle").setAttribute("aria-checked", "true");
+                    }
+                }else{
+                    if("dark" === get_user_scheme_mode()){
+                        change_mode('light');
+                        document.querySelector(".js-promo-color-modes-toggle").setAttribute("aria-checked", "false");
+                    }
                 }
             }
         }

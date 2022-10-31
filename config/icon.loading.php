@@ -137,73 +137,73 @@
                     <?php elseif ($this->options->JIconLoading == "type10") : ?>
                         $("body").append(`
                             <div class="j-loading full">
-                                <img src="<?php $this->options->themeUrl('assets/svg/audio.svg'); ?>">
+                                <img src="<?php echo autoCdnUrl('assets/svg/audio.svg'); ?>">
                             </div>
                         `)
                     <?php elseif ($this->options->JIconLoading == "type11") : ?>
                         $("body").append(`
                             <div class="j-loading full">
-                                <img src="<?php $this->options->themeUrl('assets/svg/ball-triangle.svg'); ?>">
+                                <img src="<?php echo autoCdnUrl('assets/svg/ball-triangle.svg'); ?>">
                             </div>
                         `)
                     <?php elseif ($this->options->JIconLoading == "type12") : ?>
                         $("body").append(`
                             <div class="j-loading full">
-                                <img src="<?php $this->options->themeUrl('assets/svg/bars.svg'); ?>">
+                                <img src="<?php echo autoCdnUrl('assets/svg/bars.svg'); ?>">
                             </div>
                         `)
                     <?php elseif ($this->options->JIconLoading == "type13") : ?>
                         $("body").append(`
                             <div class="j-loading full">
-                                <img src="<?php $this->options->themeUrl('assets/svg/circles.svg'); ?>">
+                                <img src="<?php echo autoCdnUrl('assets/svg/circles.svg'); ?>">
                             </div>
                         `)
                     <?php elseif ($this->options->JIconLoading == "type14") : ?>
                         $("body").append(`
                             <div class="j-loading full">
-                                <img src="<?php $this->options->themeUrl('assets/svg/grid.svg'); ?>">
+                                <img src="<?php echo autoCdnUrl('assets/svg/grid.svg'); ?>">
                             </div>
                         `)
                     <?php elseif ($this->options->JIconLoading == "type15") : ?>
                         $("body").append(`
                             <div class="j-loading full">
-                                <img src="<?php $this->options->themeUrl('assets/svg/hearts.svg'); ?>">
+                                <img src="<?php echo autoCdnUrl('assets/svg/hearts.svg'); ?>">
                             </div>
                         `)
                     <?php elseif ($this->options->JIconLoading == "type16") : ?>
                         $("body").append(`
                             <div class="j-loading full">
-                                <img src="<?php $this->options->themeUrl('assets/svg/oval.svg'); ?>">
+                                <img src="<?php echo autoCdnUrl('assets/svg/oval.svg'); ?>">
                             </div>
                         `)
                     <?php elseif ($this->options->JIconLoading == "type17") : ?>
                         $("body").append(`
                             <div class="j-loading full">
-                                <img src="<?php $this->options->themeUrl('assets/svg/puff.svg'); ?>">
+                                <img src="<?php echo autoCdnUrl('assets/svg/puff.svg'); ?>">
                             </div>
                         `)
                     <?php elseif ($this->options->JIconLoading == "type18") : ?>
                         $("body").append(`
                             <div class="j-loading full">
-                                <img src="<?php $this->options->themeUrl('assets/svg/rings.svg'); ?>">
+                                <img src="<?php echo autoCdnUrl('assets/svg/rings.svg'); ?>">
                             </div>
                         `)
                     <?php elseif ($this->options->JIconLoading == "type19") : ?>
                         $("body").append(`
                             <div class="j-loading full">
-                                <img src="<?php $this->options->themeUrl('assets/svg/spinning-circles.svg'); ?>">
+                                <img src="<?php echo autoCdnUrl('assets/svg/spinning-circles.svg'); ?>">
                             </div>
                         `)
                     <?php elseif ($this->options->JIconLoading == "type20") : ?>
                         $("body").append(`
                             <div class="j-loading full">
-                                <img src="<?php $this->options->themeUrl('assets/svg/tail-spin.svg'); ?>">
+                                <img src="<?php echo autoCdnUrl('assets/svg/tail-spin.svg'); ?>">
                             </div>
                         `)
                     <?php elseif ($this->options->JIconLoading == "type21") : ?>
                         $("body").append(`
                             <div class="j-loading full">
-                                <img src="<?php $this->options->themeUrl('assets/svg/three-dots.svg'); ?>">
+                                <img src="<?php echo autoCdnUrl('assets/svg/three-dots.svg'); ?>">
                             </div>
                         `)
                     <?php endif; ?>

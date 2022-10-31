@@ -105,7 +105,7 @@
                         );
                         $mostactive = ''; 
  
-                        $viphonor = Helper::options()->themeUrl('assets/img/authen.svg','Typecho-Joe-Theme'); 
+                        $viphonor = autoCdnUrl('assets/img/authen.svg');
                         foreach ($counts as $count) {                   
                             $imgUrl = ParseAvatar($count['mail'],1);
                             if ($count['authorId'] == '0') {

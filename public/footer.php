@@ -93,14 +93,14 @@ show_date_time();</script> </p>
 	<a style="font-weight:bold;font-size:18px;color:var(--theme)" id="translateLink" href="javascript:translatePage();">繁</a>
 	</div>	
 	<button class="read_book_button  not_read_book"   style="display: none"></button>
-    <?php if ($this->options->JDayNight === 'on') : ?>
+    <!-- <?php if ($this->options->JDayNight === 'on') : ?>
         <div class="item light" id="j-day-night">
             <svg viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
                 <path d="M768 608c-6.7 0-13.4-2.1-19.2-6.4-14.1-10.6-17-30.7-6.4-44.8C780.1 506.7 800 446.9 800 384c0-158.8-129.2-288-288-288S224 225.2 224 384c0 62.9 19.9 122.7 57.6 172.8 10.6 14.1 7.8 34.2-6.4 44.8-14.1 10.6-34.2 7.8-44.8-6.4C184.3 533.9 160 460.9 160 384c0-194.1 157.9-352 352-352s352 157.9 352 352c0 76.9-24.3 149.9-70.4 211.2-6.3 8.4-15.9 12.8-25.6 12.8z" p-id="1779"></path>
                 <path d="M384 800c-10.3 0-20.5-5-26.7-14.3l-128-192c-9.8-14.7-5.8-34.6 8.9-44.4 14.8-9.8 34.6-5.8 44.4 8.9l128 192c9.8 14.7 5.8 34.6-8.9 44.4-5.4 3.7-11.6 5.4-17.7 5.4z m256 0c-6.1 0-12.3-1.8-17.7-5.4-14.7-9.8-18.7-29.7-8.9-44.4l128-192c9.8-14.7 29.6-18.7 44.4-8.9 14.7 9.8 18.7 29.7 8.9 44.4l-128 192C660.5 795 650.3 800 640 800z m0 96H384c-17.7 0-32-14.3-32-32s14.3-32 32-32h256c17.7 0 32 14.3 32 32s-14.3 32-32 32z m0 96H384c-17.7 0-32-14.3-32-32s14.3-32 32-32h256c17.7 0 32 14.3 32 32s-14.3 32-32 32zM512 544c-4.8 0-9.7-1.1-14.3-3.4-15.8-7.9-22.2-27.1-14.3-42.9l40.8-81.7H448c-11.1 0-21.4-5.8-27.2-15.2s-6.4-21.2-1.4-31.1l64-128c7.9-15.8 27.1-22.2 42.9-14.3 15.8 7.9 22.2 27.1 14.3 42.9L499.8 352H576c11.1 0 21.4 5.8 27.2 15.2s6.4 21.2 1.4 31.1l-64 128C535 537.5 523.7 544 512 544z" p-id="1780"></path>
             </svg>
         </div>
-    <?php endif; ?>
+    <?php endif; ?> -->
 </section>
 
 <audio id="j-hover-music" autoplay="autoplay"></audio>
@@ -114,7 +114,8 @@ show_date_time();</script> </p>
     </svg>
 </div>
 <!--- 简繁转换开始 --->
-<script type="text/javascript" src="<?php $this->options->themeUrl(); ?>assets/js/tw_cn.js"></script>
+
+<script type="text/javascript" src="<?php autoCdnUrl('assets/js/tw_cn.js'); ?>"></script>
 <script type="text/javascript">
 var defaultEncoding = 0; //默认是否繁体，0-简体，1-繁体
 var translateDelay = 0; //延迟时间,若不在</body>前, 要设定延迟翻译时间, 如100表示100ms,默认为0
@@ -260,9 +261,9 @@ document.body.oncopy=function(){warning();}
 </div>
 </div>
 <?php endif; ?>
-<script type="text/javascript" src="<?php $this->options->themeUrl(); ?>assets/js/codecopy.js"></script>
-<script type="text/javascript" src="<?php $this->options->themeUrl(); ?>assets/js/axios.min.js"></script>
-<script type="text/javascript" src="<?php $this->options->themeUrl(); ?>/js/img.js"></script>
+<script src="<?php echo autoCdnUrl('assets/js/codecopy.js'); ?>"></script>
+<script src="<?php echo autoCdnUrl('assets/js/axios.min.js'); ?>"></script>
+<script src="<?php echo autoCdnUrl('assets/js-local/img.js'); ?>"></script>
 <div class="shadow" id="shadow">
     <div class="model">
         <div class="model-title">登录
