@@ -378,19 +378,19 @@ body {
 }
 @font-face {
 	font-family: "nexzhu";
-	src: url(/usr/themes/Typecho-Joe-Theme/fonts/blockdole.woff2) format("woff2"),
-		 url(/usr/themes/Typecho-Joe-Theme/fonts/blockdole.woff) format("woff"),
-		 url(/usr/themes/Typecho-Joe-Theme/fonts/blockdole.ttf) format("truetype"),
-		 url(/usr/themes/Typecho-Joe-Theme/fonts/blockdole.eot) format("embedded-opentype"),
-		 url(/usr/themes/Typecho-Joe-Theme/fonts/blockdole.svg) format("svg");
+	src: url(./fonts/blockdole.woff2) format("woff2"),
+		 url(./fonts/blockdole.woff) format("woff"),
+		 url(./fonts/blockdole.ttf) format("truetype"),
+		 url(./fonts/blockdole.eot) format("embedded-opentype"),
+		 url(./fonts/blockdole.svg) format("svg");
 }
   @font-face {
 	font-family: "light";
-	src: url(/usr/themes/Typecho-Joe-Theme/fonts/light.woff2) format("woff2"),
-		 url(/usr/themes/Typecho-Joe-Theme/fonts/light.woff) format("woff"),
-		 url(/usr/themes/Typecho-Joe-Theme/fonts/light.ttf) format("truetype"),
-		 url(/usr/themes/Typecho-Joe-Theme/fonts/light.eot) format("embedded-opentype"),
-		 url(/usr/themes/Typecho-Joe-Theme/fonts/light.svg) format("svg");
+	src: url(./fonts/light.woff2) format("woff2"),
+		 url(./fonts/light.woff) format("woff"),
+		 url(./fonts/light.ttf) format("truetype"),
+		 url(./fonts/light.eot) format("embedded-opentype"),
+		 url(./fonts/light.svg) format("svg");
 }
 
 h1,h2,h3,h4,h5,h6 {
