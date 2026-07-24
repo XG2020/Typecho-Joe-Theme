@@ -1,6 +1,6 @@
 # Typecho-Joe-Theme
 
-2.0新版本仓库 https://github.com/XG2020/Joe
+## 本仓库已经暂停更新维护！！！，请移至2.0新版本仓库 https://github.com/XG2020/Joe
 
 ## Joe主题版本特点
 
