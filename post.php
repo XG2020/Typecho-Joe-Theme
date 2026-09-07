@@ -1,6 +1,5 @@
 <?php $this->need('public/prevent.php'); ?>
-<?php $this->need('public/defend.php'); ?>
-
+<?php $this->need('public/defend.php'); ?>
 <?php
 if (isset($_POST['agree'])) {
     if ($_POST['agree'] == $this->cid) {
@@ -10,33 +9,26 @@ if (isset($_POST['agree'])) {
 }
 ?>
 <!DOCTYPE html>
-<html lang="zh-CN" data-color-mode="<?php if($_COOKIE['night']=='1')echo 'dark';else echo 'light'; ?>">
-
+<html lang="zh-CN" data-color-mode="<?php echo (isset($_COOKIE['night']) && $_COOKIE['night'] === '1') ? 'dark' : 'light'; ?>">
 <head>
   <?php $this->need('public/head.php'); ?>
-</head>
-
+</head>
 <body>
-  <?php $this->options->JCustomBodyStart() ?>
-
+  <?php $this->options->JCustomBodyStart() ?>
   <section id="joe">
     <!-- 头部 -->
-    <?php $this->need('public/header.php'); ?>
-
+    <?php $this->need('public/header.php'); ?>
     <!-- 面包屑 -->
     <?php if ($this->options->JBreadStatus === 'on' && $this->is('post')) : ?>
     <?php $this->need('component/post.bread.php'); ?>
-    <?php endif; ?>
-
+    <?php endif; ?>
     <!-- 主体 -->
     <section class="container j-post">
-      <section class="j-adaption">
-
+      <section class="j-adaption">
         <!-- 目录树 -->
         <?php if ($this->options->JDirectoryStatus === 'on') : ?>
         <?php GetCatalog(); ?>
-        <?php endif; ?>
-
+        <?php endif; ?>
         <!-- 伸缩侧边栏 -->
         <div class="j-stretch">
           <div class="contain">
@@ -49,15 +41,12 @@ if (isset($_POST['agree'])) {
                 p-id="17710"></path>
             </svg>
           </div>
-        </div>
-
+        </div>
         <div class="main">
           <!-- 分类 -->
-          <?php $this->need('component/post.classify.php'); ?>
-
+          <?php $this->need('component/post.classify.php'); ?>
           <!-- 标题 -->
-          <?php $this->need('component/post.header.php'); ?>
-
+          <?php $this->need('component/post.header.php'); ?>
           <!-- 当是文章页时 -->
           <?php if ($this->is('post')) : ?>
           <!-- 如果文章是密码保护，则需要输入密码 -->
@@ -104,7 +93,7 @@ if (isset($_POST['agree'])) {
                                 } else {
                                     $content = preg_replace("/\[hide\](.*?)\[\/hide\]/sm", '<p class="need-reply">此处内容 <span data-href="comments">回复</span> 可见</p>', $this->content);
                                 }
-                                echo $content
+                                echo $conten
                                 ?>
           </div>
           <?php endif ?>
@@ -127,47 +116,37 @@ if (isset($_POST['agree'])) {
                             } else {
                                 $content = preg_replace("/\[hide\](.*?)\[\/hide\]/sm", '<p class="need-reply">此处内容 <span data-href="comments">回复</span> 可见</p>', $this->content);
                             }
-                            echo $content
+                            echo $conten
                             ?>
           </div>
-          <?php endif ?>
-
+          <?php endif ?>
           <!-- 标签 -->
           <?php if ($this->options->JTagStatus === 'on') : ?>
           <?php $this->need('component/post.tag.php'); ?>
-          <?php endif; ?>
-
+          <?php endif; ?>
           <!-- 赞赏点赞 -->
-          <?php $this->need('component/post.fabulous.php'); ?>
-
+          <?php $this->need('component/post.fabulous.php'); ?>
           <!-- 版权 -->
           <?php if ($this->options->JBanQuanStatus === 'on') : ?>
           <?php $this->need('component/post.banquan.php'); ?>
-          <?php endif; ?>
-
+          <?php endif; ?>
           <!-- 相关文章 -->
           <?php if ($this->options->JRelatedStatus === 'on' && $this->is('post')) : ?>
           <?php $this->need('component/post.related.php'); ?>
-          <?php endif; ?>
-
-        </div>
-
+          <?php endif; ?>
+        </div>
         <?php if ($this->is('post')) : ?>
         <ul class="page">
           <?php $this->theNext('<li class="left">%s</li>', '', ['title' => '上一篇']); ?>
           <?php $this->thePrev('<li class="right">%s</li>', '', ['title' => '下一篇']); ?>
         </ul>
-        <?php endif; ?>
-
-        <?php $this->need('public/comment.php'); ?>
-
-      </section>
-
+        <?php endif; ?>
+        <?php $this->need('public/comment.php'); ?>
+      </section>
       <?php if ($this->options->JPostAsideStatus === 'on' && $this->fields->aside !== 'off') : ?>
       <?php $this->need('public/aside.php'); ?>
       <?php endif; ?>
-    </section>
-
+    </section>
     <!-- 弹幕 -->
     <?php if ($this->options->JBarragerStatus === 'on') : ?>
     <ul class="j-barrager-list">
@@ -181,18 +160,11 @@ if (isset($_POST['agree'])) {
       </li>
       <?php endwhile; ?>
     </ul>
-    <?php endif; ?>
-
-
-
+    <?php endif; ?>
     <!-- 尾部 -->
     <?php $this->need('public/footer.php'); ?>
-  </section>
-
-
-
+  </section>
   <!-- 配置文件 -->
   <?php $this->need('public/config.php'); ?>
-</body>
-
+</body>
 </html>

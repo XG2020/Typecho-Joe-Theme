@@ -1,5 +1,4 @@
-<?php if ($this->options->JIndexSticky) : ?>
-
+<?php if ($this->options->JIndexSticky) : ?>
     <?php
     $sticky = $this->options->JIndexSticky;
     $stickyCounts = explode("||", $sticky);
@@ -80,6 +79,5 @@
                 </div>
             </section>
         </article>
-    <?php } ?>
-
+    <?php } ?>
 <?php endif; ?>

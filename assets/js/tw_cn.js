@@ -12,7 +12,7 @@ function translateText(txt) {
 	if (txt == "" || txt == null) return "";
 	if (currentEncoding == 1 && targetEncoding == 2) return Simplized(txt);
 	else if (currentEncoding == 2 && targetEncoding == 1) return Traditionalized(txt);
-	else return txt
+	else return tx
 }
 function translateBody(fobj) {
 	if (typeof(fobj) == "object") var objs = fobj.childNodes;

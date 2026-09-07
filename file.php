@@ -1,16 +1,13 @@
-<?php
-
+<?php
 /**
  * 归档
- * 
- * @package custom 
- * 
- **/
-
+ *
+ * @package custom
+ *
+ **/
 ?>
 <?php $this->need('public/prevent.php'); ?>
-<?php $this->need('public/defend.php'); ?>
-
+<?php $this->need('public/defend.php'); ?>
 <?php
 if (isset($_POST['agree'])) {
     if ($_POST['agree'] == $this->cid) {
@@ -20,23 +17,18 @@ if (isset($_POST['agree'])) {
 }
 ?>
 <!DOCTYPE html>
-<html lang="zh-CN" data-color-mode="<?php if($_COOKIE['night']=='1')echo 'dark';else echo 'light'; ?>">
-
+<html lang="zh-CN" data-color-mode="<?php echo (isset($_COOKIE['night']) && $_COOKIE['night'] === '1') ? 'dark' : 'light'; ?>">
 <head>
     <?php $this->need('public/head.php'); ?>
-</head>
-
+</head>
 <body>
-    <?php $this->options->JCustomBodyStart() ?>
-
+    <?php $this->options->JCustomBodyStart() ?>
     <section id="joe">
         <!-- 头部 -->
-        <?php $this->need('public/header.php'); ?>
-
+        <?php $this->need('public/header.php'); ?>
         <!-- 主体 -->
         <section class="container j-post">
-            <section class="j-adaption">
-
+            <section class="j-adaption">
                 <!-- 伸缩侧边栏 -->
                 <section class="j-stretch">
                     <section class="contain">
@@ -45,39 +37,27 @@ if (isset($_POST['agree'])) {
                             <path d="M923.648 288.768c0 32.768-24.576 57.344-55.296 57.344H165.888c-30.72 0-55.296-26.624-55.296-57.344V172.032c0-32.768 24.576-57.344 55.296-57.344h702.464c30.72 0 55.296 26.624 55.296 57.344v116.736z m0 0M638.976 851.968a57.344 57.344 0 0 1-57.344 57.344H169.984a57.344 57.344 0 0 1-57.344-57.344V475.136a57.344 57.344 0 0 1 57.344-57.344h411.648a57.344 57.344 0 0 1 57.344 57.344v376.832z m0 0M931.84 851.968a57.344 57.344 0 0 1-57.344 57.344h-112.64a57.344 57.344 0 0 1-57.344-57.344V475.136a57.344 57.344 0 0 1 57.344-57.344h112.64a57.344 57.344 0 0 1 57.344 57.344v376.832z m0 0" p-id="17710"></path>
                         </svg>
                     </section>
-                </section>
-
-
+                </section>
                 <section class="main">
                     <!-- 分类 -->
-                    <?php $this->need('component/post.classify.php'); ?>
-
+                    <?php $this->need('component/post.classify.php'); ?>
                     <!-- 标题 -->
                     <div class="header">
                         <h1 class="title j-typing"><?php $this->title() ?></h1>
-                    </div>
-
-                    <?php $this->need('component/file.list.php'); ?>
-
+                    </div>
+                    <?php $this->need('component/file.list.php'); ?>
                     <!-- 赞赏点赞 -->
-                    <?php $this->need('component/post.fabulous.php'); ?>
-
+                    <?php $this->need('component/post.fabulous.php'); ?>
                     <!-- 版权 -->
                     <?php if ($this->options->JBanQuanStatus === 'on') : ?>
                         <?php $this->need('component/post.banquan.php'); ?>
                     <?php endif; ?>
-                </section>
-
-              
-            </section>
-
+                </section>
+            </section>
             <?php if ($this->options->JPostAsideStatus === 'on' && $this->fields->aside !== 'off') : ?>
                 <?php $this->need('public/aside.php'); ?>
             <?php endif; ?>
-        </section>
-
-
-
+        </section>
         <!-- 弹幕 -->
         <?php if ($this->options->JBarragerStatus === 'on') : ?>
             <ul class="j-barrager-list">
@@ -89,18 +69,11 @@ if (isset($_POST['agree'])) {
                     </li>
                 <?php endwhile; ?>
             </ul>
-        <?php endif; ?>
-
-
-
+        <?php endif; ?>
         <!-- 尾部 -->
         <?php $this->need('public/footer.php'); ?>
-    </section>
-
-
-
+    </section>
     <!-- 配置文件 -->
     <?php $this->need('public/config.php'); ?>
-</body>
-
+</body>
 </html>

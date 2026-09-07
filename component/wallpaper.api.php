@@ -44,6 +44,5 @@
             </svg>
         </div>
         <div id="wallpaper-load" class="wallpaper-load">加载更多</div>
-    </div>
-
+    </div>
 </div>

@@ -3,7 +3,7 @@
         <?php if ($this->options->JIndexCarousel) : ?>
             <?php
             $txt = $this->options->JIndexCarousel;
-            $string_arr = explode("\r\n", $txt);
+            $string_arr = explode("\n", $txt);
             $long = count($string_arr);
             ?>
             <div class="swiper-container">
@@ -25,8 +25,7 @@
                 </div>
                 <div class="swiper-pagination"></div>
             </div>
-        <?php endif; ?>
-
+        <?php endif; ?>
         <?php
         $recommend = $this->options->JIndexRecommend;
         $recommendCounts = explode("||", $recommend);
@@ -43,8 +42,7 @@
                             <span class="type">推荐</span>
                             <p><?php $item->title(); ?></p>
                         </div>
-                    </a>
-
+                    </a>
                 <?php } ?>
             </div>
         <?php } ?>

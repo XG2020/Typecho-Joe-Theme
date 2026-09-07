@@ -1,16 +1,13 @@
-<?php
-
+<?php
 /**
  * 自定义2
- * 
- * @package custom 
- * 
- **/
-
+ *
+ * @package custom
+ *
+ **/
 ?>
 <?php $this->need('public/prevent.php'); ?>
-<?php $this->need('public/defend.php'); ?>
-
+<?php $this->need('public/defend.php'); ?>
 <?php
 if (isset($_POST['agree'])) {
     if ($_POST['agree'] == $this->cid) {
@@ -20,23 +17,18 @@ if (isset($_POST['agree'])) {
 }
 ?>
 <!DOCTYPE html>
-<html lang="zh-CN" data-color-mode="<?php if($_COOKIE['night']=='1')echo 'dark';else echo 'light'; ?>">
-
+<html lang="zh-CN" data-color-mode="<?php echo (isset($_COOKIE['night']) && $_COOKIE['night'] === '1') ? 'dark' : 'light'; ?>">
 <head>
     <?php $this->need('public/head.php'); ?>
-</head>
-
+</head>
 <body>
-    <?php $this->options->JCustomBodyStart() ?>
-
+    <?php $this->options->JCustomBodyStart() ?>
     <section id="joe">
         <!-- 头部 -->
-        <?php $this->need('public/header.php'); ?>
-
+        <?php $this->need('public/header.php'); ?>
         <!-- 主体 -->
         <section class="container j-post">
-            <section class="j-adaption">
-
+            <section class="j-adaption">
                 <!-- 伸缩侧边栏 -->
                 <div class="j-stretch">
                     <div class="contain">
@@ -45,18 +37,14 @@ if (isset($_POST['agree'])) {
                             <path d="M923.648 288.768c0 32.768-24.576 57.344-55.296 57.344H165.888c-30.72 0-55.296-26.624-55.296-57.344V172.032c0-32.768 24.576-57.344 55.296-57.344h702.464c30.72 0 55.296 26.624 55.296 57.344v116.736z m0 0M638.976 851.968a57.344 57.344 0 0 1-57.344 57.344H169.984a57.344 57.344 0 0 1-57.344-57.344V475.136a57.344 57.344 0 0 1 57.344-57.344h411.648a57.344 57.344 0 0 1 57.344 57.344v376.832z m0 0M931.84 851.968a57.344 57.344 0 0 1-57.344 57.344h-112.64a57.344 57.344 0 0 1-57.344-57.344V475.136a57.344 57.344 0 0 1 57.344-57.344h112.64a57.344 57.344 0 0 1 57.344 57.344v376.832z m0 0" p-id="17710"></path>
                         </svg>
                     </div>
-                </div>
-
-
+                </div>
                 <div class="main">
                     <!-- 分类 -->
-                    <?php $this->need('component/post.classify.php'); ?>
-
+                    <?php $this->need('component/post.classify.php'); ?>
                     <!-- 标题 -->
                     <div class="header">
                         <h1 class="title j-typing"><?php $this->title() ?></h1>
-                    </div>
-
+                    </div>
                     <!-- 文章内容 -->
                     <div class="markdown" id="markdown">
                         <?php
@@ -71,27 +59,20 @@ if (isset($_POST['agree'])) {
                         } else {
                             $content = preg_replace("/\[hide\](.*?)\[\/hide\]/sm", '<p class="need-reply">此处内容 <a no-target href="#j-comment">回复</a> 可见</p>', $this->content);
                         }
-                        echo $content
+                        echo $conten
                         ?>
-                    </div>
-
+                    </div>
                 </div>
                 <?php $this->need('public/apply.php'); ?>
-            </section>
-
+            </section>
             <?php if ($this->options->JPostAsideStatus === 'on' && $this->fields->aside !== 'off') : ?>
                 <?php $this->need('public/aside.php'); ?>
             <?php endif; ?>
-        </section>
-
-
-
+        </section>
         <!-- 尾部 -->
         <?php $this->need('public/footer.php'); ?>
-    </section>
-
+    </section>
     <!-- 配置文件 -->
     <?php $this->need('public/config.php'); ?>
-</body>
-
+</body>
 </html>

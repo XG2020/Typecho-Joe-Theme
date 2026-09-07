@@ -1,5 +1,4 @@
-<div class="j-aside">
-
+<div class="j-aside">
     <?php if ($this->options->JAuthorStatus !== 'off') : ?>	
 	<?php /* 登录了 */ if ($this->user->hasLogin()): ?>
         <div class="aside aside-user">
@@ -12,7 +11,7 @@
                 <!--个性签名-->
                 <p style="font-size:14px;" class="desc j-aside-motto"><?php echo($this->user->sign); ?></p><br>
                 <!--访问量-->				
-				<div style="border-radius: 3px;color: #fff;padding: 5px;background: var(--theme);font-size: 14px;"><?php echo allviewnum($this->user->uid); ?></div>                                
+				<div style="border-radius: 3px;color: #fff;padding: 5px;background: var(--theme);font-size: 14px;"><?php echo allviewnum($this->user->uid); ?></div>
             </div>
             <div class="webinfo">
                 <div class="item" title="累计文章数">
@@ -47,7 +46,7 @@
                 <img src="<?php ParseAvatar($this->author->mail); ?>"/>
                 <a style="color:var(--theme);" href="<?php echo getUserPermalink($this->author->uid); ?>"><?php $this->author->screenName(); ?><?php dengji($this->author->uid);?></a>
                 <!--个性签名-->
-                <p style="font-size:14px;" class="desc j-aside-motto"><?php echo($this->author->sign); ?></p><br>  
+                <p style="font-size:14px;" class="desc j-aside-motto"><?php echo($this->author->sign); ?></p><br>
 				<!--访问量-->				
 				<div style="border-radius: 3px;color: #fff;padding: 5px;background: var(--theme);font-size: 14px;"><?php echo allviewnum($this->author->uid); ?></div>                 			
             </div>
@@ -82,15 +81,14 @@
 <?php if ($this->options->JactiveUsers): ?>
         <section class="aside aside-hunter-authors aside-count">
             <h3 class="aside-title">
-                <svg class="icon" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" >            
+                <svg class="icon" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" >
         <g transform="translate(0.000000, 1.000000)" fill="var(--main)">
             <path d="M10.926,3.121 C10.926,4.801 9.617,8.012 8.004,8.012 C6.391,8.012 5.081,4.801 5.081,3.121 C5.081,1.441 6.391,0.081 8.004,0.081 C9.617,0.081 10.926,1.441 10.926,3.121 L10.926,3.121 Z" class="si-glyph-fill"></path>
             <path d="M9.033,11.796 L11.426,9.375 L12.705,10.71 L14.348,9.048 C13.717,8.398 12.943,8.05 11.679,8.05 C10.825,9.206 7.99,9.503 7.99,9.503 C7.99,9.503 5.091,9.218 4.237,8.076 C0.144,8.076 0.02,13.986 0.02,13.986 L11.12,13.986 L9.033,11.796 L9.033,11.796 Z" class="si-glyph-fill"></path>
             <path d="M15.094,9.801 L12.713,12.182 L11.297,10.765 L10.372,11.689 L12.714,14.03 L16.02,10.726 L15.094,9.801 Z" class="si-glyph-fill"></path>
         </g></svg><span><?php _e('互动读者'); ?></span></h3>
             <div class="hunter-cont">
-                <ul class="hunter-authors">
-                    
+                <ul class="hunter-authors">
                         <?php
                         $period = time() - 2592000; // 单位: 秒, 时间范围: 30天
                         $counts = Typecho_Db::get()->fetchAll(Typecho_Db::get()
@@ -103,10 +101,9 @@
                             ->order('cnt', Typecho_Db::SORT_DESC)
                             ->limit('4')
                         );
-                        $mostactive = ''; 
- 
+                        $mostactive = '';
                         $viphonor = autoCdnUrl('assets/img/authen.svg');
-                        foreach ($counts as $count) {                   
+                        foreach ($counts as $count) {
                             $imgUrl = ParseAvatar($count['mail'],1);
                             if ($count['authorId'] == '0') {
                                 $c_url = '<li><div class="item"><div class="hunter-avatar"><div class="vatar"><img src="' . $imgUrl . '"></div></div><div class="item-main"><div>' . $count['author'] . '';
@@ -139,26 +136,24 @@
         <div class="aside aside-wether">
         <div id="he-plugin-standard"></div> <script> WIDGET = {"CONFIG":{"layout":"2","width":250,"height":270,"background":"1","dataColor":"FFFFFF","borderRadius":"0","key":"<?php $this->options->JWether(); ?>"}} </script> <script src="https://xggm.top/tq/cs.js"></script>
         </div>
-    <?php endif; ?>
-
+    <?php endif; ?>
     <!-- 自定义 -->
     <?php if ($this->options->JAsideCustom) : ?>
         <div class="aside aside-custom">
             <?php $this->options->JAsideCustom(); ?>
         </div>
-    <?php endif; ?>
-
+    <?php endif; ?>
     <!-- ip信息 -->
     <?php if ($this->options->JAsideVisitor) : ?>
         <div class="aside aside-visitor">
             <img class="lazyload" src="<?php echo GetLazyLoad() ?>" data-original="<?php $this->options->JAsideVisitor() ?>" alt="IP信息">
         </div>
-    <?php endif; ?>    
+    <?php endif; ?>
 	
     <!-- 人生倒计时 -->
     <?php if ($this->options->JCountDownStatus === "on") : ?>
         <div class="aside aside-count">
-            <h3><svg class="icon" viewBox="0 0 32 32" version="1.1" xmlns="http://www.w3.org/2000/svg" >    
+            <h3><svg class="icon" viewBox="0 0 32 32" version="1.1" xmlns="http://www.w3.org/2000/svg" >
         <g id="Icon-Set-Filled" sketch:type="MSLayerGroup" transform="translate(-362.000000, -361.000000)" fill="var(--main)">
             <path d="M385,378 L378,378 C377.447,378 377,377.553 377,377 L377,369 C377,368.447 377.447,368 378,368 C378.553,368 379,368.447 379,369 L379,376 L385,376 C385.553,376 386,376.448 386,377 C386,377.553 385.553,378 385,378 L385,378 Z M392,377 C392,369.269 385.732,363 378,363 C370.268,363 364,369.269 364,377 C364,382.303 366.949,386.915 371.296,389.291 L368,393 L371,393 L373.685,390.315 C375.045,390.756 376.493,391 378,391 C379.507,391 380.955,390.756 382.315,390.315 L385,393 L388,393 L384.705,389.291 C389.051,386.915 392,382.303 392,377 L392,377 Z M389,361 L387,361 L387,363 L389,363 C390.657,363 392,364.343 392,366 L392,368 L394,368 L394,366 C394,363.238 391.762,361 389,361 L389,361 Z M364,366 C364,364.343 365.343,363 367,363 L369,363 L369,361 L367,361 C364.238,361 362,363.238 362,366 L362,368 L364,368 L364,366 L364,366 Z" id="alarm" sketch:type="MSShapeGroup"></path>
         </g></svg><span>人生倒计时</span></h3>
@@ -201,8 +196,7 @@
                 </div>
             </div>
         </div>
-    <?php endif; ?>
-
+    <?php endif; ?>
     <!-- 热门文章 -->
     <?php if ($this->options->JAsideHotNumber !== 'off') : ?>
         <div class="aside aside-hot">
@@ -232,8 +226,7 @@
                 <p class="empty">暂无内容</p>
             <?php endif; ?>
         </div>
-    <?php endif; ?>
-
+    <?php endif; ?>
     <!-- 微博热搜 -->
     <?php if ($this->options->JRanking !== 'off') : ?>
         <?php
@@ -303,8 +296,7 @@
                 ?>
             </ul>
         </div>
-    <?php endif; ?>
-
+    <?php endif; ?>
 <!-- 云标签 -->
     <?php if ($this->options->J3DTagStatus === 'on') : ?>
         <div class="aside aside-cloud">
@@ -327,7 +319,7 @@
     <!-- 最新回复 -->
     <?php if ($this->options->JAsideReplyStatus !== 'off') : ?>
         <div class="aside aside-reply">
-            <h3><svg  class="icon" viewBox="0 0 31 32" version="1.1" xmlns="http://www.w3.org/2000/svg" >                 
+            <h3><svg  class="icon" viewBox="0 0 31 32" version="1.1" xmlns="http://www.w3.org/2000/svg" >
         <g id="Icon-Set-Filled" sketch:type="MSLayerGroup" transform="translate(-259.000000, -257.000000)" fill="var(--main)">
             <path d="M265.5,267 C266.329,267 267,267.672 267,268.5 C267,269.329 266.329,270 265.5,270 C264.671,270 264,269.329 264,268.5 C264,267.672 264.671,267 265.5,267 L265.5,267 Z M271.5,267 C272.329,267 273,267.672 273,268.5 C273,269.329 272.329,270 271.5,270 C270.671,270 270,269.329 270,268.5 C270,267.672 270.671,267 271.5,267 L271.5,267 Z M277.5,267 C278.329,267 279,267.672 279,268.5 C279,269.329 278.329,270 277.5,270 C276.671,270 276,269.329 276,268.5 C276,267.672 276.671,267 277.5,267 L277.5,267 Z M268.637,279.736 C269.414,279.863 271.181,280 272,280 C279.18,280 284,274.657 284,268.375 C284,262.093 277.977,257 272,257 C264.811,257 259,262.093 259,268.375 C259,272.015 260.387,275.104 263,277.329 L263,283 L268.637,279.736 L268.637,279.736 Z M285.949,266.139 L286,267 C286.008,267.817 286,267.742 286,268.5 C286,276.475 279.716,282 271,282 L268,282 C270.38,284.328 273.149,285.75 277,285.75 C277.819,285.75 278.618,285.676 279.395,285.549 L285,289 L285,283.329 C288.04,281.246 290,278.015 290,274.375 C290,271.131 288.439,268.211 285.949,266.139 L285.949,266.139 Z" id="comments" sketch:type="MSShapeGroup"></path>
         </g></svg><span>最新回复</span></h3>
@@ -353,8 +345,7 @@
                 <p class="empty">暂无回复</p>
             <?php endif; ?>
         </div>
-    <?php endif; ?>
-
+    <?php endif; ?>
     <!-- 广告2 -->
     <?php if ($this->options->JADContent2) : ?>
         <?php
@@ -365,7 +356,5 @@
             <img src="<?php echo $adContent2Counts[0] ?>">
             <div class="j-ad">广告</div>
         </a>
-    <?php endif; ?>
-
-    
+    <?php endif; ?>
 </div>

@@ -42,9 +42,7 @@ function threadedComments($comments, $options)
             </div>
         <?php } ?>
     </li>
-<?php } ?>
-
-
+<?php } ?>
 <?php $this->comments()->to($comments); ?>
 <div id="comments" class="j-comment" data-respondId="<?php $this->respondId() ?>">
     <div class="title">评论 (<?php $this->commentsNum(); ?>)</div>
@@ -58,7 +56,7 @@ function threadedComments($comments, $options)
                         <input id="fileControl" type="file" >
                     </a>
                     <button style="button:active {color: #fff;background: var(--theme);}" id="btn">插入</button>
-                <?php endif; ?>    
+                <?php endif; ?>
                  <?php if ($this->options->huaban === 'on') : ?><button data-type="canvas">画图</button><?php endif; ?>
                 <button data-type="text" class="active">文本</button>
             </div>
@@ -84,8 +82,7 @@ function threadedComments($comments, $options)
                     </div>
                 </div>
                 <div class="content" id="commentTypeContent">
-                    <textarea class="OwO-textarea" name="text" autocomplete="off" id="comment-content" rows="5" placeholder="说点什么吧，点击右上角可切换成画图模式哦~"></textarea>
- 
+                    <textarea class="OwO-textarea" name="text" autocomplete="off" id="comment-content" rows="5" placeholder="说点什么吧，点击右上角可切换成画图模式哦~"></textarea>
                     <div class="canvas" style="display: none;">
                         <ul>
                             <li data-line="3">细</li>

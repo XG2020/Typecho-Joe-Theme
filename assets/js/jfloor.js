@@ -17,7 +17,7 @@
             return {
                 listItem: item,
                 anchor: anchor,
-                target: target
+                target: targe
             };
         });
         tocItems = tocItems.filter(function (item) {

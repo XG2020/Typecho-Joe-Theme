@@ -25,7 +25,7 @@
                     <textarea class="OwO-textarea" name="text" autocomplete="off" id="comment-content" rows="5" placeholder="请填写申请理由~"></textarea>
                 </div>
                 <div class="foot">
-                    <div class="OwO"></div>					 
+                    <div class="OwO"></div>					
                     <div class="right">
                         <?php $comments->cancelReply("<span data-parent='" . $this->respondId . "'>取消</span>"); ?>
                         <button type="submit">提交申请</button>
@@ -33,8 +33,7 @@
                 </div>
             </form>
         </div>
-        <?php if ($comments->have()) : ?>
-           
+        <?php if ($comments->have()) : ?>
         <?php endif; ?>
     <?php else : ?>
         <div class="close">申请通道暂时关闭</div>

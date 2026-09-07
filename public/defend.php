@@ -1,11 +1,9 @@
 <?php if ($this->options->JDefend === 'on') : ?>
     <!DOCTYPE html>
-    <html lang="en" style="height: 100%;">
-
+    <html lang="en" style="height: 100%;">
     <head>
         <?php $this->need('public/head.php'); ?>
-    </head>
-
+    </head>
     <body style="height: 100%; display: flex; align-items: center; justify-content: center;">
         <div class="container">
             <div class="j-defend">
@@ -17,8 +15,7 @@
                 </div>
             </div>
         </div>
-    </body>
-
+    </body>
     </html>
     <?php exit; ?>
 <?php endif; ?>

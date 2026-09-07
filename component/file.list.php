@@ -9,8 +9,7 @@
             <?php endwhile; ?>
         </ul>
     </div>
-<?php endif; ?>
-
+<?php endif; ?>
 <div class="j-file">
     <?php $this->widget('Widget_Contents_Post_Recent', 'pageSize=10000')->to($archives);
     $year = 0;

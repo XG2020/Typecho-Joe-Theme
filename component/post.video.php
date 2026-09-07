@@ -1,6 +1,6 @@
 <div class="video" id="j-video">
     <?php
-    $string_arr = explode("\r\n", $this->fields->video);
+    $string_arr = explode("\n", $this->fields->video);
     $long = count($string_arr);
     ?>
     <div class="player-box">
@@ -26,8 +26,7 @@
                     </li>
                 ';
             }
-            ?>
-
+            ?>
         </ul>
     </div>
 </div>

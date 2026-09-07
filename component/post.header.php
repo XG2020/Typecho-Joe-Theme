@@ -15,7 +15,7 @@
                         <div class="line">/</div>
                         <span><?php getPostViews($this) ?> 阅读</span>
 						<div class="line">/</div>
-						<span><?php art_count($this->cid); ?> 个字</span>                        
+						<span><?php art_count($this->cid); ?> 个字</span>
 						<div class="line">/</div>
                         <span><?php echo baidu_record() ?></span>
                     </div>

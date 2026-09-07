@@ -1,25 +1,22 @@
-<?php
- 
+<?php
 /********************************************
  * 使用方法:
- * 
+ *
  * 1、将本段代码保存为 MkEncrypt.php
- * 
- * 2、在要加密的页面前面引入这个 php 文件   
+ *
+ * 2、在要加密的页面前面引入这个 php 文件
  *  require_once('MkEncrypt.php');
- * 
- * 3、设置页面访问密码 
+ *
+ * 3、设置页面访问密码
  *  MkEncrypt('页面密码');
- * 
-********************************************/
- 
+ *
+********************************************/
 // 密码 Cookie 加密盐
 if(!defined('MK_ENCRYPT_SALT'))
-    define('MK_ENCRYPT_SALT', 'Kgs$JC!V');
- 
+    define('MK_ENCRYPT_SALT', 'Kgs$JC!V');
 /**
  * 设置访问密码
- * 
+ *
  * @param $password  访问密码
  * @param $pageid    页面唯一 ID 值，用于区分同一网站的不同加密页面
  */
@@ -27,10 +24,8 @@ function MkEncrypt($password, $pageid = 'default') {
     $pageid     = md5($pageid);
     $md5pw      = md5(md5($password).MK_ENCRYPT_SALT);
     $postpwd    = isset($_POST['pagepwd']) ? addslashes(trim($_POST['pagepwd'])) : '';
-    $cookiepwd  = isset($_COOKIE['mk_encrypt_'.$pageid]) ? addslashes(trim($_COOKIE['mk_encrypt_'.$pageid])) : '';
-    
-    if($cookiepwd == $md5pw) return;    // Cookie密码验证正确
-    
+    $cookiepwd  = isset($_COOKIE['mk_encrypt_'.$pageid]) ? addslashes(trim($_COOKIE['mk_encrypt_'.$pageid])) : '';
+    if($cookiepwd == $md5pw) return;    // Cookie密码验证正确
     if($postpwd == $password) {         // 提交的密码正确
         setcookie('mk_encrypt_' . $pageid, $md5pw, time() + 25920000, '/');
         return;
@@ -38,10 +33,10 @@ function MkEncrypt($password, $pageid = 'default') {
 ?>
 <html>
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
-    <meta charset="UTF-8"> 
-    <meta http-equiv="X-UA-Compatible" content="IE=edge"> 
-    <meta name="renderer" content="webkit"> 
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="renderer" content="webkit">
     <meta name="author" content="mengkun">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>访问通行证</title>
@@ -72,8 +67,7 @@ function MkEncrypt($password, $pageid = 'default') {
         <svg class="alert" viewBox="0 0 1084 1024" xmlns="http://www.w3.org/2000/svg" width="80" height="80">
             <defs><style/></defs>
             <path d="M1060.744 895.036L590.547 80.656a55.959 55.959 0 0 0-96.919 0L22.588 896.662a55.959 55.959 0 0 0 48.43 83.907h942.14a55.959 55.959 0 0 0 47.525-85.534zm-470.619-85.172a48.008 48.008 0 1 1-96.015 0v-1.567a48.008 48.008 0 1 1 96.015 0v1.567zm0-175.345a48.008 48.008 0 1 1-96.015 0V379.362a48.008 48.008 0 1 1 96.015 0v255.157z" fill="#FF9800"/>
-        </svg>
-        
+        </svg>
         <form action="" method="post" class="mk-side-form">
             <h2 class="pw-tip">您目前没有查看权限</h2>
             <h3 class="tip1">请登录前往后台获取通行证</h3>

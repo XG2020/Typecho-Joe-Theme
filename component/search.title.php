@@ -4,7 +4,7 @@
         <line x1="16" y1="8" x2="2" y2="22"></line>
         <line x1="17.5" y1="15" x2="9" y2="15"></line>
     </svg>
-    <section>	    
+    <section>	
         <span>搜索到</span>
         <span class="active"><?php echo $this->getTotal(); ?></span>
         <span>篇与</span>

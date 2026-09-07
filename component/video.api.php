@@ -22,8 +22,7 @@
                     </rect>
                 </svg>
             </div>
-        </div>
-
+        </div>
         <div class="video-info">
             <div class="title" id="j-video-player-title">正在播放：</div>
             <div class="player" id="j-video-player">
@@ -33,8 +32,7 @@
                     <p class="tips">未填写解析，无法播放！</p>
                 <?php endif; ?>
             </div>
-        </div>
-
+        </div>
         <div class="video-play" id="j-video-play"></div>
     <?php else : ?>
         <div class="video-type">

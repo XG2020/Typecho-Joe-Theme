@@ -1,8 +1,7 @@
 <!-- 鱼群跳跃 -->
 <?php if ($this->options->JFishStatus === "top") : ?>
     <div id="j-fish-skip"></div>
-<?php endif; ?>
-
+<?php endif; ?>
 <section class="container-fluid j-footer">
     <section class="row">
         <section class="container">
@@ -21,12 +20,14 @@
             </section>	
 			<?php if ($this->options->yunxing_time) : ?>
 <?php
-        $adContent1 = $this->options->yunxing_time;
-        $adContent1Counts = explode("||", $adContent1);
+        $adContent1 = trim((string) $this->options->yunxing_time);
+        $startTimestamp = strtotime(str_replace('||', '/', $adContent1));
+        if ($startTimestamp !== false) :
+            $startDate = date('Y/m/d H:i:s', $startTimestamp);
         ?>
 			<p class="yunxing" style="text-align: center;">站点已稳定运行：<SPAN id=span_dt_dt style="color: #2F889A;"></SPAN> <SCRIPT language=javascript>function show_date_time(){
 window.setTimeout("show_date_time()", 1000);
-BirthDay=new Date("<?php echo $adContent1Counts[2] ?>/<?php echo $adContent1Counts[1] ?>/<?php echo $adContent1Counts[0] ?>");
+BirthDay=new Date("<?php echo $startDate; ?>");
 today=new Date();
 timeold=(today.getTime()-BirthDay.getTime());
 sectimeold=timeold/1000
@@ -42,26 +43,25 @@ seconds=Math.floor((e_minsold-minsold)*60);
 span_dt_dt.innerHTML='<font style=color:#C40000>'+daysold+'</font> 天 <font style=color:#C40000>'+hrsold+'</font> 时 <font style=color:#C40000>'+minsold+'</font> 分 <font style=color:#C40000>'+seconds+'</font> 秒';
 }
 show_date_time();</script> </p>
+        <?php endif; ?>
 <?php endif; ?>
             <section class="banquan-links">
                 <?php if ($this->options->JBanQuanLinks) : ?>
                     <?php $this->options->JBanQuanLinks() ?>
-                <?php else : ?>                    
+                <?php else : ?>
                     <a target="_blank" href="<?php $this->options->feedUrl(); ?>">RSS</a>
                     <a target="_blank" href="<?php echo $this->options->siteUrl . "index.php/sitemap.xml" ?>">MAP</a>
                 <?php endif; ?>
-				<div class="tooltip">当前在线<?php echo online_users() ?>人<span class="tooltiptext">博主 <?php get_last_login(1); ?> 在线</span></div>              
+				<div class="tooltip">当前在线<?php echo online_users() ?>人<span class="tooltiptext">博主 <?php get_last_login(1); ?> 在线</span></div>
             </section>
         </section>
     </section>
-</section>
-
+</section>
 <!-- 鱼群跳跃 -->
 <?php if ($this->options->JFishStatus === "bottom") : ?>
     <div id="j-fish-skip"></div>
-<?php endif; ?>
-
-<section class="j-actions">    
+<?php endif; ?>
+<section class="j-actions">
     <?php if ($this->options->JBackTopStatus === 'on') : ?>
         <section class="item" id="backToTop">
             <svg viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
@@ -87,8 +87,7 @@ show_date_time();</script> </p>
             </svg>
             <div class="color-pick" id="colorPick"></div>
         </div>
-    <?php endif; ?>	
-    
+    <?php endif; ?>	
 	<div class="item active" id="openColorPick">
 	<a style="font-weight:bold;font-size:18px;color:var(--theme)" id="translateLink" href="javascript:translatePage();">繁</a>
 	</div>	
@@ -101,10 +100,8 @@ show_date_time();</script> </p>
             </svg>
         </div>
     <?php endif; ?> -->
-</section>
-
-<audio id="j-hover-music" autoplay="autoplay"></audio>
-
+</section>
+<audio id="j-hover-music" autoplay="autoplay"></audio>
 <div class="j-video-preview j-modal-mask">
     <div class="container">
         <iframe src="<?php echo THEME_URL . '/player.php?url=' ?>" scrolling="no" allowfullscreen="allowfullscreen" frameborder="0"></iframe>
@@ -113,13 +110,12 @@ show_date_time();</script> </p>
         <path d="M6.713 512C6.713 232.562 233.13 6.2 512 6.2c278.926 0 505.287 226.362 505.287 505.288V512A504.718 504.718 0 0 1 512 1017.287 505.116 505.116 0 0 1 6.713 512z m539.079 0l176.47-176.47a22.983 22.983 0 0 0 0-32.71l-1.082-1.081a22.983 22.983 0 0 0-32.71 0L512 478.72 335.53 301.739a22.983 22.983 0 0 0-32.71 0l-1.081 1.08a22.983 22.983 0 0 0 0 32.712l176.469 176.981-176.47 176.47a22.983 22.983 0 0 0 0 32.767l1.082 1.024a22.983 22.983 0 0 0 32.71 0L512 546.304l176.47 176.47a22.983 22.983 0 0 0 32.71 0l1.081-1.025a22.983 22.983 0 0 0 0-32.768L545.792 512z" p-id="13836"></path>
     </svg>
 </div>
-<!--- 简繁转换开始 --->
-
-<script type="text/javascript" src="<?php autoCdnUrl('assets/js/tw_cn.js'); ?>"></script>
+<!--- 简繁转换开始 --->
+<script type="text/javascript" src="<?php echo autoCdnUrl('assets/js/tw_cn.js'); ?>"></script>
 <script type="text/javascript">
 var defaultEncoding = 0; //默认是否繁体，0-简体，1-繁体
 var translateDelay = 0; //延迟时间,若不在</body>前, 要设定延迟翻译时间, 如100表示100ms,默认为0
-var cookieDomain = "https://www.xggm.top/"; 
+var cookieDomain = "https://www.xggm.top/";
 var msgToTraditionalChinese = "繁"; //默认切换为繁体时显示的中文字符
 var msgToSimplifiedChinese = "简"; //默认切换为简体时显示的中文字符
 var translateButtonId = "translateLink"; //默认互换id
@@ -127,31 +123,28 @@ translateInitilization();
 </script>
 <!--- 简繁转换结束 --->
 <!--- 阅读模式开始 --->
-<script>    
+<script>
     //判断是否出现正文出现正文的时候出现read按钮
     var topics = document.querySelector('#markdown');
     var read_book_button = document.querySelector('.read_book_button');	
-    if (topics) {
+    if (topics && read_book_button) {
         read_book_button.style.display = 'block'        	
     }
-    
-    read_book_button.onclick = function () {
+    if (read_book_button) read_book_button.onclick = function () {
         //点击事情跟换类名
         var class_name = this.classList[1];
-        class_name == 'read_book' ? this.className = 'read_book_button not_read_book' : this.className = 'read_book_button read_book'
-
+        class_name == 'read_book' ? this.className = 'read_book_button not_read_book' : this.className = 'read_book_button read_book'
         //隐藏样式
         //头
         var head = document.querySelector('.j-header');
         //右侧
         var sideBar = document.querySelector('.j-aside');
         //评价栏
-        var comment_form = document.querySelector('#comments');
-
-        //正文无关的内容                
-        var footer = document.querySelector('.j-footer');          
+        var comment_form = document.querySelector('#comments');
+        //正文无关的内容
+        var footer = document.querySelector('.j-footer');
         var related = document.querySelector('.related');		        		
-				 
+				
 		
         //文章
         var read_color = document.querySelector('.main');
@@ -159,20 +152,20 @@ translateInitilization();
 		
         if (class_name == 'read_book') {
             head.style.display = 'block';
-            sideBar.style.display = 'block';
-            comment_form.style.display = 'block';                       
-            footer.style.display = 'block';             
-            related.style.display = 'block';                       
-            read_color.style.backgroundColor= 'var(--background)';
-            read_size.style.fontSize='medium';				
+            if (sideBar) sideBar.style.display = 'block';
+            if (comment_form) comment_form.style.display = 'block';
+            if (footer) footer.style.display = 'block';
+            if (related) related.style.display = 'block';
+            if (read_color) read_color.style.backgroundColor = 'var(--background)';
+            if (read_size) read_size.style.fontSize = 'medium';
         } else {
-            head.style.display = 'none';
-            sideBar.style.display = 'none';
-            comment_form.style.display = 'none';                      
-            footer.style.display = 'none';              
-            related.style.display = 'none';                    
-            read_color.style.backgroundColor='var(--background)'; 
-            read_size.style.fontSize="20px";			
+            if (head) head.style.display = 'none';
+            if (sideBar) sideBar.style.display = 'none';
+            if (comment_form) comment_form.style.display = 'none';
+            if (footer) footer.style.display = 'none';
+            if (related) related.style.display = 'none';
+            if (read_color) read_color.style.backgroundColor = 'var(--background)';
+            if (read_size) read_size.style.fontSize = '20px';
         }
     }
 	</script>	
@@ -182,35 +175,35 @@ translateInitilization();
     <div class="nav-item">
         <div class="img">
             <a href="#"><img src="https://xggm.top/img/grzx.png"></a>
-        </div>       
+        </div>
     </div>
     <div class="nav-item">
         <div class="img">
             <a href="#"><img src="https://xggm.top/img/dt.png"></a>
-        </div>        
+        </div>
     </div>
     <a class="nav-item">
         <div class="img">
             <a href="#"><img src="https://xggm.top/img/home.png"></a>
-        </div>       
+        </div>
     </a>
     <div class="nav-item">
         <div class="img">
              <a href="#"><img src="https://xggm.top/img/bz.png"></a>
-        </div>       
+        </div>
     </div>
     <div class="nav-item">
         <div class="img">
             <a href="#"><img src="https://xggm.top/img/tv.png"></a>
-        </div>        
+        </div>
     </div>
 </nav>
 <?php endif; ?>
 <?php if($this -> options -> copying == '1'): ?>
 <script type="text/javascript">
-function warning(){ if(navigator.userAgent.indexOf("MSIE")>0) 
-{art.dialog.swal("复制成功！","若要转载请务必保留原文链接，申明来源，谢谢合作！","success"); } 
-else 
+function warning(){ if(navigator.userAgent.indexOf("MSIE")>0)
+{art.dialog.swal("复制成功！","若要转载请务必保留原文链接，申明来源，谢谢合作！","success"); }
+else
 { swal("复制成功！","若要转载请务必保留原文链接，申明来源，谢谢合作！","success"); }}
 document.body.oncopy=function(){warning();}
 </script>
@@ -219,7 +212,7 @@ document.body.oncopy=function(){warning();}
 <?php if ($this->options->denglong) : ?>
 <?php
         $adContent1 = $this->options->denglong;
-        $adContent1Counts = explode("||", $adContent1);
+        $adContent1Counts = array_pad(explode("||", $adContent1), 4, '');
         ?>
 <div class="deng-box">
 <div class="deng">
@@ -291,11 +284,9 @@ document.body.oncopy=function(){warning();}
                         <?php endif; ?>
                     </div>
                 </form>
-            </div>
-        
+            </div>
     </div>
-</div>
-
+</div>
 <script type="text/javascript">
     let btn = document.getElementById('toLogin');
     let shadow = document.getElementById('shadow');

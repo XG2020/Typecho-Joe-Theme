@@ -1,5 +1,4 @@
-<?php
-
+<?php
 if (!defined('__TYPECHO_ROOT_DIR__')) exit;
 require_once("core/core.php");
 function themeConfig($form)
@@ -7,13 +6,15 @@ function themeConfig($form)
     $db = Typecho_Db::get();
     $prefix = $db->getPrefix();
     try {
-        if (!array_key_exists('views', $db->fetchRow($db->select()->from('table.contents')->page(1, 1)))) {
+        $contentColumns = $db->fetchRow($db->select()->from('table.contents')->page(1, 1));
+        if (!is_array($contentColumns) || !array_key_exists('views', $contentColumns)) {
             $db->query('ALTER TABLE `' . $prefix . 'contents` ADD `views` INT DEFAULT 0;');
         }
-        if (!array_key_exists('agree', $db->fetchRow($db->select()->from('table.contents')->page(1, 1)))) {
+        if (!is_array($contentColumns) || !array_key_exists('agree', $contentColumns)) {
             $db->query('ALTER TABLE `' . $prefix . 'contents` ADD `agree` INT DEFAULT 0;');
         }
-        if (!array_key_exists('likes', $db->fetchRow($db->select()->from('table.comments')->page(1, 1)))) {
+        $commentColumns = $db->fetchRow($db->select()->from('table.comments')->page(1, 1));
+        if (!is_array($commentColumns) || !array_key_exists('likes', $commentColumns)) {
             $db->query('ALTER TABLE `' . $prefix . 'comments` ADD `likes` INT DEFAULT 0;');
         }
     } catch (Exception $e) {
@@ -41,13 +42,11 @@ function themeConfig($form)
         <span id="j-version" style="display: none;"><?php echo JoeVersion() ?></span>
         <div class="j-setting-notice">请求数据中...</div>
         <script src="<?php echo autoCdnUrl('assets/js/joe.setting.min.js'); ?>"></script>
-    <?php
-
-
-    /* 公共设置 */ 
+    <?php
+    /* 公共设置 */
      $denglong = new Typecho_Widget_Helper_Form_Element_Text(
         'denglong',
-        NULL, NULL,       
+        NULL, NULL,
         '大红灯笼',
         '介绍：填写内容将会在页面右上角显示一个喜气洋洋的大红灯笼，不填写则不显示。<br />
          格式：内容 || 内容 （中间使用两个竖杠分隔）<br />
@@ -56,8 +55,7 @@ function themeConfig($form)
         '
     );
     $denglong->setAttribute('class', 'j-setting-content j-setting-global');
-    $form->addInput($denglong);
-
+    $form->addInput($denglong);
     $JSnow = new Typecho_Widget_Helper_Form_Element_Select(
         'JSnow',
         array('off' => '关闭（默认）', 'on' => '开启'),
@@ -66,27 +64,22 @@ function themeConfig($form)
         '介绍：开启后所有页面都有雪花飘落特效'
     );
     $JSnow->setAttribute('class', 'j-setting-content j-setting-global');
-    $form->addInput($JSnow->multiMode());
-   
+    $form->addInput($JSnow->multiMode());
     $yunxing_time = new Typecho_Widget_Helper_Form_Element_Text(
         'yunxing_time',
-        NULL, NULL,       
+        NULL, NULL,
         '建站时间',
         '介绍：填写时间将会在页脚显示博客的建站运行时间，不填写则不显示。<br />
         格式为：3/8/2019 00:00:00'
     );
     $yunxing_time->setAttribute('class', 'j-setting-content j-setting-global');
-    $form->addInput($yunxing_time);
-     
+    $form->addInput($yunxing_time);
     $JMobiset = new Typecho_Widget_Helper_Form_Element_Select('JMobiset',array(0=>'不开启',1=>'开启'),0,'移动端下边栏设置','介绍：开启后移动端页脚显示底部菜单');
     $JMobiset->setAttribute('class', 'j-setting-content j-setting-global');
-    $form->addInput($JMobiset);
-
-         
+    $form->addInput($JMobiset);
     $copying = new Typecho_Widget_Helper_Form_Element_Select('copying',array(0=>'不开启',1=>'开启'),0,'复制内容提醒','介绍：开启后复制内容弹出提醒对话框');
     $copying->setAttribute('class', 'j-setting-content j-setting-global');
-    $form->addInput($copying);
-
+    $form->addInput($copying);
     $JCommentStatus = new Typecho_Widget_Helper_Form_Element_Select(
         'JCommentStatus',
         array('on' => '开启（默认）', 'off' => '关闭'),
@@ -96,8 +89,7 @@ function themeConfig($form)
          注意：此处的权重优先级最高，若关闭此项而文章内开启评论，评论依旧为关闭状态'
     );
     $JCommentStatus->setAttribute('class', 'j-setting-content j-setting-global');
-    $form->addInput($JCommentStatus->multiMode());
-
+    $form->addInput($JCommentStatus->multiMode());
     $JDayNight = new Typecho_Widget_Helper_Form_Element_Select(
         'JDayNight',
         array('off' => '关闭（默认）', 'on' => '开启'),
@@ -106,19 +98,17 @@ function themeConfig($form)
         ''
     );
     $JDayNight->setAttribute('class', 'j-setting-content j-setting-global');
-    $form->addInput($JDayNight->multiMode());
-    
+    $form->addInput($JDayNight->multiMode());
     $JCDNUrl = new Typecho_Widget_Helper_Form_Element_Text(
         'JCDNUrl',
-        NULL, 'https://gcore.jsdelivr.net/gh/Carnia/Typecho-Joe-Theme@latest/',       
+        NULL, 'https://gcore.jsdelivr.net/gh/Carnia/Typecho-Joe-Theme@latest/',
         'cdn链接前缀(/结尾)',
         '默认为空，则指向服务器typecho/usr/themes/Typecho-Joe-Theme/<br />
         填cdn可以是https://gcore.jsdelivr.net/gh/Carnia/Typecho-Joe-Theme@latest/<br />
         cdn挂了的时候可以置空'
     );
     $JCDNUrl->setAttribute('class', 'j-setting-content j-setting-global');
-    $form->addInput($JCDNUrl);
-
+    $form->addInput($JCDNUrl);
     $JDefend = new Typecho_Widget_Helper_Form_Element_Select(
         'JDefend',
         array('off' => '关闭（默认）', 'on' => '开启'),
@@ -127,8 +117,7 @@ function themeConfig($form)
         '介绍：开启后，网站所有页面将会显示维护界面，不可访问。'
     );
     $JDefend->setAttribute('class', 'j-setting-content j-setting-global');
-    $form->addInput($JDefend->multiMode());
-
+    $form->addInput($JDefend->multiMode());
     $JPrevent = new Typecho_Widget_Helper_Form_Element_Select(
         'JPrevent',
         array('off' => '关闭（默认）', 'on' => '开启'),
@@ -137,8 +126,7 @@ function themeConfig($form)
         '介绍：开启后，如果在QQ里打开网站，则会提示跳转浏览器打开'
     );
     $JPrevent->setAttribute('class', 'j-setting-content j-setting-global');
-    $form->addInput($JPrevent->multiMode());
-
+    $form->addInput($JPrevent->multiMode());
     $JHeaderStyle = new Typecho_Widget_Helper_Form_Element_Select(
         'JHeaderStyle',
         array('default' => '居中（默认）', 'fluid' => '全屏'),
@@ -147,8 +135,7 @@ function themeConfig($form)
         '介绍：根据您的个人爱好选择一款您喜爱的风格'
     );
     $JHeaderStyle->setAttribute('class', 'j-setting-content j-setting-global');
-    $form->addInput($JHeaderStyle->multiMode());
-
+    $form->addInput($JHeaderStyle->multiMode());
     $JNavMaxNum = new Typecho_Widget_Helper_Form_Element_Select(
         'JNavMaxNum',
         array(
@@ -165,8 +152,7 @@ function themeConfig($form)
         '介绍：该选项只会在PC端默认头部风格生效。用于设置最大多少个后，显示更多下拉框'
     );
     $JNavMaxNum->setAttribute('class', 'j-setting-content j-setting-global');
-    $form->addInput($JNavMaxNum->multiMode());
-
+    $form->addInput($JNavMaxNum->multiMode());
     $JHorseStatus = new Typecho_Widget_Helper_Form_Element_Select(
         'JHorseStatus',
         array('off' => '关闭（默认）', 'on' => '开启'),
@@ -176,8 +162,7 @@ function themeConfig($form)
          注意：此项只会在当头部为居中风格下生效'
     );
     $JHorseStatus->setAttribute('class', 'j-setting-content j-setting-global');
-    $form->addInput($JHorseStatus->multiMode());
-
+    $form->addInput($JHorseStatus->multiMode());
     $JCensusStatus = new Typecho_Widget_Helper_Form_Element_Select(
         'JCensusStatus',
         array('off' => '关闭（默认）', 'on' => '开启'),
@@ -186,8 +171,7 @@ function themeConfig($form)
         '介绍：开启后将会显示HighCharts生成的柱状统计表'
     );
     $JCensusStatus->setAttribute('class', 'j-setting-content j-setting-global');
-    $form->addInput($JCensusStatus->multiMode());
-
+    $form->addInput($JCensusStatus->multiMode());
     $JBarragerStatus = new Typecho_Widget_Helper_Form_Element_Select(
         'JBarragerStatus',
         array('off' => '关闭（默认）', 'on' => '开启'),
@@ -196,8 +180,7 @@ function themeConfig($form)
         '介绍：开启后，网站将会显示评论弹幕功能，该功能采用CSS动画引擎，并非传统JS操作DOM，无任何性能消耗。'
     );
     $JBarragerStatus->setAttribute('class', 'j-setting-content j-setting-global');
-    $form->addInput($JBarragerStatus->multiMode());
-
+    $form->addInput($JBarragerStatus->multiMode());
     $JSignStatus = new Typecho_Widget_Helper_Form_Element_Select(
         'JSignStatus',
         array('off' => '关闭（默认）', 'on' => '开启'),
@@ -207,8 +190,7 @@ function themeConfig($form)
          注意：注册功能需要您在后台开启允许注册才会显示'
     );
     $JSignStatus->setAttribute('class', 'j-setting-content j-setting-global');
-    $form->addInput($JSignStatus->multiMode());
-
+    $form->addInput($JSignStatus->multiMode());
     $JScan = new Typecho_Widget_Helper_Form_Element_Select(
         'JScan',
         array('off' => '关闭（默认）', 'on' => '开启'),
@@ -218,8 +200,7 @@ function themeConfig($form)
          注意：扫码功能需要您在后台安装扫码登录插件且开启登录注册功能'
     );
     $JScan->setAttribute('class', 'j-setting-content j-setting-global');
-    $form->addInput($JScan->multiMode());    
-
+    $form->addInput($JScan->multiMode());
     $JProgressStatus = new Typecho_Widget_Helper_Form_Element_Select(
         'JProgressStatus',
         array('off' => '关闭（默认）', 'on' => '开启'),
@@ -228,8 +209,7 @@ function themeConfig($form)
         '介绍：开启后，网站头部将会显示进度条，该进度条与页面长度成对应关系，页面滚动多少，那么进度条的宽度就是多少。'
     );
     $JProgressStatus->setAttribute('class', 'j-setting-content j-setting-global');
-    $form->addInput($JProgressStatus->multiMode());
-
+    $form->addInput($JProgressStatus->multiMode());
     $JPageStatus = new Typecho_Widget_Helper_Form_Element_Select(
         'JPageStatus',
         array('default' => '按钮切换形式（默认）', 'ajax' => '点击加载形式'),
@@ -238,8 +218,7 @@ function themeConfig($form)
         '介绍：选择一款您所喜欢的分页形式'
     );
     $JPageStatus->setAttribute('class', 'j-setting-content j-setting-global');
-    $form->addInput($JPageStatus->multiMode());
-
+    $form->addInput($JPageStatus->multiMode());
     $JContextMenuStatus = new Typecho_Widget_Helper_Form_Element_Select(
         'JContextMenuStatus',
         array('off' => '关闭（默认）', 'on' => '开启'),
@@ -248,8 +227,7 @@ function themeConfig($form)
         '介绍：开启后则鼠标右键不可用'
     );
     $JContextMenuStatus->setAttribute('class', 'j-setting-content j-setting-global');
-    $form->addInput($JContextMenuStatus->multiMode());        
-
+    $form->addInput($JContextMenuStatus->multiMode());
     $JDocumentTitle = new Typecho_Widget_Helper_Form_Element_Text(
         'JDocumentTitle',
         NULL,
@@ -258,8 +236,7 @@ function themeConfig($form)
         '介绍：在PC端切换网页标签时，网站标题显示的内容。如果不填写，则默认不开启'
     );
     $JDocumentTitle->setAttribute('class', 'j-setting-content j-setting-global');
-    $form->addInput($JDocumentTitle);
-
+    $form->addInput($JDocumentTitle);
     $JCursorEffects = new Typecho_Widget_Helper_Form_Element_Select(
         'JCursorEffects',
         array(
@@ -274,8 +251,7 @@ function themeConfig($form)
         '介绍：用于切换鼠标点击特效 '
     );
     $JCursorEffects->setAttribute('class', 'j-setting-content j-setting-global');
-    $form->addInput($JCursorEffects->multiMode());
-
+    $form->addInput($JCursorEffects->multiMode());
     $JPlayer = new Typecho_Widget_Helper_Form_Element_Text(
         'JPlayer',
         NULL,
@@ -286,8 +262,7 @@ function themeConfig($form)
          注意：填写则显示播放器，如果不填写则不显示'
     );
     $JPlayer->setAttribute('class', 'j-setting-content j-setting-global');
-    $form->addInput($JPlayer);
-
+    $form->addInput($JPlayer);
     $JCursorType = new Typecho_Widget_Helper_Form_Element_Select(
         'JCursorType',
         array(
@@ -304,8 +279,7 @@ function themeConfig($form)
         '介绍：选择一款您所喜欢的鼠标默认样式。'
     );
     $JCursorType->setAttribute('class', 'j-setting-content j-setting-global');
-    $form->addInput($JCursorType->multiMode());
-
+    $form->addInput($JCursorType->multiMode());
     $JConsoleStatus = new Typecho_Widget_Helper_Form_Element_Select(
         'JConsoleStatus',
         array('off' => '关闭（默认）', 'on' => '开启'),
@@ -314,8 +288,7 @@ function themeConfig($form)
         '介绍：开启后当有人打开f12控制台偷代码时，会强制跳转到Typecho-Joe-Theme/console.html页面'
     );
     $JConsoleStatus->setAttribute('class', 'j-setting-content j-setting-global');
-    $form->addInput($JConsoleStatus->multiMode());
-
+    $form->addInput($JConsoleStatus->multiMode());
     $JCustomCSS = new Typecho_Widget_Helper_Form_Element_Textarea(
         'JCustomCSS',
         NULL,
@@ -324,8 +297,7 @@ function themeConfig($form)
         '介绍：请填写自定义CSS内容，填写时无需填写style标签。'
     );
     $JCustomCSS->setAttribute('class', 'j-setting-content j-setting-global');
-    $form->addInput($JCustomCSS);
-
+    $form->addInput($JCustomCSS);
     $JCustomScript = new Typecho_Widget_Helper_Form_Element_Textarea(
         'JCustomScript',
         NULL,
@@ -335,8 +307,7 @@ function themeConfig($form)
          注意：该处的JS优先级最高，如果你不小心写错了一个单词，或英文逗号写成了中文逗号，都有可能导致整个模板瘫痪！非专业人士请勿填写！'
     );
     $JCustomScript->setAttribute('class', 'j-setting-content j-setting-global');
-    $form->addInput($JCustomScript);
-
+    $form->addInput($JCustomScript);
     $JCustomHeadEnd = new Typecho_Widget_Helper_Form_Element_Textarea(
         'JCustomHeadEnd',
         NULL,
@@ -345,8 +316,7 @@ function themeConfig($form)
         '介绍：此处用于填写在&lt;head&gt;&lt;/head&gt;内末尾的内容'
     );
     $JCustomHeadEnd->setAttribute('class', 'j-setting-content j-setting-global');
-    $form->addInput($JCustomHeadEnd);
-
+    $form->addInput($JCustomHeadEnd);
     $JCustomBodyStart = new Typecho_Widget_Helper_Form_Element_Textarea(
         'JCustomBodyStart',
         NULL,
@@ -355,8 +325,7 @@ function themeConfig($form)
         '介绍：此处用于填写在&lt;body&gt;&lt;/body&gt;开始位置的内容'
     );
     $JCustomBodyStart->setAttribute('class', 'j-setting-content j-setting-global');
-    $form->addInput($JCustomBodyStart);
-
+    $form->addInput($JCustomBodyStart);
     $JCustomBodyEnd = new Typecho_Widget_Helper_Form_Element_Textarea(
         'JCustomBodyEnd',
         NULL,
@@ -365,11 +334,7 @@ function themeConfig($form)
         '介绍：此处用于填写在&lt;body&gt;&lt;/body&gt;末尾位置的内容'
     );
     $JCustomBodyEnd->setAttribute('class', 'j-setting-content j-setting-global');
-    $form->addInput($JCustomBodyEnd);
-
-
-
-
+    $form->addInput($JCustomBodyEnd);
     $JLive2D = new Typecho_Widget_Helper_Form_Element_Select(
         'JLive2D',
         array(
@@ -400,16 +365,14 @@ function themeConfig($form)
             'https://cdn.jsdelivr.net/npm/live2d-widget-model-mikoto@1.0.0/assets/mikoto.model.json' => 'mikoto',
             'https://cdn.jsdelivr.net/npm/live2d-widget-model-mashiro-seifuku@1.0.1/assets/seifuku.model.json' => 'seifuku',
             'https://cdn.jsdelivr.net/npm/live2d-widget-model-ichigo@1.0.1/assets/ichigo.model.json' => 'ichigo',
-            'https://cdn.jsdelivr.net/npm/live2d-widget-model-hk_fos@1.0.0/assets/hk416.model.json' => 'hk416'
-
+            'https://cdn.jsdelivr.net/npm/live2d-widget-model-hk_fos@1.0.0/assets/hk416.model.json' => 'hk416'
         ),
         'off',
         '选择一款喜爱的Live2D人物模型（仅限PC并且屏幕大于1600像素才会显示）',
         '介绍：开启后会在右下角显示一个小人，该功能采用远程调用不会消耗性能'
     );
     $JLive2D->setAttribute('class', 'j-setting-content j-setting-global');
-    $form->addInput($JLive2D->multiMode());
-
+    $form->addInput($JLive2D->multiMode());
     $JPageLoading = new Typecho_Widget_Helper_Form_Element_Select(
         'JPageLoading',
         array(
@@ -427,8 +390,7 @@ function themeConfig($form)
         '介绍：开启后当您刷新页面或首次进入页面时，将显示全屏加载'
     );
     $JPageLoading->setAttribute('class', 'j-setting-content j-setting-global');
-    $form->addInput($JPageLoading->multiMode());
-
+    $form->addInput($JPageLoading->multiMode());
     $JBackTopStatus = new Typecho_Widget_Helper_Form_Element_Select(
         'JBackTopStatus',
         array('off' => '关闭（默认）', 'on' => '开启'),
@@ -438,8 +400,7 @@ function themeConfig($form)
          注意：页面滚动到一定的高度才会显示返回顶部按钮，并不会一直显示'
     );
     $JBackTopStatus->setAttribute('class', 'j-setting-content j-setting-global');
-    $form->addInput($JBackTopStatus->multiMode());
-
+    $form->addInput($JBackTopStatus->multiMode());
     $JLogin = new Typecho_Widget_Helper_Form_Element_Select(
         'JLogin',
         array('off' => '关闭（默认）', 'on' => '开启'),
@@ -448,8 +409,7 @@ function themeConfig($form)
         '介绍：开启后将在屏幕右下方显示登录按钮'
     );
     $JLogin->setAttribute('class', 'j-setting-content j-setting-global');
-    $form->addInput($JLogin->multiMode());
-
+    $form->addInput($JLogin->multiMode());
     $JGlobalThemeColor = new Typecho_Widget_Helper_Form_Element_Text(
         'JGlobalThemeColor',
         NULL,
@@ -459,8 +419,7 @@ function themeConfig($form)
          格式：颜色值（例如：#ff6800），若填写请务必按照格式填写，否则会导致网站主题色无法显示！！！'
     );
     $JGlobalThemeColor->setAttribute('class', 'j-setting-content j-setting-global');
-    $form->addInput($JGlobalThemeColor);
-
+    $form->addInput($JGlobalThemeColor);
     $JGlobalThemeStatus = new Typecho_Widget_Helper_Form_Element_Select(
         'JGlobalThemeStatus',
         array('off' => '关闭（默认）', 'on' => '开启'),
@@ -470,8 +429,7 @@ function themeConfig($form)
          注意：不兼容垃圾IE'
     );
     $JGlobalThemeStatus->setAttribute('class', 'j-setting-content j-setting-global');
-    $form->addInput($JGlobalThemeStatus->multiMode());
-
+    $form->addInput($JGlobalThemeStatus->multiMode());
     $JCountTime = new Typecho_Widget_Helper_Form_Element_Select(
         'JCountTime',
         array('off' => '关闭（默认）', 'on' => '开启'),
@@ -480,8 +438,7 @@ function themeConfig($form)
         '介绍：开启后页面最底部将显示一个加载计时'
     );
     $JCountTime->setAttribute('class', 'j-setting-content j-setting-global');
-    $form->addInput($JCountTime->multiMode());
-
+    $form->addInput($JCountTime->multiMode());
     $JBanQuan = new Typecho_Widget_Helper_Form_Element_Textarea(
         'JBanQuan',
         NULL,
@@ -490,8 +447,7 @@ function themeConfig($form)
         '介绍：字数请勿过多，内容随意。例如：备案信息xxxx，支持html标签'
     );
     $JBanQuan->setAttribute('class', 'j-setting-content j-setting-global');
-    $form->addInput($JBanQuan);
-
+    $form->addInput($JBanQuan);
     $JBanQuanLinks = new Typecho_Widget_Helper_Form_Element_Textarea(
         'JBanQuanLinks',
         NULL,
@@ -500,8 +456,7 @@ function themeConfig($form)
         '介绍：要求：a标签格式。例如：&lt;a href="/"&gt;首页&lt;/a&gt; &lt;a href="/"&gt;关于&lt;/a&gt;'
     );
     $JBanQuanLinks->setAttribute('class', 'j-setting-content j-setting-global');
-    $form->addInput($JBanQuanLinks);
-
+    $form->addInput($JBanQuanLinks);
     $JGravatars = new Typecho_Widget_Helper_Form_Element_Select(
         'JGravatars',
         array(
@@ -519,8 +474,7 @@ function themeConfig($form)
         '介绍：不同的源响应速度不同，头像也不同'
     );
     $JGravatars->setAttribute('class', 'j-setting-content j-setting-global');
-    $form->addInput($JGravatars->multiMode());
-
+    $form->addInput($JGravatars->multiMode());
     $JHoverMusicStatus = new Typecho_Widget_Helper_Form_Element_Select(
         'JHoverMusicStatus',
         array('off' => '关闭（默认）', 'on' => '开启'),
@@ -530,8 +484,7 @@ function themeConfig($form)
          例如：网站头部的 logo 。如果您想自定义地方，请在需要添加的元素加上 j-hover-music 类名即可。'
     );
     $JHoverMusicStatus->setAttribute('class', 'j-setting-content j-setting-global');
-    $form->addInput($JHoverMusicStatus->multiMode());
-
+    $form->addInput($JHoverMusicStatus->multiMode());
     $JFishStatus = new Typecho_Widget_Helper_Form_Element_Select(
         'JFishStatus',
         array(
@@ -544,8 +497,7 @@ function themeConfig($form)
         '介绍：开启后，网站底部会有动态的鱼群跳跃动画'
     );
     $JFishStatus->setAttribute('class', 'j-setting-content j-setting-global');
-    $form->addInput($JFishStatus->multiMode());
-
+    $form->addInput($JFishStatus->multiMode());
     /* 图片设置 */
     $JLazyLoad = new Typecho_Widget_Helper_Form_Element_Text(
         'JLazyLoad',
@@ -556,8 +508,7 @@ function themeConfig($form)
          格式：base64 或者 图片url'
     );
     $JLazyLoad->setAttribute('class', 'j-setting-content j-setting-image');
-    $form->addInput($JLazyLoad);
-
+    $form->addInput($JLazyLoad);
     $Jmos = new Typecho_Widget_Helper_Form_Element_Textarea(
         'Jmos',
         NULL,
@@ -566,8 +517,7 @@ function themeConfig($form)
         '填写图片地址，一行一个，文章中没有图片时将随机使用这里面的图片地址。也可以填写图片API。不填写则使用程序内置的图片（哆啦B梦）'
     );
     $Jmos->setAttribute('class', 'j-setting-content j-setting-image');
-    $form->addInput($Jmos);
-
+    $form->addInput($Jmos);
     $JFavicon = new Typecho_Widget_Helper_Form_Element_Textarea(
         'JFavicon',
         NULL,
@@ -578,8 +528,7 @@ function themeConfig($form)
          其他：免费转换 favicon 网站 <a target="_blank" href="//tool.lu/favicon">tool.lu/favicon</a>'
     );
     $JFavicon->setAttribute('class', 'j-setting-content j-setting-image');
-    $form->addInput($JFavicon);
-
+    $form->addInput($JFavicon);
     $JLogo = new Typecho_Widget_Helper_Form_Element_Textarea(
         'JLogo',
         NULL,
@@ -590,8 +539,7 @@ function themeConfig($form)
          其他：免费制作 logo 网站 <a target="_blank" href="//www.uugai.com">www.uugai.com</a>'
     );
     $JLogo->setAttribute('class', 'j-setting-content j-setting-image');
-    $form->addInput($JLogo);
-
+    $form->addInput($JLogo);
     $JDocumentCanvasBG = new Typecho_Widget_Helper_Form_Element_Select(
         'JDocumentCanvasBG',
         array(
@@ -610,8 +558,7 @@ function themeConfig($form)
          注意：此项由于是canvas生成，所以开启这项是影响性能的！'
     );
     $JDocumentCanvasBG->setAttribute('class', 'j-setting-content j-setting-image');
-    $form->addInput($JDocumentCanvasBG->multiMode());
-
+    $form->addInput($JDocumentCanvasBG->multiMode());
     $JDocumentPCBG = new Typecho_Widget_Helper_Form_Element_Textarea(
         'JDocumentPCBG',
         NULL,
@@ -622,8 +569,7 @@ function themeConfig($form)
          注意：若您想使用自定义图片，请先关闭上方的动态背景，否则该项不会起作用。'
     );
     $JDocumentPCBG->setAttribute('class', 'j-setting-content j-setting-image');
-    $form->addInput($JDocumentPCBG);
-
+    $form->addInput($JDocumentPCBG);
     $JDocumentWAPBG = new Typecho_Widget_Helper_Form_Element_Textarea(
         'JDocumentWAPBG',
         NULL,
@@ -633,10 +579,8 @@ function themeConfig($form)
          格式：图片URL地址 或 随机图片api 例如：http://api.btstu.cn/sjbz/?lx=m_dongman'
     );
     $JDocumentWAPBG->setAttribute('class', 'j-setting-content j-setting-image');
-    $form->addInput($JDocumentWAPBG);
-
-    /* 文章设置 */       
-
+    $form->addInput($JDocumentWAPBG);
+    /* 文章设置 */
     $JBreadStatus = new Typecho_Widget_Helper_Form_Element_Select(
         'JBreadStatus',
         array('off' => '关闭（默认）', 'on' => '开启'),
@@ -645,8 +589,7 @@ function themeConfig($form)
         '介绍：开启后，文章页面顶部将会显示面包屑导航。'
     );
     $JBreadStatus->setAttribute('class', 'j-setting-content j-setting-post');
-    $form->addInput($JBreadStatus->multiMode());
-
+    $form->addInput($JBreadStatus->multiMode());
     $huaban = new Typecho_Widget_Helper_Form_Element_Select(
         'huaban',
         array('off' => '关闭（默认）', 'on' => '开启'),
@@ -655,8 +598,7 @@ function themeConfig($form)
         '介绍：开启后，文章评论部分出现画板。'
     );
     $huaban->setAttribute('class', 'j-setting-content j-setting-post');
-    $form->addInput($huaban->multiMode());
-
+    $form->addInput($huaban->multiMode());
     $JPostCountingStatus = new Typecho_Widget_Helper_Form_Element_Select(
         'JPostCountingStatus',
         array('off' => '关闭（默认）', 'on' => '开启'),
@@ -665,8 +607,7 @@ function themeConfig($form)
         '介绍：开启后，在文章的大标题下方将会显示该篇文章的统计信息，例如浏览量、百度收录、文章发布时间等。'
     );
     $JPostCountingStatus->setAttribute('class', 'j-setting-content j-setting-post');
-    $form->addInput($JPostCountingStatus->multiMode());
-
+    $form->addInput($JPostCountingStatus->multiMode());
     $JCodeColor = new Typecho_Widget_Helper_Form_Element_Select(
         'JCodeColor',
         array(
@@ -771,8 +712,7 @@ function themeConfig($form)
         '介绍：强大的语法高亮插件，多种风格供您选择，如果以上还是没有您所喜欢的风格，请关闭该插件，自行使用其他插件'
     );
     $JCodeColor->setAttribute('class', 'j-setting-content j-setting-post');
-    $form->addInput($JCodeColor->multiMode());
-
+    $form->addInput($JCodeColor->multiMode());
     $JTagStatus = new Typecho_Widget_Helper_Form_Element_Select(
         'JTagStatus',
         array('off' => '关闭（默认）', 'on' => '开启'),
@@ -781,8 +721,7 @@ function themeConfig($form)
         '介绍：开启后，文章底部将显示标签和操作按钮'
     );
     $JTagStatus->setAttribute('class', 'j-setting-content j-setting-post');
-    $form->addInput($JTagStatus->multiMode());
-
+    $form->addInput($JTagStatus->multiMode());
     $JBanQuanStatus = new Typecho_Widget_Helper_Form_Element_Select(
         'JBanQuanStatus',
         array('off' => '关闭（默认）', 'on' => '开启'),
@@ -791,8 +730,7 @@ function themeConfig($form)
         '介绍：开启后，在文章末尾将会显示转载的版权信息。'
     );
     $JBanQuanStatus->setAttribute('class', 'j-setting-content j-setting-post');
-    $form->addInput($JBanQuanStatus->multiMode());
-
+    $form->addInput($JBanQuanStatus->multiMode());
     $JRelatedStatus = new Typecho_Widget_Helper_Form_Element_Select(
         'JRelatedStatus',
         array('off' => '关闭（默认）', 'on' => '开启'),
@@ -801,8 +739,7 @@ function themeConfig($form)
         '介绍：开启后，文章结尾处将会显示当前文章的其他相关文章，如果没有推荐的文章，那么相关推荐是不会显示的。'
     );
     $JRelatedStatus->setAttribute('class', 'j-setting-content j-setting-post');
-    $form->addInput($JRelatedStatus->multiMode());
-
+    $form->addInput($JRelatedStatus->multiMode());
     $JDirectoryStatus = new Typecho_Widget_Helper_Form_Element_Select(
         'JDirectoryStatus',
         array('off' => '关闭（默认）', 'on' => '开启'),
@@ -811,8 +748,7 @@ function themeConfig($form)
         '介绍：开启后，文章页面和自定义页面将显示目录树（小屏幕上不会显示）'
     );
     $JDirectoryStatus->setAttribute('class', 'j-setting-content j-setting-post');
-    $form->addInput($JDirectoryStatus->multiMode());
-
+    $form->addInput($JDirectoryStatus->multiMode());
     $JAdmire = new Typecho_Widget_Helper_Form_Element_Textarea(
         'JAdmire',
         NULL,
@@ -823,8 +759,7 @@ function themeConfig($form)
          其他：免费生成网址：<a href="http://qrcode.xiaod8.cn" target="_blank">http://qrcode.xiaod8.cn</a>'
     );
     $JAdmire->setAttribute('class', 'j-setting-content j-setting-post');
-    $form->addInput($JAdmire);
-
+    $form->addInput($JAdmire);
     $JQQSharePic = new Typecho_Widget_Helper_Form_Element_Text(
         'JQQSharePic',
         NULL,
@@ -833,9 +768,7 @@ function themeConfig($form)
         '介绍：填写则显示分享缩略图，不填写则看脸取网站随机图片'
     );
     $JQQSharePic->setAttribute('class', 'j-setting-content j-setting-post');
-    $form->addInput($JQQSharePic);
-
-
+    $form->addInput($JQQSharePic);
     /* 侧边栏 */
     $JIndexAsideStatus = new Typecho_Widget_Helper_Form_Element_Select(
         'JIndexAsideStatus',
@@ -845,8 +778,7 @@ function themeConfig($form)
         '介绍：开启后，首页和搜索页将显示侧边栏（首先您得先开启下面设置的侧边栏，如果您只开启了此项，而下面的侧边栏选项都是关闭的。那么开启和关闭没什么区别）'
     );
     $JIndexAsideStatus->setAttribute('class', 'j-setting-content j-setting-aside');
-    $form->addInput($JIndexAsideStatus->multiMode());
-
+    $form->addInput($JIndexAsideStatus->multiMode());
     $JPostAsideStatus = new Typecho_Widget_Helper_Form_Element_Select(
         'JPostAsideStatus',
         array('off' => '关闭（默认）', 'on' => '开启'),
@@ -855,19 +787,16 @@ function themeConfig($form)
         '介绍：开启后，文章页和自定义页面将显示侧边栏（首先您得先开启下面设置的侧边栏，如果您只开启了此项，而下面的侧边栏选项都是关闭的。那么开启和关闭没什么区别）'
     );
     $JPostAsideStatus->setAttribute('class', 'j-setting-content j-setting-aside');
-    $form->addInput($JPostAsideStatus->multiMode());
-    
+    $form->addInput($JPostAsideStatus->multiMode());
     $JactiveUsers = new Typecho_Widget_Helper_Form_Element_Radio(
   'JactiveUsers',
         array(
                 1 => '开启',
                 0 => '关闭',
-        ),0,'是否开启互动读者','介绍：显示评论相关用户'
-
+        ),0,'是否开启互动读者','介绍：显示评论相关用户'
     );
     $JactiveUsers->setAttribute('class', 'j-setting-content j-setting-aside');
-    $form->addInput($JactiveUsers);
-
+    $form->addInput($JactiveUsers);
     $JADContent1 = new Typecho_Widget_Helper_Form_Element_Textarea(
         'JADContent1',
         NULL,
@@ -879,8 +808,7 @@ function themeConfig($form)
          注意：如果您只想显示图片不想跳转，可填写：广告图片 || javascript:void(0)'
     );
     $JADContent1->setAttribute('class', 'j-setting-content j-setting-aside');
-    $form->addInput($JADContent1);
-
+    $form->addInput($JADContent1);
     $JADContent2 = new Typecho_Widget_Helper_Form_Element_Textarea(
         'JADContent2',
         NULL,
@@ -892,8 +820,7 @@ function themeConfig($form)
          注意：如果您只想显示图片不想跳转，可填写：广告图片 || javascript:void(0)'
     );
     $JADContent2->setAttribute('class', 'j-setting-content j-setting-aside');
-    $form->addInput($JADContent2);
-
+    $form->addInput($JADContent2);
     $JWether = new Typecho_Widget_Helper_Form_Element_Textarea(
         'JWether',
         NULL,NULL,
@@ -903,8 +830,7 @@ function themeConfig($form)
          例如：b8ac3ce1f490419585d0c2f5bc4d439a ，注意一定是天气标准插件的key'
     );
     $JWether->setAttribute('class', 'j-setting-content j-setting-aside');
-    $form->addInput($JWether);
-
+    $form->addInput($JWether);
     $JAsideCustom = new Typecho_Widget_Helper_Form_Element_Textarea(
         'JAsideCustom',
         NULL,
@@ -915,8 +841,7 @@ function themeConfig($form)
          例如：您可以在此处添加一个搜索框功能、时间功能、宠物功能等等'
     );
     $JAsideCustom->setAttribute('class', 'j-setting-content j-setting-aside');
-    $form->addInput($JAsideCustom);
-
+    $form->addInput($JAsideCustom);
     $JAsideVisitor = new Typecho_Widget_Helper_Form_Element_Textarea(
         'JAsideVisitor',
         NULL,
@@ -928,8 +853,7 @@ function themeConfig($form)
          '
     );
     $JAsideVisitor->setAttribute('class', 'j-setting-content j-setting-aside');
-    $form->addInput($JAsideVisitor);
-
+    $form->addInput($JAsideVisitor);
     $J3DTagStatus = new Typecho_Widget_Helper_Form_Element_Select(
         'J3DTagStatus',
         array('off' => '关闭（默认）', 'on' => '开启'),
@@ -938,8 +862,7 @@ function themeConfig($form)
         '介绍：开启后侧边栏将显示3D云标签'
     );
     $J3DTagStatus->setAttribute('class', 'j-setting-content j-setting-aside');
-    $form->addInput($J3DTagStatus->multiMode());
-
+    $form->addInput($J3DTagStatus->multiMode());
     $JAsideReplyStatus = new Typecho_Widget_Helper_Form_Element_Select(
         'JAsideReplyStatus',
         array(
@@ -951,9 +874,7 @@ function themeConfig($form)
         '介绍：开启后侧边栏将显示最新回复'
     );
     $JAsideReplyStatus->setAttribute('class', 'j-setting-content j-setting-aside');
-    $form->addInput($JAsideReplyStatus->multiMode());
-    
-    
+    $form->addInput($JAsideReplyStatus->multiMode());
     $JAsideHotNumber = new Typecho_Widget_Helper_Form_Element_Select(
         'JAsideHotNumber',
         array(
@@ -972,8 +893,7 @@ function themeConfig($form)
         '介绍：开启后侧边栏将显示您设置的个数的热门文章'
     );
     $JAsideHotNumber->setAttribute('class', 'j-setting-content j-setting-aside');
-    $form->addInput($JAsideHotNumber->multiMode());
-
+    $form->addInput($JAsideHotNumber->multiMode());
     $JAuthorStatus = new Typecho_Widget_Helper_Form_Element_Select(
         'JAuthorStatus',
         array(
@@ -992,8 +912,7 @@ function themeConfig($form)
         '介绍：开启后侧边栏将显示作者信息，并且显示的文章数由您决定。'
     );
     $JAuthorStatus->setAttribute('class', 'j-setting-content j-setting-aside');
-    $form->addInput($JAuthorStatus->multiMode());    
-    
+    $form->addInput($JAuthorStatus->multiMode());
     $JasideBg = new Typecho_Widget_Helper_Form_Element_Select(
         'JasideBg',
         array('off' => '关闭（默认）','on' => '开启'),
@@ -1002,8 +921,7 @@ function themeConfig($form)
         '介绍：开启后侧边栏显示作者背景图片将由作者在后台个人设置,需要使用配套typecho否则无法自定义。'
     );
     $JasideBg->setAttribute('class', 'j-setting-content j-setting-aside');
-    $form->addInput($JasideBg->multiMode()); 
-    
+    $form->addInput($JasideBg->multiMode());
     $JCountDownStatus = new Typecho_Widget_Helper_Form_Element_Select(
         'JCountDownStatus',
         array(
@@ -1015,10 +933,7 @@ function themeConfig($form)
         '介绍：开启后侧边栏将显示人生倒计时'
     );
     $JCountDownStatus->setAttribute('class', 'j-setting-content j-setting-aside');
-    $form->addInput($JCountDownStatus->multiMode());
-
-
-
+    $form->addInput($JCountDownStatus->multiMode());
     $JRanking = new Typecho_Widget_Helper_Form_Element_Select(
         'JRanking',
         array(
@@ -1077,10 +992,8 @@ function themeConfig($form)
         '
     );
     $JRanking->setAttribute('class', 'j-setting-content j-setting-aside');
-    $form->addInput($JRanking->multiMode());
-
-    /* 色彩设置 */
-
+    $form->addInput($JRanking->multiMode());
+    /* 色彩设置 */
     $JCardBackground = new Typecho_Widget_Helper_Form_Element_Text(
         'JCardBackground',
         NULL,
@@ -1092,8 +1005,7 @@ function themeConfig($form)
          格式：严格的色彩格式，例如：rgba(255, 255, 255, 0.85)'
     );
     $JCardBackground->setAttribute('class', 'j-setting-content j-setting-color');
-    $form->addInput($JCardBackground);
-
+    $form->addInput($JCardBackground);
     $JClassA = new Typecho_Widget_Helper_Form_Element_Text(
         'JClassA',
         NULL,
@@ -1103,8 +1015,7 @@ function themeConfig($form)
          格式：严格的色彩格式，例如：#ff6800'
     );
     $JClassA->setAttribute('class', 'j-setting-content j-setting-color');
-    $form->addInput($JClassA);
-
+    $form->addInput($JClassA);
     $JClassB = new Typecho_Widget_Helper_Form_Element_Text(
         'JClassB',
         NULL,
@@ -1114,8 +1025,7 @@ function themeConfig($form)
          格式：严格的色彩格式，例如：#ff6800'
     );
     $JClassB->setAttribute('class', 'j-setting-content j-setting-color');
-    $form->addInput($JClassB);
-
+    $form->addInput($JClassB);
     $JClassC = new Typecho_Widget_Helper_Form_Element_Text(
         'JClassC',
         NULL,
@@ -1125,8 +1035,7 @@ function themeConfig($form)
          格式：严格的色彩格式，例如：#ff6800'
     );
     $JClassC->setAttribute('class', 'j-setting-content j-setting-color');
-    $form->addInput($JClassC);
-
+    $form->addInput($JClassC);
     $JClassD = new Typecho_Widget_Helper_Form_Element_Text(
         'JClassD',
         NULL,
@@ -1136,8 +1045,7 @@ function themeConfig($form)
          格式：严格的色彩格式，例如：#ff6800'
     );
     $JClassD->setAttribute('class', 'j-setting-content j-setting-color');
-    $form->addInput($JClassD);
-
+    $form->addInput($JClassD);
     $JMainColor = new Typecho_Widget_Helper_Form_Element_Text(
         'JMainColor',
         NULL,
@@ -1147,8 +1055,7 @@ function themeConfig($form)
          格式：严格的色彩格式，例如：#ff6800'
     );
     $JMainColor->setAttribute('class', 'j-setting-content j-setting-color');
-    $form->addInput($JMainColor);
-
+    $form->addInput($JMainColor);
     $JRoutineColor = new Typecho_Widget_Helper_Form_Element_Text(
         'JRoutineColor',
         NULL,
@@ -1158,8 +1065,7 @@ function themeConfig($form)
          格式：严格的色彩格式，例如：#ff6800'
     );
     $JRoutineColor->setAttribute('class', 'j-setting-content j-setting-color');
-    $form->addInput($JRoutineColor);
-
+    $form->addInput($JRoutineColor);
     $JMinorColor = new Typecho_Widget_Helper_Form_Element_Text(
         'JMinorColor',
         NULL,
@@ -1169,8 +1075,7 @@ function themeConfig($form)
          格式：严格的色彩格式，例如：#ff6800'
     );
     $JMinorColor->setAttribute('class', 'j-setting-content j-setting-color');
-    $form->addInput($JMinorColor);
-
+    $form->addInput($JMinorColor);
     $JSeatColor = new Typecho_Widget_Helper_Form_Element_Text(
         'JSeatColor',
         NULL,
@@ -1180,8 +1085,7 @@ function themeConfig($form)
          格式：严格的色彩格式，例如：#ff6800'
     );
     $JSeatColor->setAttribute('class', 'j-setting-content j-setting-color');
-    $form->addInput($JSeatColor);
-
+    $form->addInput($JSeatColor);
     $JSuccessColor = new Typecho_Widget_Helper_Form_Element_Text(
         'JSuccessColor',
         NULL,
@@ -1191,8 +1095,7 @@ function themeConfig($form)
          格式：严格的色彩格式，例如：#ff6800'
     );
     $JSuccessColor->setAttribute('class', 'j-setting-content j-setting-color');
-    $form->addInput($JSuccessColor);
-
+    $form->addInput($JSuccessColor);
     $JWarningColor = new Typecho_Widget_Helper_Form_Element_Text(
         'JWarningColor',
         NULL,
@@ -1202,8 +1105,7 @@ function themeConfig($form)
          格式：严格的色彩格式，例如：#ff6800'
     );
     $JWarningColor->setAttribute('class', 'j-setting-content j-setting-color');
-    $form->addInput($JWarningColor);
-
+    $form->addInput($JWarningColor);
     $JDangerColor = new Typecho_Widget_Helper_Form_Element_Text(
         'JDangerColor',
         NULL,
@@ -1213,8 +1115,7 @@ function themeConfig($form)
          格式：严格的色彩格式，例如：#ff6800'
     );
     $JDangerColor->setAttribute('class', 'j-setting-content j-setting-color');
-    $form->addInput($JDangerColor);
-
+    $form->addInput($JDangerColor);
     $JInfoColor = new Typecho_Widget_Helper_Form_Element_Text(
         'JInfoColor',
         NULL,
@@ -1224,8 +1125,7 @@ function themeConfig($form)
          格式：严格的色彩格式，例如：#ff6800'
     );
     $JInfoColor->setAttribute('class', 'j-setting-content j-setting-color');
-    $form->addInput($JInfoColor);
-
+    $form->addInput($JInfoColor);
     $JRadiusPC = new Typecho_Widget_Helper_Form_Element_Select(
         'JRadiusPC',
         array(
@@ -1246,8 +1146,7 @@ function themeConfig($form)
         '介绍：选择一款您所喜欢的PC端边框圆角'
     );
     $JRadiusPC->setAttribute('class', 'j-setting-content j-setting-color');
-    $form->addInput($JRadiusPC->multiMode());
-
+    $form->addInput($JRadiusPC->multiMode());
     $JRadiusWap = new Typecho_Widget_Helper_Form_Element_Select(
         'JRadiusWap',
         array(
@@ -1268,8 +1167,7 @@ function themeConfig($form)
         '介绍：选择一款您所喜欢的WAP端边框圆角'
     );
     $JRadiusWap->setAttribute('class', 'j-setting-content j-setting-color');
-    $form->addInput($JRadiusWap->multiMode());
-
+    $form->addInput($JRadiusWap->multiMode());
     $JTextShadow = new Typecho_Widget_Helper_Form_Element_Text(
         'JTextShadow',
         NULL,
@@ -1283,8 +1181,7 @@ function themeConfig($form)
          '
     );
     $JTextShadow->setAttribute('class', 'j-setting-content j-setting-color');
-    $form->addInput($JTextShadow);
-
+    $form->addInput($JTextShadow);
     $JBoxShadow = new Typecho_Widget_Helper_Form_Element_Text(
         'JBoxShadow',
         NULL,
@@ -1297,8 +1194,7 @@ function themeConfig($form)
          '
     );
     $JBoxShadow->setAttribute('class', 'j-setting-content j-setting-color');
-    $form->addInput($JBoxShadow);
-
+    $form->addInput($JBoxShadow);
     /* 首页设置 */
     $JPCAnimation = new Typecho_Widget_Helper_Form_Element_Select(
         'JPCAnimation',
@@ -1375,8 +1271,7 @@ function themeConfig($form)
          其他：可能以上还是没有您喜欢的特效。此功能可拓展性强，例如您完全可以对照 jSlideUp 这个特性进行编写一个您自己喜欢的动画，接着加入到设置这里即可。如果您的动画优秀，会收录到设置里！'
     );
     $JPCAnimation->setAttribute('class', 'j-setting-content j-setting-index');
-    $form->addInput($JPCAnimation->multiMode());
-
+    $form->addInput($JPCAnimation->multiMode());
     $JWapAnimation = new Typecho_Widget_Helper_Form_Element_Select(
         'JWapAnimation',
         array(
@@ -1452,8 +1347,7 @@ function themeConfig($form)
          其他：可能以上还是没有您喜欢的特效。此功能可拓展性强，例如您完全可以对照 jSlideUp 这个特性进行编写一个您自己喜欢的动画，接着加入到设置这里即可。如果您的动画优秀，会收录到设置里！'
     );
     $JWapAnimation->setAttribute('class', 'j-setting-content j-setting-index');
-    $form->addInput($JWapAnimation->multiMode());
-
+    $form->addInput($JWapAnimation->multiMode());
     $JSummaryMeta = new Typecho_Widget_Helper_Form_Element_Checkbox(
         'JSummaryMeta',
         array(
@@ -1468,8 +1362,7 @@ function themeConfig($form)
         '该处的设置是用于设置首页及搜索页列表里的文章信息，根据您的爱好自行选择'
     );
     $JSummaryMeta->setAttribute('class', 'j-setting-content j-setting-index');
-    $form->addInput($JSummaryMeta->multiMode());
-
+    $form->addInput($JSummaryMeta->multiMode());
     $JIndexSticky = new Typecho_Widget_Helper_Form_Element_Textarea(
         'JIndexSticky',
         NULL,
@@ -1480,8 +1373,7 @@ function themeConfig($form)
          例如：1 || 2 || 3'
     );
     $JIndexSticky->setAttribute('class', 'j-setting-content j-setting-index');
-    $form->addInput($JIndexSticky);
-
+    $form->addInput($JIndexSticky);
     $JIndexNotice = new Typecho_Widget_Helper_Form_Element_Textarea(
         'JIndexNotice',
         NULL,
@@ -1492,8 +1384,7 @@ function themeConfig($form)
          例如：我是通知哈哈哈||http://baidu.com'
     );
     $JIndexNotice->setAttribute('class', 'j-setting-content j-setting-index');
-    $form->addInput($JIndexNotice);
-
+    $form->addInput($JIndexNotice);
     $JIndexAD = new Typecho_Widget_Helper_Form_Element_Textarea(
         'JIndexAD',
         NULL,
@@ -1504,8 +1395,7 @@ function themeConfig($form)
          例如：https://puui.qpic.cn/media_img/lena/PICykqaoi_580_1680/0||http://baidu.com'
     );
     $JIndexAD->setAttribute('class', 'j-setting-content j-setting-index');
-    $form->addInput($JIndexAD);
-
+    $form->addInput($JIndexAD);
     $JIndexHotStatus = new Typecho_Widget_Helper_Form_Element_Select(
         'JIndexHotStatus',
         array('off' => '关闭（默认）', 'on' => '开启'),
@@ -1514,8 +1404,7 @@ function themeConfig($form)
         '介绍：开启后，网站首页将会显示浏览量最多的4篇热门文章'
     );
     $JIndexHotStatus->setAttribute('class', 'j-setting-content j-setting-index');
-    $form->addInput($JIndexHotStatus->multiMode());
-
+    $form->addInput($JIndexHotStatus->multiMode());
     $JIndexCarousel = new Typecho_Widget_Helper_Form_Element_Textarea(
         'JIndexCarousel',
         NULL,
@@ -1530,8 +1419,7 @@ function themeConfig($form)
          '
     );
     $JIndexCarousel->setAttribute('class', 'j-setting-content j-setting-index');
-    $form->addInput($JIndexCarousel);
-
+    $form->addInput($JIndexCarousel);
     $JIndexRecommend = new Typecho_Widget_Helper_Form_Element_Textarea(
         'JIndexRecommend',
         NULL,
@@ -1544,8 +1432,7 @@ function themeConfig($form)
          '
     );
     $JIndexRecommend->setAttribute('class', 'j-setting-content j-setting-index');
-    $form->addInput($JIndexRecommend);          
-  
+    $form->addInput($JIndexRecommend);
     /* 其他设置 */
     $JFriends = new Typecho_Widget_Helper_Form_Element_Textarea(
         'JFriends',
@@ -1559,8 +1446,7 @@ function themeConfig($form)
         '
     );
     $JFriends->setAttribute('class', 'j-setting-content j-setting-other');
-    $form->addInput($JFriends);
-
+    $form->addInput($JFriends);
     $JVideoListAPI = new Typecho_Widget_Helper_Form_Element_Text(
         'JVideoListAPI',
         NULL,
@@ -1573,8 +1459,7 @@ function themeConfig($form)
          '
     );
     $JVideoListAPI->setAttribute('class', 'j-setting-content j-setting-other');
-    $form->addInput($JVideoListAPI);
-
+    $form->addInput($JVideoListAPI);
     $JAnalysis = new Typecho_Widget_Helper_Form_Element_Textarea(
         'JAnalysis',
         NULL,
@@ -1583,8 +1468,7 @@ function themeConfig($form)
         '介绍：如果您不填写此项，则文章页内的播放器默认调用主题自带的DPlayer播放器，并且视频页面无法播放！'
     );
     $JAnalysis->setAttribute('class', 'j-setting-content j-setting-other');
-    $form->addInput($JAnalysis);
-
+    $form->addInput($JAnalysis);
     $JDplayerAPI = new Typecho_Widget_Helper_Form_Element_Textarea(
         'JDplayerAPI',
         NULL,
@@ -1596,8 +1480,7 @@ function themeConfig($form)
         '
     );
     $JDplayerAPI->setAttribute('class', 'j-setting-content j-setting-other');
-    $form->addInput($JDplayerAPI);
-
+    $form->addInput($JDplayerAPI);
     $JShieldNames = new Typecho_Widget_Helper_Form_Element_Text(
         'JShieldNames',
         NULL,
@@ -1607,8 +1490,7 @@ function themeConfig($form)
          例如：伦理片 || 电视剧'
     );
     $JShieldNames->setAttribute('class', 'j-setting-content j-setting-other');
-    $form->addInput($JShieldNames);
-
+    $form->addInput($JShieldNames);
     $JProhibitWords = new Typecho_Widget_Helper_Form_Element_Textarea(
         'JProhibitWords',
         NULL,
@@ -1620,8 +1502,7 @@ function themeConfig($form)
          '
     );
     $JProhibitWords->setAttribute('class', 'j-setting-content j-setting-other');
-    $form->addInput($JProhibitWords);
-
+    $form->addInput($JProhibitWords);
     $JProhibitScript = new Typecho_Widget_Helper_Form_Element_Select(
         'JProhibitScript',
         array('off' => '关闭（默认）', 'on' => '开启'),
@@ -1630,8 +1511,7 @@ function themeConfig($form)
         '介绍：开启后将禁止a标签的脚本回复'
     );
     $JProhibitScript->setAttribute('class', 'j-setting-content j-setting-other');
-    $form->addInput($JProhibitScript->multiMode());
-
+    $form->addInput($JProhibitScript->multiMode());
     $JProhibitEmsp = new Typecho_Widget_Helper_Form_Element_Select(
         'JProhibitEmsp',
         array('off' => '关闭（默认）', 'on' => '开启'),
@@ -1640,8 +1520,7 @@ function themeConfig($form)
         '介绍：开启后使用空格恶意评论回复将被禁止'
     );
     $JProhibitEmsp->setAttribute('class', 'j-setting-content j-setting-other');
-    $form->addInput($JProhibitEmsp->multiMode());
-
+    $form->addInput($JProhibitEmsp->multiMode());
     $JProhibitChinese = new Typecho_Widget_Helper_Form_Element_Select(
         'JProhibitChinese',
         array('off' => '关闭（默认）', 'on' => '开启'),
@@ -1650,8 +1529,7 @@ function themeConfig($form)
         '介绍：开启后如果无中文，则禁止评论，有效屏蔽老外垃圾评论'
     );
     $JProhibitChinese->setAttribute('class', 'j-setting-content j-setting-other');
-    $form->addInput($JProhibitChinese->multiMode());
-
+    $form->addInput($JProhibitChinese->multiMode());
     $JCommentImg = new Typecho_Widget_Helper_Form_Element_Select(
         'JCommentImg',
         array('off' => '关闭（默认）', 'on' => '开启'),
@@ -1660,8 +1538,7 @@ function themeConfig($form)
         '介绍：开启后，评论区域可以选择图片进行评论'
     );
     $JCommentImg->setAttribute('class', 'j-setting-content j-setting-other');
-    $form->addInput($JCommentImg->multiMode());
-
+    $form->addInput($JCommentImg->multiMode());
     $JCommentIp = new Typecho_Widget_Helper_Form_Element_Select(
         'JCommentIp',
         array('off' => '关闭（默认）', 'on' => '开启'),
@@ -1670,8 +1547,7 @@ function themeConfig($form)
         '介绍：开启后评论区会显示IP归属地。'
     );
     $JCommentIp->setAttribute('class', 'j-setting-content j-setting-other');
-    $form->addInput($JCommentIp->multiMode());
-
+    $form->addInput($JCommentIp->multiMode());
     $JDynamicComment = new Typecho_Widget_Helper_Form_Element_Select(
         'JDynamicComment',
         array('off' => '关闭（默认）', 'on' => '开启'),
@@ -1680,8 +1556,7 @@ function themeConfig($form)
         '介绍：开启后，动态页面将会显示评论按钮'
     );
     $JDynamicComment->setAttribute('class', 'j-setting-content j-setting-other');
-    $form->addInput($JDynamicComment->multiMode());
-    
+    $form->addInput($JDynamicComment->multiMode());
     $JDynamicCommentIp = new Typecho_Widget_Helper_Form_Element_Select(
         'JDynamicCommentIp',
         array('off' => '关闭（默认）', 'on' => '开启'),
@@ -1690,8 +1565,7 @@ function themeConfig($form)
         '介绍：开启后动态页面会显示IP归属地。'
     );
     $JDynamicCommentIp->setAttribute('class', 'j-setting-content j-setting-other');
-    $form->addInput($JDynamicCommentIp->multiMode());
-    
+    $form->addInput($JDynamicCommentIp->multiMode());
         // 哀悼模式
     $aidao_ri = new Typecho_Widget_Helper_Form_Element_Radio(
         'aidao_ri',

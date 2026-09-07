@@ -12,16 +12,14 @@
                 TabItems.forEach(function (_item) {
                     return _item.classList.remove('active');
                 });
-                item.classList.add('active');
-
+                item.classList.add('active');
                 if (item.getAttribute('data-current') === 'j-setting-notice') {
                     Notice.style.display = 'block';
                     Form.style.display = 'none';
                 } else {
                     Form.style.display = 'block';
                     Notice.style.display = 'none';
-                }
-
+                }
                 Content.forEach(function (_item) {
                     _item.style.display = 'none';
                     if (_item.classList.contains(item.getAttribute('data-current'))) _item.style.display = 'block';
@@ -36,8 +34,7 @@
             } else {
                 Form.style.display = 'block';
                 Notice.style.display = 'none';
-            }
-
+            }
             TabItems.forEach(function (item) {
                 if (item.getAttribute('data-current') === sessionStorage.getItem('j-setting-current')) {
                     item.classList.add('active');

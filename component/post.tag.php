@@ -24,14 +24,13 @@
             </section>
         </section>
     </section>
-</section>
-
+</section>
 <script>
 				
 				function allstop(){
 					var alla = document.getElementsByTagName('audio');
 					for ( var i=0;i<alla.length;i++ ) {
-    alla[i].pause();      
+    alla[i].pause();
 }
 				}	
 </script>

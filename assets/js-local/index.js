@@ -24,6 +24,5 @@
             $('#navgation').removeClass('navgation_open').addClass('navgation_close');
             $(this).attr({ 'data-mark': "false" });
         }
-    });
-
+    });
 });

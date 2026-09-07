@@ -212,8 +212,7 @@
                 end: () => {
                     $(".j-loading").remove()
                 }
-            }
-
+            }
         })(window)
     </script>
 <?php endif; ?>

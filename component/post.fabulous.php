@@ -16,8 +16,7 @@
             </section>
         <?php endif; ?>
     </div>
-</section>
-
+</section>
 <?php if ($this->options->JAdmire) : ?>
     <section class="j-admire-modal j-modal-mask">
         <section class="content">
@@ -27,9 +26,7 @@
             </section>
             <section class="tips">
                 <img src="<?php echo autoCdnUrl('assets/img/tips.png'); ?>">
-            </section>
-            
-            
+            </section>
             <svg class="close" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
                 <path d="M6.713 512C6.713 232.562 233.13 6.2 512 6.2c278.926 0 505.287 226.362 505.287 505.288V512A504.718 504.718 0 0 1 512 1017.287 505.116 505.116 0 0 1 6.713 512z m539.079 0l176.47-176.47a22.983 22.983 0 0 0 0-32.71l-1.082-1.081a22.983 22.983 0 0 0-32.71 0L512 478.72 335.53 301.739a22.983 22.983 0 0 0-32.71 0l-1.081 1.08a22.983 22.983 0 0 0 0 32.712l176.469 176.981-176.47 176.47a22.983 22.983 0 0 0 0 32.767l1.082 1.024a22.983 22.983 0 0 0 32.71 0L512 546.304l176.47 176.47a22.983 22.983 0 0 0 32.71 0l1.081-1.025a22.983 22.983 0 0 0 0-32.768L545.792 512z" p-id="13836"></path>
             </svg>

@@ -961,7 +961,7 @@ THREE.Matrix4.prototype = {
         this.flat[13] = this.n24;
         this.flat[14] = this.n34;
         this.flat[15] = this.n44;
-        return this.flat
+        return this.fla
     },
     flattenToArray: function(a) {
         a[0] = this.n11;
@@ -2220,7 +2220,7 @@ THREE.PerspectiveCamera.prototype.setViewOffset = function(a, b, c, d, f, e) {
 ;
 THREE.PerspectiveCamera.prototype.updateProjectionMatrix = function() {
     if (this.fullWidth) {
-        var a = this.fullWidth / this.fullHeight
+        var a = this.fullWidth / this.fullHeigh
           , b = Math.tan(this.fov * Math.PI / 360) * this.near
           , c = -b
           , d = a * c
@@ -3264,10 +3264,9 @@ THREE.RenderableLine = function() {
     this.v2 = new THREE.RenderableVertex;
     this.material = null
 }
-;
-
+;
 function randomRange(t, i) {
-    return Math.random() * (i - t) + t
+    return Math.random() * (i - t) +
 }
 Particle3D = function(t) {
     THREE.Particle.call(this, t),
@@ -3313,8 +3312,7 @@ THREE.Vector3.prototype.rotateZ = function(t) {
     this.y = o * cosRY + i * sinRY,
     this.x = o * -sinRY + i * cosRY
 }
-;
-
+;
 $(function() {
     var container = document.querySelector(".snow-container");
     if (/MSIE 6|MSIE 7|MSIE 8/.test(navigator.userAgent)) {

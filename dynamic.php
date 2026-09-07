@@ -1,31 +1,23 @@
-<?php
-
+<?php
 /**
  * 动态
- * 
- * @package custom 
- * 
- **/
-
-?>
-
+ *
+ * @package custom
+ *
+ **/
+?>
 <?php $this->need('public/prevent.php'); ?>
-<?php $this->need('public/defend.php'); ?>
-
+<?php $this->need('public/defend.php'); ?>
 <!DOCTYPE html>
-<html lang="zh-CN" data-color-mode="<?php if($_COOKIE['night']=='1')echo 'dark';else echo 'light'; ?>">
-
+<html lang="zh-CN" data-color-mode="<?php echo (isset($_COOKIE['night']) && $_COOKIE['night'] === '1') ? 'dark' : 'light'; ?>">
 <head>
     <?php $this->need('public/head.php'); ?>
-</head>
-
+</head>
 <body>
-    <?php $this->options->JCustomBodyStart() ?>
-
+    <?php $this->options->JCustomBodyStart() ?>
     <section id="joe">
         <!-- 头部 -->
-        <?php $this->need('public/header.php'); ?>
-
+        <?php $this->need('public/header.php'); ?>
         <!-- 主体 -->
         <section class="container j-post">
             <section class="j-adaption">
@@ -34,14 +26,11 @@
             <?php if ($this->options->JPostAsideStatus === 'on' && $this->fields->aside !== 'off') : ?>
                 <?php $this->need('public/aside.php'); ?>
             <?php endif; ?>
-        </section>
-
+        </section>
         <!-- 尾部 -->
         <?php $this->need('public/footer.php'); ?>
-    </section>
-
+    </section>
     <!-- 配置文件 -->
     <?php $this->need('public/config.php'); ?>
-</body>
-
+</body>
 </html>

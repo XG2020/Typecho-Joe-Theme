@@ -33,16 +33,14 @@
         alert('当前站点不支持IE浏览器，请切换其他浏览器！')
         location.href = "https://baidu.com"
     }
-</script>
-
+</script>
 <script src="<?php echo autoCdnUrl('assets/js-local/npm/jquery.min.js'); ?>"></script>
 <script src="<?php echo autoCdnUrl('assets/js-local/alert.js'); ?>"></script>
 <script src="<?php echo autoCdnUrl('assets/js/snow.js'); ?>"></script>
 <link rel="stylesheet" type="text/css" href="<?php echo autoCdnUrl('assets/css-local/alert.css'); ?>">
 <link rel="stylesheet" type="text/css" href="<?php echo autoCdnUrl('assets/css-local/btn.css'); ?>">
 <!-- favicon图标 -->
-<link rel="shortcut icon" href="<?php echo $this->options->JFavicon ? $this->options->JFavicon : 'https://xggm.top/logo1.png'; ?>" />
-
+<link rel="shortcut icon" href="<?php echo htmlspecialchars($this->options->JFavicon ? $this->options->JFavicon : 'https://xggm.top/logo1.png', ENT_QUOTES, 'UTF-8'); ?>" />
 <!-- Typecho自有函数 -->
 <?php if ($this->is('single')) : ?>
     <meta name="description" content="<?php $this->fields->desc(); ?>" />
@@ -50,8 +48,7 @@
     <?php $this->header('keywords=&description='); ?>
 <?php else : ?>
     <?php $this->header(); ?>
-<?php endif; ?>
-
+<?php endif; ?>
 <!-- 网站标题 -->
 <title>
     <?php if ($this->_currentPage > 1) echo '第 ' . $this->_currentPage . ' 页 - '; ?>
@@ -64,44 +61,35 @@
         ' - '
     ); ?>
     <?php $this->options->title(); ?>
-</title>
-
+</title>
 <link rel="stylesheet" type="text/css" href="<?php echo autoCdnUrl('assets/css-local/npm/bootstrap-grid.min.css'); ?>">
 <link rel="stylesheet" type="text/css" href="<?php echo autoCdnUrl('assets/css-local/npm/jquery.fancybox.min.css'); ?>">
-<link rel="stylesheet" type="text/css" href="<?php echo autoCdnUrl('assets/css-local/npm/animate.min.css'); ?>">
-
+<link rel="stylesheet" type="text/css" href="<?php echo autoCdnUrl('assets/css-local/npm/animate.min.css'); ?>">
 <!-- 颜色选择器 -->
 <?php if ($this->options->JGlobalThemeStatus === 'on') : ?>
     <link rel="stylesheet" type="text/css" href="<?php echo autoCdnUrl('assets/css-local/npm/colpick.min.css'); ?>">
-<?php endif; ?>
-
+<?php endif; ?>
 <!-- 代码高亮 -->
 <?php if ($this->options->JCodeColor !== 'off') : ?>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.2.1/build/styles/<?php $this->options->JCodeColor() ?>.min.css">
-<?php endif; ?>
-
+<?php endif; ?>
 <!-- 页面加载 -->
 <?php if ($this->options->JPageLoading !== "off") : ?>
     <link rel="stylesheet" type="text/css" href="<?php echo autoCdnUrl('assets/css-local/npm/fakeLoader.min.css'); ?>">
-<?php endif; ?>
-
+<?php endif; ?>
 <!-- 播放器 -->
 <?php if ($this->options->JPlayer) : ?>
     <link rel="stylesheet" type="text/css" href="<?php echo autoCdnUrl('assets/css-local/npm/APlayer.min.css'); ?>">
-<?php endif; ?>
-
+<?php endif; ?>
 <!-- 轮播图 -->
 <?php if ($this->options->JIndexCarousel) : ?>
     <link rel="stylesheet" type="text/css" href="<?php echo autoCdnUrl('assets/css-local/npm/swiper.min.css'); ?>">
-<?php endif; ?>
-
+<?php endif; ?>
 <link rel="stylesheet" href="<?php echo autoCdnUrl('assets/css/OwO.min.css'); ?>" />
 <link rel="stylesheet" href="<?php echo autoCdnUrl('assets/css/joe.min.css'); ?>" />
-<link rel="stylesheet" href="<?php echo autoCdnUrl('assets/css/joe.responsive.min.css'); ?>" />
-
+<link rel="stylesheet" href="<?php echo autoCdnUrl('assets/css/joe.responsive.min.css'); ?>" />
 <!-- joe 弹窗提示 -->
-<link rel="stylesheet" type="text/css" href="<?php echo autoCdnUrl('assets/css-local/npm/joe.toast.min.css'); ?>">
-
+<link rel="stylesheet" type="text/css" href="<?php echo autoCdnUrl('assets/css-local/npm/joe.toast.min.css'); ?>">
 <style>
     :root {
         --element: #409eff;
@@ -110,7 +98,7 @@
         --classB: <?php echo $this->options->JClassB ? $this->options->JClassB : '#e4e7ed' ?>;
         --classC: <?php echo $this->options->JClassC ? $this->options->JClassC : '#ebeef5' ?>;
         --classD: <?php echo $this->options->JClassD ? $this->options->JClassD : '#f2f6fc' ?>;
-        --main: <?php echo $this->options->JMainColor ? $this->options->JMainColor : '#303133' ?>;        
+        --main: <?php echo $this->options->JMainColor ? $this->options->JMainColor : '#303133' ?>;
         --minor: <?php echo $this->options->JMinorColor ? $this->options->JMinorColor : '#38383a' ?>;
         --seat: <?php echo $this->options->JSeatColor ? $this->options->JSeatColor : '#c0c4cc' ?>;
         --success: <?php echo $this->options->JSuccessColor ? $this->options->JSuccessColor : '#67c23a' ?>;
@@ -123,19 +111,13 @@
         --box-shadow: <?php echo $this->options->JBoxShadow ? $this->options->JBoxShadow : '0px 0px 20px -5px rgba(158, 158, 158, 0.22)' ?>;
         --background: <?php echo $this->options->JCardBackground ? $this->options->JCardBackground : '#fff' ?>;
         --swiper-theme-color: #fff !important;
-    }
-    
-
+    }
     .comment-list video{border: 0;max-height: 80%; max-width: 100%}
-    .comment-list img {max-width:210px;max-height:210px;-o-object-fit: cover;object-fit: cover;}
-
+    .comment-list img {max-width:210px;max-height:210px;-o-object-fit: cover;object-fit: cover;}
     <?php $this->options->JCustomCSS() ?>
-</style>
-
-<?php $this->need('public/configure.php'); ?>
-
-<?php $this->options->JCustomHeadEnd() ?>
-
+</style>
+<?php $this->need('public/configure.php'); ?>
+<?php $this->options->JCustomHeadEnd() ?>
 <?php if($this -> options -> aidao_ri == '1'): ?>
 <style>html {-webkit-filter: grayscale(100%);}</style>
 <?php endif; ?>

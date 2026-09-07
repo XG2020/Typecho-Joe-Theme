@@ -40,8 +40,7 @@ function threadedComments($comments, $options)
                     <?php endif; ?>
                 </div>
             </div>
-        </div>
-
+        </div>
         <?php if ($comments->children) { ?>
             <div class="list">
                 <?php
@@ -53,8 +52,7 @@ function threadedComments($comments, $options)
                     </div>
                 <?php } ?>
             </div>
-        <?php } ?>
-
+        <?php } ?>
         <?php if (Helper::options()->JDynamicComment === 'on') : ?>
             <form class="reply j-dynamic-reply">
                 <input type="hidden" name="parent" value="<?php $comments->coid(); ?>">
@@ -71,8 +69,7 @@ function threadedComments($comments, $options)
             </form>
         <?php endif; ?>
     </li>
-<?php } ?>
-
+<?php } ?>
 <?php $this->comments()->to($comments); ?>
 <div class="j-dynamic" id="markdown">
     <input type="hidden" class="j-comment-url" value="<?php $this->commentUrl() ?>">
@@ -98,10 +95,8 @@ function threadedComments($comments, $options)
                 </div>
             </form>
         </div>
-    <?php endif; ?>
-
-    <?php $comments->listComments(); ?>
-
+    <?php endif; ?>
+    <?php $comments->listComments(); ?>
     <?php $comments->pageNav(
         '<svg viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg"><path d="M822.272 146.944l-396.8 396.8c-19.456 19.456-51.2 19.456-70.656 0-18.944-19.456-18.944-51.2 0-70.656l396.8-396.8c19.456-19.456 51.2-19.456 70.656 0 18.944 19.456 18.944 45.056 0 70.656z" fill="" p-id="9417"></path><path d="M745.472 940.544l-396.8-396.8c-19.456-19.456-19.456-51.2 0-70.656 19.456-19.456 51.2-19.456 70.656 0l403.456 390.144c19.456 25.6 19.456 51.2 0 76.8-26.112 19.968-51.712 19.968-77.312 0.512zM181.248 877.056c0-3.584 0-7.68 0.512-11.264h-0.512V151.552h0.512c-0.512-3.584-0.512-7.168-0.512-11.264 0-43.008 21.504-78.336 48.128-78.336s48.128 34.816 48.128 78.336c0 3.584 0 7.68-0.512 11.264h0.512V865.792h-0.512c0.512 3.584 0.512 7.168 0.512 11.264 0 43.008-21.504 78.336-48.128 78.336s-48.128-35.328-48.128-78.336z"></path></svg>',
         '<svg viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg"><path d="M822.272 146.944l-396.8 396.8c-19.456 19.456-51.2 19.456-70.656 0-18.944-19.456-18.944-51.2 0-70.656l396.8-396.8c19.456-19.456 51.2-19.456 70.656 0 18.944 19.456 18.944 45.056 0 70.656z" fill="" p-id="9417"></path><path d="M745.472 940.544l-396.8-396.8c-19.456-19.456-19.456-51.2 0-70.656 19.456-19.456 51.2-19.456 70.656 0l403.456 390.144c19.456 25.6 19.456 51.2 0 76.8-26.112 19.968-51.712 19.968-77.312 0.512zM181.248 877.056c0-3.584 0-7.68 0.512-11.264h-0.512V151.552h0.512c-0.512-3.584-0.512-7.168-0.512-11.264 0-43.008 21.504-78.336 48.128-78.336s48.128 34.816 48.128 78.336c0 3.584 0 7.68-0.512 11.264h0.512V865.792h-0.512c0.512 3.584 0.512 7.168 0.512 11.264 0 43.008-21.504 78.336-48.128 78.336s-48.128-35.328-48.128-78.336z"></path></svg>',

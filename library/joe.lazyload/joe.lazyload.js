@@ -33,4 +33,4 @@ class LazyLoad {
         this.canILoad();
         this.bindEvent();
     }
-}
+}

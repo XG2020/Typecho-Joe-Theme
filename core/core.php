@@ -3,29 +3,22 @@ define("THEME_URL", str_replace('//usr', '/usr', str_replace(Helper::options()->
 $str1 = explode('/themes/', (THEME_URL . '/'));
 $str2 = explode('/', $str1[1]);
 define("THEME_NAME", $str2[0]);
-require 'ipdata.class.php';
-
+require 'ipdata.class.php';
 /* 获取模板版本号 */
 function JoeVersion()
 {
     return "1.2.0";
-}
-
+}
 function autoCdnUrl($path) {
-    if (Helper::options()->JCDNUrl) {
-        $url = Helper::options()->JCDNUrl;
-        if (substr($url, strlen($url) - 1) != "/") {
-            $url = $url . '/';
-        }
-        if (substr($path, 0, 1) == "/") {
-            $path = substr($path, 1);
-        }
-        return  $url . $path;
-    } else {
-        Helper::options()->themeUrl($path);
+    $path = ltrim((string) $path, '/');
+    $cdnUrl = trim((string) Helper::options()->JCDNUrl);
+    if ($cdnUrl !== '') {
+        return rtrim($cdnUrl, '/') . '/' . $path;
     }
-}
-
+    // themeUrl() returns the resolved local URL; returning it is importan
+    // because callers use this helper inside HTML attributes.
+    return Typecho_Common::url($path, Helper::options()->themeUrl);
+}
 /* 获取懒加载图片 */
 function GetLazyLoad()
 {
@@ -34,30 +27,25 @@ function GetLazyLoad()
     } else {
         return autoCdnUrl("/assets/img/lazyload.jpg");
     }
-}
-
+}
 /* 获取模板内置播放器 */
 function GetDplayer()
 {
     return THEME_URL . '/player.php';
-}
-
+}
 /** 获取评论者归属地信息 */
-function convertip($ip){  
+function convertip($ip){
 echo convertips($ip);
-}
-
+}
 function GetPlyr()
 {
     return THEME_URL . '/plyr.php';
-}
-
+}
 function imgNum($content){
 $output = preg_match_all('#<img(.*?) src="([^"]*/)?(([^"/]*)\.[^"]*)"(.*?)>#', $content,$s);
 $cnt = count( $s[1] );
 return $cnt;
-}
-
+}
 /* 作者认证等级 */
 function dengji($id){
     $db=Typecho_Db::get();
@@ -65,6 +53,9 @@ function dengji($id){
     $rbq=$mail['rbq'];
     if ($id == 1){
          echo '<span style="background-color:#000; color:#ffe000;" class="dengji"><b>博 主</b></span>';
+    }
+    if ($id == 1) {
+        return;
     }
     if($rbq<1){
     echo '<span class="dengji">小白</span>';
@@ -76,13 +67,12 @@ function dengji($id){
     echo '<span class="dengji">大黑</span>';
     }elseif ($rbq<80 && $rbq>=50) {
     echo '<span class="dengji">大佬</span>';
-    }elseif ($rbq<150 && $rbq>=90) {
+    }elseif ($rbq<150 && $rbq>=80) {
     echo '<span class="dengji">神仙</span>';
-    }elseif ($rbq>=200) {
+    }elseif ($rbq>=150) {
     echo '<span class="dengji">归隐</span>';
     }
-}
-
+}
 /* 评论者认证等级 */
 function dengji1($i){
     $db=Typecho_Db::get();
@@ -92,10 +82,11 @@ function dengji1($i){
     }
     if ($i == '1401668510@qq.com'){
          echo '<span style="background-color:#000; color:#ffe000;" class="dengji"><b>博 主</b></span>';
+         return;
     }
     if($rbq<10){
     echo '<span class="dengji">打酱油</span>';
-    }elseif ($rbq<20 && $rbq>10) {
+    }elseif ($rbq<20 && $rbq>=10) {
     echo '<span class="dengji">初入江湖</span>';
     }elseif ($rbq<40 && $rbq>=20) {
     echo '<span class="dengji">小有名气</span>';
@@ -105,68 +96,70 @@ function dengji1($i){
     echo '<span class="dengji">武林盟主</span>';
     }elseif ($rbq<180 && $rbq>=120) {
     echo '<span class="dengji">笑傲江湖</span>';
-    }elseif ($rbq>=999) {
+    }elseif ($rbq>=180) {
     echo '<span class="dengji">独孤求败</span>';
     }
 }
-        //  echo '<span style="background-color:#fff0;" class="dengji"><img style="width: 30px;" src="https://xggm.top/dengji/v1.png"></span>';
-
+        //  echo '<span style="background-color:#fff0;" class="dengji"><img style="width: 30px;" src="https://xggm.top/dengji/v1.png"></span>';
 /* 用户主页链接*/
 function getUserPermalink($uid){
     return Helper::options()->index.'/author/'.$uid;
-}
-
+}
 //调用博主最近登录时间
-function get_last_login($user){
-    $user   = '1';
+function get_last_login($user = 1){
     $now = time();
     $db     = Typecho_Db::get();
-    $prefix = $db->getPrefix();
     $row = $db->fetchRow($db->select('activated')->from('table.users')->where('uid = ?', $user));
-    echo Typecho_I18n::dateWord($row['activated'], $now);
+    if (!empty($row['activated'])) {
+        echo Typecho_I18n::dateWord($row['activated'], $now);
+    }
 }
-
 //在线人数
 function online_users() {
-    $filename='online.txt'; //数据文件
+    $filename = defined('__TYPECHO_ROOT_DIR__')
+        ? __TYPECHO_ROOT_DIR__ . '/online.txt'
+        : dirname(dirname(dirname(dirname(__FILE__)))) . '/online.txt';
     $cookiename='Nanlon_OnLineCount'; //Cookie名称
     $onlinetime=30; //在线有效时间
-    $online=file($filename); 
-    $nowtime=$_SERVER['REQUEST_TIME']; 
-    $nowonline=array(); 
-    foreach($online as $line){ 
-        $row=explode('|',$line); 
-        $sesstime=trim($row[1]); 
-        if(($nowtime - $sesstime)<=$onlinetime){
-            $nowonline[$row[0]]=$sesstime;
-        } 
-    } 
+    $online = is_file($filename) ? file($filename, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES) : array();
+    $nowtime = isset($_SERVER['REQUEST_TIME']) ? (int) $_SERVER['REQUEST_TIME'] : time();
+    $nowonline=array();
+    foreach($online as $line){
+        $row = explode('|', $line, 2);
+        if (count($row) !== 2) {
+            continue;
+        }
+        $sesstime = (int) trim($row[1]);
+        if (($nowtime - $sesstime) <= $onlinetime) {
+            $nowonline[$row[0]] = $sesstime;
+        }
+    }
     if(isset($_COOKIE[$cookiename])){
-        $uid=$_COOKIE[$cookiename]; 
+        $uid=$_COOKIE[$cookiename];
     }else{
         $vid=0;
         do{
-            $vid++; 
-            $uid='U'.$vid; 
-        }while(array_key_exists($uid,$nowonline)); 
-        setcookie($cookiename,$uid); 
-    } 
+            $vid++;
+            $uid='U'.$vid;
+        }while(array_key_exists($uid,$nowonline));
+        setcookie($cookiename, $uid, time() + 86400, '/');
+    }
     $nowonline[$uid]=$nowtime;
-    $total_online=count($nowonline); 
-    if($fp=@fopen($filename,'w')){ 
-        if(flock($fp,LOCK_EX)){ 
-            rewind($fp); 
-            foreach($nowonline as $fuid=>$ftime){ 
-                $fline=$fuid.'|'.$ftime."\n"; 
-                @fputs($fp,$fline); 
-            } 
-            flock($fp,LOCK_UN); 
-            fclose($fp); 
-        } 
-    } 
-    echo "$total_online"; 
-} 
-
+    $total_online=count($nowonline);
+    if ($fp = @fopen($filename, 'c+')) {
+        if (flock($fp, LOCK_EX)) {
+            ftruncate($fp, 0);
+            rewind($fp);
+            foreach($nowonline as $fuid=>$ftime){
+                $fline=$fuid.'|'.$ftime."\n";
+                @fputs($fp,$fline);
+            }
+            flock($fp,LOCK_UN);
+            fclose($fp);
+        }
+    }
+    echo "$total_online";
+}
 /*百度收录*/
 function baidu_record() {
 $url='http://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
@@ -188,16 +181,14 @@ return 1;
 } else {
 return -1;
 }
-}
-
+}
 /*文章字数统计*/
 function art_count ($cid){
 $db=Typecho_Db::get ();
 $rs=$db->fetchRow ($db->select ('table.contents.text')->from ('table.contents')->where ('table.contents.cid=?',$cid)->order ('table.contents.cid',Typecho_Db::SORT_ASC)->limit (1));
 $text = preg_replace("/[^\x{4e00}-\x{9fa5}]/u", "", $rs['text']);
 echo mb_strlen($text,'UTF-8');
-}
-
+}
 /*会员页判断是否会员id*/
 function userok($id){
 $db = Typecho_Db::get();
@@ -215,19 +206,17 @@ function allviewnum($id){
     }
     elseif ($postnum>=1000000) {
         return '访问 100万+℃';
-    }   
+    }
     else{
         return '访问 '.$postnum.' ℃ ';
-    }
-
-}
-
+    }
+}
 /*当前作者文章数*/
 function allpostnum($id){
     $db = Typecho_Db::get();
     $postnum=$db->fetchRow($db->select(array('COUNT(authorId)'=>'allpostnum'))->from ('table.contents')->where ('table.contents.authorId=?',$id)->where('table.contents.type=?', 'post'));
     $postnum = $postnum['allpostnum'];
-    return $postnum;    
+    return $postnum;
 }
 /*当前作者评论总数*/
 function commentnum($id){
@@ -235,8 +224,7 @@ function commentnum($id){
     $commentnum=$db->fetchRow($db->select(array('COUNT(authorId)'=>'commentnum'))->from ('table.comments')->where ('table.comments.authorId=?',$id)->where('table.comments.type=?', 'comment'));
     $commentnum = $commentnum['commentnum'];
     return $commentnum;
-}
-
+}
 /* 生成目录树 */
 function CreateCatalog($obj)
 {
@@ -283,19 +271,16 @@ function GetCatalog()
             $index .= '<li><a href="javascript: void(0)" data-href="#cl-' . $catalog_item['count'] . '">' . $catalog_item['text'] . '</a>';
             $prev_depth = $catalog_item['depth'];
         }
-        for ($i = 0; $i <= $to_depth; $i++) {
-
+        for ($i = 0; $i <= $to_depth; $i++) {
             $index .= '</li></ul>';
         }
         $index = '<div class="j-floor"><div class="contain" id="jFloor"><div class="title">文章目录</div>' . $index . '<svg class="toc-marker" xmlns="http://www.w3.org/2000/svg"><path stroke="var(--theme)" stroke-width="3" fill="transparent" stroke-dasharray="0, 0, 0, 1000" stroke-linecap="round" stroke-linejoin="round" transform="translate(-0.5, -0.5)" /></svg></div></div>';
     }
     echo $index;
-}
-
+}
 /* 格式化标签 */
 function ParseCode($text)
-{
-
+{
     /* 初始化图片为懒加载 */
     $text = Short_Lazyload($text);
     /* 图片短代码 */
@@ -333,16 +318,14 @@ function ParseCode($text)
     /* 视频列表短代码 */
     $text = Short_Video_List($text);
     return $text;
-}
-
+}
 function Short_Lazyload($text)
 {
     $text = preg_replace_callback('/<img src=\"(.*?)\".*?>/ism', function ($text) {
         return '<img class="lazyload" data-original="' . $text[1] . '" src="' . GetLazyLoad() . '" />';
     }, $text);
     return $text;
-}
-
+}
 function Short_Photo($text)
 {
     $text = preg_replace_callback('/<p>\[photo\](.*?)\[\/photo\]<\/p>/ism', function ($text) {
@@ -355,26 +338,21 @@ function Short_Photo($text)
         return '<div class="j-photos">' . $text[1] . '</div>';
     }, $text);
     return $text;
-}
-
+}
 function Short_Tag($text)
 {
     $text = preg_replace_callback('/\[tag type=\"(.*?)\".*?\](.*?)\[\/tag\]/ism', function ($text) {
         return '<span class="j-tag ' . $text[1] . '">' . $text[2] . '</span>';
-    }, $text);
-
+    }, $text);
     return $text;
-}
-
+}
 function Short_Button($text)
 {
     $text = preg_replace_callback('/\[btn href=\"(.*?)\" type=\"(.*?)\".*?\](.*?)\[\/btn\]/ism', function ($text) {
         return '<a href="' . $text[1] . '" class="j-btn ' . $text[2] . '">' . $text[3] . '</a>';
     }, $text);
     return $text;
-}
-
-
+}
 function Short_Alt($text)
 {
     $text = preg_replace_callback('/<p>\[alt type=\"(.*?)\".*?\](.*?)\[\/alt\]<\/p>/ism', function ($text) {
@@ -384,8 +362,7 @@ function Short_Alt($text)
         return '<div class="j-alt ' . $text[1] . '">' . $text[2] . '</div>';
     }, $text);
     return $text;
-}
-
+}
 function Short_Line($text)
 {
     $text = preg_replace_callback('/<p>\[line\](.*?)\[\/line\]<\/p>/ism', function ($text) {
@@ -395,8 +372,7 @@ function Short_Line($text)
         return '<div class="j-line"><span>' . $text[1] . '</span></div>';
     }, $text);
     return $text;
-}
-
+}
 function Short_Tabs($text)
 {
     $text = preg_replace_callback('/<p>\[tabs\](.*?)\[\/tabs\]<\/p>/ism', function ($text) {
@@ -427,8 +403,7 @@ function Short_Tabs($text)
         return '<div class="j-tabs"><div class="nav">' . $tabname . '</div><div class="content">' . $tabcon . '</div></div>';
     }, $text);
     return $text;
-}
-
+}
 function Short_Card_default($text)
 {
     $text = preg_replace_callback('/<p>\[card-default width=\"(.*?)\" label=\"(.*?)\".*?\](.*?)\[\/card-default\]<\/p>/ism', function ($text) {
@@ -444,9 +419,7 @@ function Short_Card_default($text)
             </div>';
     }, $text);
     return $text;
-}
-
-
+}
 function Short_Collapse($text)
 {
     $text = preg_replace_callback('/<p>\[collapse\](.*?)\[\/collapse\]<\/p>/ism', function ($text) {
@@ -465,8 +438,7 @@ function Short_Collapse($text)
         return '<div class="collapse-head"><span>' . $text[1] . '</span><svg viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg"><path d="M21.6 772.8c28.8 28.8 74.4 28.8 103.2 0L512 385.6 899.2 772.8c28.8 28.8 74.4 28.8 103.2 0 28.8-28.8 28.8-74.4 0-103.2l-387.2-387.2-77.6-77.6c-14.4-14.4-37.6-14.4-51.2 0l-77.6 77.6-387.2 387.2c-28.8 28.8-28.8 75.2 0 103.2z"></path></svg></div><div class="collapse-body">' . $text[2] . '</div>';
     }, $text);
     return $text;
-}
-
+}
 function Short_Time_line($text)
 {
     $text = preg_replace_callback('/<p>\[timeline\](.*?)\[\/timeline\]<\/p>/ism', function ($text) {
@@ -485,24 +457,21 @@ function Short_Time_line($text)
         return '<div class="item">' . $text[1] . '</div>';
     }, $text);
     return $text;
-}
-
+}
 function Short_Copy($text)
 {
     $text = preg_replace_callback('/\[copy\](.*?)\[\/copy\]/ism', function ($text) {
         return '<span class="j-copy" data-copy="' . $text[1] . '">' . $text[1] . '</span>';
     }, $text);
     return $text;
-}
-
+}
 function Short_Typing($text)
 {
     $text = preg_replace_callback('/\[typing\](.*?)\[\/typing\]/ism', function ($text) {
         return '<span class="j-typing">' . $text[1] . '</span>';
     }, $text);
     return $text;
-}
-
+}
 function Short_Card_Nav($text)
 {
     $text = preg_replace_callback('/<p>\[card-nav\](.*?)\[\/card-nav\]<\/p>/ism', function ($text) {
@@ -537,61 +506,47 @@ function Short_Card_Nav($text)
                 </div>';
     }, $text);
     return $text;
-}
-
+}
 function Short_Dplayer($text)
 {
     $text = preg_replace_callback('/<p>\[dplayer src="(.*?)".*?\/]<\/p>/ism', function ($text) {
         return '[dplayer src="' . $text[1] . '" /]';
-    }, $text);
-
+    }, $text);
     $text = preg_replace_callback('/\[dplayer src="(.*?)".*?\/]/ism', function ($text) {
         return '<iframe scrolling="no" allowfullscreen="allowfullscreen" frameborder="0" width="100%" class="iframe-dplayer" src="' . GetDplayer() . '?url=' . $text[1] . '"></iframe>';
-    }, $text);
-
+    }, $text);
     return $text;
-}
-
+}
 function Short_Plyr($text)
 {
     $text = preg_replace_callback('/<p>\[plyr src="(.*?)".*?\/]<\/p>/ism', function ($text) {
         return '[plyr src="' . $text[1] . '" /]';
-    }, $text);
-
+    }, $text);
     $text = preg_replace_callback('/\[plyr src="(.*?)".*?\/]/ism', function ($text) {
         return '<iframe scrolling="no" allowfullscreen="allowfullscreen" frameborder="0" width="100%" class="iframe-dplayer" src="' . GetPlyr() . '?url=' . $text[1] . '"></iframe>';
-    }, $text);
-
+    }, $text);
     return $text;
-}
-
-
+}
 function Short_Music($text)
 {
     $text = preg_replace_callback('/<p>\[music id="(.*?)".*?\/]<\/p>/ism', function ($text) {
         return '[music id="' . $text[1] . '" /]';
-    }, $text);
-
+    }, $text);
     $text = preg_replace_callback('/\[music id="(.*?)".*?\/]/ism', function ($text) {
         return '<iframe class="iframe-music" frameborder="no" border="0" width="330" height="86" src="//music.163.com/outchain/player?type=2&id=' . $text[1] . '&auto=1&height=66"></iframe>';
-    }, $text);
-
+    }, $text);
     return $text;
-}
-
+}
 function Short_Music_List($text)
 {
     $text = preg_replace_callback('/<p>\[music-list id="(.*?)".*?\/]<\/p>/ism', function ($text) {
         return '[music-list id="' . $text[1] . '" /]';
-    }, $text);
-
+    }, $text);
     $text = preg_replace_callback('/\[music-list id="(.*?)".*?\/]/ism', function ($text) {
         return '<iframe class="iframe-music" frameborder="no" border="0" width="330" height="450" src="//music.163.com/outchain/player?type=0&id=' . $text[1] . '&auto=1&height=430"></iframe>';
-    }, $text);
-
+    }, $text);
     return $text;
-}
-
+}
 function Short_Video_List($text)
 {
     $text = preg_replace_callback('/<p>\[video](.*?)\[\/video]<\/p>/ism', function ($text) {
@@ -609,13 +564,9 @@ function Short_Video_List($text)
                         <svg t="1607510948740" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="19996" width="80" height="80"><path d="M512 65c247.424 0 448 200.576 448 448S759.424 961 512 961 64 760.424 64 513 264.576 65 512 65z m0 64c-212.077 0-384 171.923-384 384s171.923 384 384 384 384-171.923 384-384-171.923-384-384-384z m-63 214.657a64 64 0 0 1 33.593 9.525L655.857 460.03c30.086 18.552 39.435 57.982 20.882 88.067a64 64 0 0 1-21.324 21.152L482.151 674.17c-30.235 18.308-69.587 8.64-87.896-21.594A64 64 0 0 1 385 619.425V407.657c0-35.346 28.654-64 64-64z m1.196 74.49a8 8 0 0 0-1.196 4.207v183.432a8 8 0 0 0 12.15 6.84l149.688-90.851a8 8 0 0 0 0.057-13.643L461.208 415.55a8 8 0 0 0-11.012 2.595z" p-id="19997"></path></svg>
                     </div>
                 </div>';
-    }, $text);
-
+    }, $text);
     return $text;
-}
-
-
-
+}
 function themeInit($archive)
 {
     /* 强奸用户关闭反垃圾保护 */
@@ -627,8 +578,7 @@ function themeInit($archive)
     /* 强奸用户强制要求无需填写url */
     Helper::options()->commentsRequireURL = false;
     /* 强奸用户强制开启评论回复 */
-    Helper::options()->commentsThreaded = true;
-
+    Helper::options()->commentsThreaded = true;
     if ($archive->is('single')) {
         $archive->content = ParseReply($archive->content);
         $archive->content = CreateCatalog($archive->content);
@@ -638,10 +588,7 @@ function themeInit($archive)
         commentLike($archive->request->likeup);
         exit;
     }
-}
-
-
-
+}
 /* 请求 */
 function GetRequest($curl, $method = 'post', $data = null, $https = true)
 {
@@ -660,9 +607,7 @@ function GetRequest($curl, $method = 'post', $data = null, $https = true)
     $str = curl_exec($ch); //执行访问，返回结果
     curl_close($ch); //关闭curl，释放资源
     return $str;
-}
-
-
+}
 /* 解析头像 */
 function ParseAvatar($mail, $re = 0, $id = 0)
 {
@@ -684,8 +629,7 @@ function ParseAvatar($mail, $re = 0, $id = 0)
     } else {
         echo $g;
     }
-}
-
+}
 /* 获取父级评论 */
 function GetParentReply($parent)
 {
@@ -696,14 +640,11 @@ function GetParentReply($parent)
     $commentInfo = $db->fetchRow($db->select('author,status,mail')->from('table.comments')->where('coid = ?', $parent));
     $link = '<div class="parent">@' . $commentInfo['author'] .  '</div>';
     return $link;
-}
-
-
+}
 function ParsePaopaoBiaoqingCallback($match)
 {
     return '<img class="owo" src="' . autoCdnUrl('assets/owo/paopao/') . str_replace('%', '', urlencode($match[1])) . '_2x.png">';
-}
-
+}
 function ParseAruBiaoqingCallback($match)
 {
     return '<img class="owo" src="' . autoCdnUrl('assets/owo/aru/') . str_replace('%', '', urlencode($match[1])) . '_2x.png">';
@@ -711,32 +652,27 @@ function ParseAruBiaoqingCallback($match)
 function ParseBiliBiaoqingCallback($match)
 {
     return '<img class="owo" src="' . autoCdnUrl('assets/owo/bili/') . str_replace('%', '', urlencode($match[1])) . '_2x.png">';
-}
-
+}
 /* 格式化 */
 function ParseReply($content)
 {
     $content = preg_replace_callback(
         '/\:\:\(\s*(呵呵|哈哈|吐舌|太开心|笑眼|花心|小乖|乖|捂嘴笑|滑稽|你懂的|不高兴|怒|汗|黑线|泪|真棒|喷|惊哭|阴险|鄙视|酷|啊|狂汗|what|疑问|酸爽|呀咩爹|委屈|惊讶|睡觉|笑尿|挖鼻|吐|犀利|小红脸|懒得理|勉强|爱心|心碎|玫瑰|礼物|彩虹|太阳|星星月亮|钱币|茶杯|蛋糕|大拇指|胜利|haha|OK|沙发|手纸|香蕉|便便|药丸|红领巾|蜡烛|音乐|灯泡|开心|钱|咦|呼|冷|生气|弱|吐血)\s*\)/is',
         'ParsePaopaoBiaoqingCallback',
-        $content
+        $conten
     );
     $content = preg_replace_callback(
         '/\:\@\(\s*(高兴|小怒|脸红|内伤|装大款|赞一个|害羞|汗|吐血倒地|深思|不高兴|无语|亲亲|口水|尴尬|中指|想一想|哭泣|便便|献花|皱眉|傻笑|狂汗|吐|喷水|看不见|鼓掌|阴暗|长草|献黄瓜|邪恶|期待|得意|吐舌|喷血|无所谓|观察|暗地观察|肿包|中枪|大囧|呲牙|抠鼻|不说话|咽气|欢呼|锁眉|蜡烛|坐等|击掌|惊喜|喜极而泣|抽烟|不出所料|愤怒|无奈|黑线|投降|看热闹|扇耳光|小眼睛|中刀)\s*\)/is',
         'ParseAruBiaoqingCallback',
-        $content
+        $conten
     );
     $content = preg_replace_callback(
         '/\:\%\(\s*(脱单doge|热|微笑|口罩|doge|妙啊|OK|星星眼|辣眼睛|吃瓜|滑稽|呲牙|打call|歪嘴|调皮|虎年|豹富|嗑瓜子|笑哭|藏狐|脸红|给心心|嘟嘟|哦呼|喜欢|酸了|嫌弃|大哭|害羞|疑惑|喜极而泣|奸笑|笑|偷笑|惊讶|捂脸|阴险|囧|呆|抠鼻|大笑|惊喜|无语|点赞|鼓掌|尴尬|灵魂出窍|委屈|傲娇|疼|冷|生病|吓|吐|捂眼|嘘声|思考|再见|翻白眼|哈欠|奋斗|墨镜|难过|撇嘴|抓狂|生气|奶茶干杯|汤圆|锦鲤|福到了|鸡腿|雪花|干杯|黑洞|爱心|胜利|加油|抱拳|响指|保佑|支持|拥抱|跪了|怪我咯|老鼠|牛年|洛天依|坎公骑冠剑_吃鸡|坎公骑冠剑_钻石|坎公骑冠剑_无语|来古-沉思|来古-呆滞|来古-疑问|来古-震撼|来古-注意|原神_哇|原神_哼|原神_嗯|原神_欸嘿|原神_喝茶|原神_生气|保卫萝卜_白眼|保卫萝卜_笔芯|保卫萝卜_哭哭|保卫萝卜_哇|保卫萝卜_问号|无悔华夏_不愧是你|无悔华夏_吃瓜|无悔华夏_达咩|无悔华夏_点赞|无悔华夏_好耶|奥比岛_搬砖|奥比岛_点赞|奥比岛_击爪|奥比岛_委屈|奥比岛_喜欢)\s*\)/is',
         'ParseBiliBiaoqingCallback',
-        $content
-    );    
+        $conten
+    );
     return $content;
-}
-
-
-
-
+}
 /* 判断是否是移动端 */
 function isMobile()
 {
@@ -756,8 +692,7 @@ function isMobile()
         }
     }
     return false;
-}
-
+}
 /* 页面加载计时 */
 timerStart();
 function timerStart()
@@ -778,9 +713,7 @@ function timerStop($display = 0, $precision = 3)
         echo $r;
     }
     return $r;
-}
-
-
+}
 /* 热门文章 */
 class Widget_Post_hot extends Widget_Abstract_Contents
 {
@@ -800,14 +733,13 @@ class Widget_Post_hot extends Widget_Abstract_Contents
             ->order('table.contents.views', Typecho_Db::SORT_DESC);
         $this->db->fetchAll($select, array($this, 'push'));
     }
-}
-
+}
 /* 随机图片 */
 function GetRandomThumbnail($widget)
 {
     $random = 'https://api.btstu.cn/sjbz/api.php?lx=dongman&format=images' . rand(1, 25);
     if (Helper::options()->Jmos) {
-        $moszu = explode("\r\n", Helper::options()->Jmos);
+        $moszu = explode("\n", Helper::options()->Jmos);
         $random = $moszu[array_rand($moszu, 1)] . "?jrandom=" . mt_rand(0, 1000000);
     }
     $pattern = '/\<img.*?src\=\"(.*?)\"[^>]*>/i';
@@ -825,9 +757,7 @@ function GetRandomThumbnail($widget)
         $img = $thumbUrl[1][0];
     }
     echo $img;
-}
-
-
+}
 /* 获取浏览量 */
 function GetPostViews($archive)
 {
@@ -848,19 +778,16 @@ function GetPostViews($archive)
         }
     }
     echo number_format($exist);
-}
-
+}
 /* 随机一言 */
 function GetRandomMotto()
 {
     if (Helper::options()->JMotto) {
-        $JMottoRandom = explode("\r\n", Helper::options()->JMotto);
+        $JMottoRandom = explode("\n", Helper::options()->JMotto);
         $random = $JMottoRandom[array_rand($JMottoRandom, 1)];
         echo $random;
     }
-}
-
-
+}
 /* 点赞数 */
 function agreeNum($cid)
 {
@@ -894,8 +821,7 @@ function agree($cid)
     $db->query($db->update('table.contents')->rows(array('agree' => (int)$agree['agree'] + 1))->where('cid = ?', $cid));
     $agree = $db->fetchRow($db->select('table.contents.agree')->from('table.contents')->where('cid = ?', $cid));
     return $agree['agree'];
-}
-
+}
 /* 评论like数 */
 function commentLikeNum($coid)
 {
@@ -909,8 +835,7 @@ function commentLikeNum($coid)
         'likes' => $likes['likes'],
         'recording' => in_array($coid, json_decode(Typecho_Cookie::get('typechoLikesRecording'))) ? true : false
     );
-}
-
+}
 /* 评论like */
 function commentLike($likeup)
 {
@@ -931,9 +856,7 @@ function commentLike($likeup)
     $db->query($db->update('table.comments')->rows(array('likes' => (int)$likes['likes'] + 1))->where('coid = ?', $likeup));
     $likes = $db->fetchRow($db->select('table.comments.likes')->from('table.comments')->where('coid = ?', $likeup));
     echo $likes['likes'];
-}
-
-
+}
 /* 获取浏览器信息 */
 function GetBrowser($agent)
 {
@@ -1026,8 +949,7 @@ if (preg_match('/MSIE\s([^\s|;]+)/i', $agent, $regs)) {
         $outputer = 'Chrome';
     }
     echo $outputer;
-}
-
+}
 // 获取操作系统信息
 function GetOs($agent)
 {
@@ -1070,9 +992,7 @@ function GetOs($agent)
         $os = 'Linux';
     }
     echo $os;
-}
-
-
+}
 /* 自定义字段 */
 function themeFields($layout)
 {
@@ -1084,8 +1004,7 @@ function themeFields($layout)
         '填写时：将会显示填写的文章缩略图 <br>
          不填写时：如果文章内有图片则取文章图片，否则取模板自带的随机缩略图'
     );
-    $layout->addItem($thumb);
-
+    $layout->addItem($thumb);
     $desc = new Typecho_Widget_Helper_Form_Element_Text(
         'desc',
         NULL,
@@ -1093,8 +1012,7 @@ function themeFields($layout)
         'SEO描述',
         '用于填写文章或独立页面的SEO描述，如果不填写则显示默认描述'
     );
-    $layout->addItem($desc);
-
+    $layout->addItem($desc);
     $keywords = new Typecho_Widget_Helper_Form_Element_Text(
         'keywords',
         NULL,
@@ -1102,8 +1020,7 @@ function themeFields($layout)
         'SEO关键词',
         '用于填写文章或独立页面的SEO关键词，如果不填写则显示默认关键词'
     );
-    $layout->addItem($keywords);
-
+    $layout->addItem($keywords);
     $keywords = new Typecho_Widget_Helper_Form_Element_Text(
         'keywords',
         NULL,
@@ -1111,8 +1028,7 @@ function themeFields($layout)
         'SEO关键词',
         '用于填写文章或独立页面的SEO关键词，如果不填写则显示默认关键词'
     );
-    $layout->addItem($keywords);
-
+    $layout->addItem($keywords);
     $video = new Typecho_Widget_Helper_Form_Element_Textarea(
         'video',
         NULL,
@@ -1122,11 +1038,10 @@ function themeFields($layout)
          格式：视频名称&视频地址。如果有多个，换行写即可 <br>
          例如：<br>
             第01集$https://iqiyi.cdn9-okzy.com/20201104/17638_8f3022ce/index.m3u8 <br>
-            第02集$https://iqiyi.cdn9-okzy.com/20201104/17639_5dcb8a3b/index.m3u8 
+            第02集$https://iqiyi.cdn9-okzy.com/20201104/17639_5dcb8a3b/index.m3u8
         '
     );
-    $layout->addItem($video);
-
+    $layout->addItem($video);
     $sharePic = new Typecho_Widget_Helper_Form_Element_Textarea(
         'sharePic',
         NULL,
@@ -1135,8 +1050,7 @@ function themeFields($layout)
         '填写则会优先使用此缩略图，不填写则随机取网站中图片 <br>
          格式：图片URL 或 BASE64地址'
     );
-    $layout->addItem($sharePic);
-
+    $layout->addItem($sharePic);
     $aside = new Typecho_Widget_Helper_Form_Element_Select(
         'aside',
         array(
@@ -1145,12 +1059,11 @@ function themeFields($layout)
         ),
         'on',
         '是否开启当前页面的侧边栏',
-        '用于单独设置当前页面侧边栏的开启状态 <br /> 
+        '用于单独设置当前页面侧边栏的开启状态 <br />
          只有在外观设置侧边栏开启状态下生效'
     );
     $layout->addItem($aside);
-}
-
+}
 function GetQQSharePic($widget)
 {
     if ($widget->fields->sharePic) {
@@ -1158,8 +1071,7 @@ function GetQQSharePic($widget)
     } else {
         return Helper::options()->JQQSharePic;
     }
-}
-
+}
 /* 评论回复 */
 Typecho_Plugin::factory('Widget_Abstract_Contents')->excerptEx = array('myyodux', 'one');
 Typecho_Plugin::factory('Widget_Abstract_Contents')->contentEx = array('myyodux', 'one');
@@ -1173,9 +1085,7 @@ class myyodux
         }
         return $text;
     }
-}
-
-
+}
 function check_in($words_str, $str)
 {
     $words = explode("||", $words_str);
@@ -1188,8 +1098,7 @@ function check_in($words_str, $str)
         }
     }
     return false;
-}
-
+}
 Typecho_Plugin::factory('Widget_Feedback')->comment = array('plgl', 'one');
 class plgl
 {
@@ -1197,51 +1106,43 @@ class plgl
     {
         $options = Helper::options();
         $action = "";
-        $msg = "";
-
+        $msg = "";
         /* 脚本回复 */
         if ($options->JProhibitScript === "on") {
             if (preg_match("/<a(.*?)href=\"javascript:(.*?)>(.*?)<\/a>/u", $comment['text']) == 1) {
                 $msg = "检测到脚本回复，已禁止！";
                 $action = 'abandon';
             }
-        }
-
+        }
         /* 空格回复 */
         if ($options->JProhibitEmsp === "on") {
             if (ctype_space($comment['text'])) {
                 $msg = "请不要使用空格评论！";
                 $action = 'abandon';
             }
-        }
-
+        }
         /* 非中文评论 */
         if ($options->JProhibitChinese === "on") {
             if (!preg_match("/{\!\{(.*?)/", $comment['text']) && preg_match("/[\x{4e00}-\x{9fa5}]/u", $comment['text']) == 0) {
                 $msg = "评论至少包含一个中文！";
                 $action = 'abandon';
             }
-        }
-
-
+        }
         /* 敏感词 */
         if (!empty($options->JProhibitWords)) {
             if (check_in($options->JProhibitWords, $comment['text'])) {
                 $msg = "评论内容中包含敏感词汇";
                 $action = "abandon";
             }
-        }
-
+        }
         if ($action == "abandon") {
             Typecho_Cookie::set('__typecho_remember_text', $comment['text']);
             throw new Typecho_Widget_Exception(_t($msg), 403);
-        }
-
+        }
         Typecho_Cookie::delete('__typecho_remember_text');
         return $comment;
     }
-}
-
+}
 Typecho_Plugin::factory('admin/write-post.php')->bottom = array('editor', 'reset');
 Typecho_Plugin::factory('admin/write-page.php')->bottom = array('editor', 'reset');
 class editor
@@ -1256,27 +1157,22 @@ class editor
                 height: 20px;
                 line-height: 20px;
                 text-align: center;
-            }
-
+            }
             .wmd-button.custom svg {
                 width: 15px;
                 height: 15px;
                 vertical-align: middle;
-            }
-
+            }
             body.fullscreen {
                 overflow-x: hidden;
-            }
-
+            }
             .wmd-button-row {
                 height: auto;
-            }
-
+            }
             #custom-field .typecho-list-table tbody textarea {
                 width: 100%;
                 height: 100px;
-            }
-
+            }
             #custom-field .typecho-list-table tbody input[type="text"] {
                 width: 100%;
             }
@@ -1450,7 +1346,7 @@ class editor
                 })
                 $("#j-wmd-video-album").on("click", function() {
                     insertAtCursor('\n[video]\n [video-item src="视频地址" poster="海报图（填写数字则表示截取视频帧）" /]\n [video-item src="视频地址" poster="海报图（填写数字则表示截取视频帧）" /]\n[/video]\n');
-                })  
+                })
                 $("#j-wmd-video-MP3").on("click", function() {
                     insertAtCursor('\n!!!\n<audio src="音乐地址" controls="controls" autoplay="autoplay"></audio>\n!!!\n');
                 })				
@@ -1475,9 +1371,7 @@ class editor
                         myField.value += myValue;
                         myField.focus();
                     }
-                }
-
-
+                }
                 /* 粘贴上传 */
                 // 上传URL
                 var uploadUrl = '<?php Helper::security()->index('/action/upload'); ?>';
@@ -1485,42 +1379,35 @@ class editor
                 var cid = $('input[name="cid"]').val();
                 if (cid) {
                     uploadUrl += '&cid=' + cid;
-                }
-
+                }
                 // 上传文件函数
                 function uploadFile(file) {
                     // 生成一段随机的字符串作为 key
                     var index = Math.random().toString(10).substr(2, 5) + '-' + Math.random().toString(36).substr(2);
                     // 默认文件后缀是 png，在Chrome浏览器中剪贴板粘贴的图片都是png格式，其他浏览器暂未测试
-                    var fileName = index + '.png';
-
+                    var fileName = index + '.png';
                     // 上传时候提示的文字
-                    var uploadingText = '[图片上传中...(' + index + ')]';
-
+                    var uploadingText = '[图片上传中...(' + index + ')]';
                     // 先把这段文字插入
                     var textarea = $('#text'),
                         sel = textarea.getSelection(),
                         offset = (sel ? sel.start : 0) + uploadingText.length;
                     textarea.replaceSelection(uploadingText);
                     // 设置光标位置
-                    textarea.setSelection(offset, offset);
-
+                    textarea.setSelection(offset, offset);
                     // 设置附件栏信息
                     // 先切到附件栏
-                    $('#tab-files-btn').click();
-
+                    $('#tab-files-btn').click();
                     // 更新附件的上传提示
                     var fileInfo = {
                         id: index,
                         name: fileName
                     }
-                    fileUploadStart(fileInfo);
-
+                    fileUploadStart(fileInfo);
                     // 是时候展示真正的上传了
                     var formData = new FormData();
                     formData.append('name', fileName);
-                    formData.append('file', file, fileName);
-
+                    formData.append('file', file, fileName);
                     $.ajax({
                         method: 'post',
                         url: uploadUrl,
@@ -1544,8 +1431,7 @@ class editor
                             fileUploadError(fileInfo);
                         }
                     });
-                }
-
+                }
                 // 监听输入框粘贴事件
                 document.getElementById('text').addEventListener('paste', function(e) {
                     var clipboardData = e.clipboardData;
@@ -1559,35 +1445,29 @@ class editor
                             break;
                         }
                     }
-                });
-
+                });
                 // 更新附件数量显示
                 function updateAttacmentNumber() {
                     var btn = $('#tab-files-btn'),
                         balloon = $('.balloon', btn),
-                        count = $('#file-list li .insert').length;
-
+                        count = $('#file-list li .insert').length;
                     if (count > 0) {
                         if (!balloon.length) {
                             btn.html($.trim(btn.html()) + ' ');
                             balloon = $('<span class="balloon"></span>').appendTo(btn);
-                        }
-
+                        }
                         balloon.html(count);
                     } else if (0 == count && balloon.length > 0) {
                         balloon.remove();
                     }
-                }
-
+                }
                 // 开始上传文件的提示
                 function fileUploadStart(file) {
                     $('<li id="' + file.id + '" class="loading">' +
                         file.name + '</li>').appendTo('#file-list');
-                }
-
+                }
                 // 上传完毕的操作
-                var completeFile = null;
-
+                var completeFile = null;
                 function fileUploadComplete(id, url, data) {
                     var li = $('#' + id).removeClass('loading').data('cid', data.cid)
                         .data('url', data.url)
@@ -1597,17 +1477,14 @@ class editor
                             ' <a class="file" target="_blank" href="<?php $options->adminUrl('media.php'); ?>?cid=' +
                             data.cid + '" title="<?php _e('编辑'); ?>"><i class="i-edit"></i></a>' +
                             ' <a class="delete" href="###" title="<?php _e('删除'); ?>"><i class="i-delete"></i></a></div>')
-                        .effect('highlight', 1000);
-
+                        .effect('highlight', 1000);
                     attachInsertEvent(li);
                     attachDeleteEvent(li);
-                    updateAttacmentNumber();
-
+                    updateAttacmentNumber();
                     if (!completeFile) {
                         completeFile = data;
                     }
-                }
-
+                }
                 // 增加插入事件
                 function attachInsertEvent(el) {
                     $('.insert', el).click(function() {
@@ -1616,8 +1493,7 @@ class editor
                         Typecho.insertFileToEditor(t.text(), p.data('url'), p.data('image'));
                         return false;
                     });
-                }
-
+                }
                 // 增加删除事件
                 function attachDeleteEvent(el) {
                     var file = $('a.insert', el).text();
@@ -1634,27 +1510,21 @@ class editor
                                         updateAttacmentNumber();
                                     });
                                 });
-                        }
-
+                        }
                         return false;
                     });
-                }
-
+                }
                 // 错误处理，相比原来的函数，做了一些微小的改造
                 function fileUploadError(file) {
-                    var word;
-
-                    word = '<?php _e('上传出现错误'); ?>';
-
+                    var word;
+                    word = '<?php _e('上传出现错误'); ?>';
                     var fileError = '<?php _e('%s 上传失败'); ?>'.replace('%s', file.name),
-                        li, exist = $('#' + file.id);
-
+                        li, exist = $('#' + file.id);
                     if (exist.length > 0) {
                         li = exist.removeClass('loading').html(fileError);
                     } else {
                         li = $('<li>' + fileError + '<br />' + word + '</li>').appendTo('#file-list');
-                    }
-
+                    }
                     li.effect('highlight', {
                         color: '#FBC2C4'
                     }, 2000, function() {

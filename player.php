@@ -1,6 +1,5 @@
-<!DOCTYPE html> 
-<html lang="en" data-color-mode="<?php if($_COOKIE['night']=='1')echo 'dark';else echo 'light'; ?>">
-
+<!DOCTYPE html>
+<html lang="en" data-color-mode="<?php if($_COOKIE['night']=='1')echo 'dark';else echo 'light'; ?>">
 <head>
     <meta charset="UTF-8" />
     <meta name="renderer" content="webkit" />
@@ -13,24 +12,20 @@
     <style>
         html {
             height: 100%;
-        }
-
+        }
         body {
             margin: 0;
             height: 100%;
-        }
-
+        }
         .plyr {
             height: 100%;
-        }
-
+        }
         :root {
             /* 主要色彩，更多色彩查看官方文档 */
             --plyr-color-main: #409EFF;
         }
     </style>
-</head>
-
+</head>
 <body>
     <video playinline></video>
     <script src="<?php echo autoCdnUrl('assets/js-local/npm/plyr.min.js'); ?>"></script>
@@ -40,7 +35,7 @@
             /* 获取播放器组件 */
             const video = document.querySelector('video');
             /* 获取当前URL地址 */
-            const source = '<?php echo $_GET['url'] ?>';
+            const source = <?php echo json_encode(isset($_GET['url']) ? (string) $_GET['url'] : '', JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT); ?>;
             /* 生成播放器组件 */
             const player = new Plyr(video, {
                 settings: ['captions', 'speed'],
@@ -54,7 +49,10 @@
                 },
             });
             /* 判断当前链接类型是否为流类型 */
-            if (/\.m3u8$/.test(source)) {
+            if (!source) {
+                return;
+            }
+            if (/\.m3u8(?:\?|$)/i.test(source)) {
                 const hls = new Hls();
                 hls.loadSource(source);
                 hls.attachMedia(video);
@@ -63,6 +61,5 @@
             }
         })
     </script>
-</body>
-
+</body>
 </html>

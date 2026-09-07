@@ -1,17 +1,14 @@
 <div class="fakeLoader"></div>
 <!-- 该处用于密码、输入框等其他异步判断是否正确使用，请勿修改成其他内容！！！ -->
-<div style="display: none;">TypechoJoeTheme</div>
-
+<div style="display: none;">TypechoJoeTheme</div>
 <!-- 跑马灯 -->
 <?php if ($this->options->JHorseStatus === 'on' && $this->options->JHeaderStyle === 'default') : ?>
     <div class="j-horse"></div>
-<?php endif; ?>
-
+<?php endif; ?>
  <!-- 雪花背景 -->
 <?php if ($this->options->JSnow === 'on') : ?>
     <div class="snow-container"></div>
-<?php endif; ?>
-
+<?php endif; ?>
 <?php if ($this->options->JHeaderStyle === 'default') : ?>
     <header class="container-fluid j-header j-header-default">
         <section class="row above">
@@ -64,8 +61,7 @@
                 <!-- 链接 -->
                 <nav class="nav j-nav">
                     <a class="link <?php if ($this->is('index')) : ?>active<?php endif; ?>" href="<?php $this->options->siteUrl(); ?>">首页</a>
-                    <?php $this->widget('Widget_Contents_Page_List')->to($pages); ?>
-
+                    <?php $this->widget('Widget_Contents_Page_List')->to($pages); ?>
                     <!-- 循环4个之前的 -->
                     <?php $i = 0; ?>
                     <?php while ($pages->next()) : ?>
@@ -73,8 +69,7 @@
                         <?php if ($i <= $this->options->JNavMaxNum) : ?>
                             <a class="link <?php if ($this->is('page', $pages->slug)) : ?>active<?php endif; ?>" href="<?php $pages->permalink(); ?>"><?php $pages->title(); ?></a>
                         <?php endif; ?>
-                    <?php endwhile; ?>
-
+                    <?php endwhile; ?>
                     <!-- 超过4个则显示更多 -->
                     <?php if ($i > $this->options->JNavMaxNum) : ?>
                         <div class="link drops">
@@ -95,8 +90,7 @@
                             </nav>
                         </div>
                     <?php endif; ?>					
-                </nav>
-
+                </nav>
                 <!-- 搜索 -->
                 <form class="search j-search" method="get" action="<?php $this->options->siteUrl(); ?>">
                     <input maxlength="20" name="s" autocomplete="off" <?php if ($this->is('search')) : ?>value="<?php $this->archiveTitle(' &raquo; ', '', ''); ?>" <?php endif; ?> type="text" placeholder="请输入关键字..." />
@@ -199,17 +193,14 @@
                     <svg class="open" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
                         <path d="M419.61244445 837.17688889c98.53155555 0 191.71555555-33.90577778 266.46755555-96.14222222l269.08444445 269.08444444c7.50933333 7.50933333 17.408 11.264 27.30666666 11.264s19.79733333-3.75466667 27.30666667-11.264c15.13244445-15.13244445 15.13244445-39.59466667 0-54.61333333L740.80711111 686.30755555c136.07822222-163.84 127.43111111-408.12088889-26.05511111-561.6071111-78.848-78.73422222-183.63733333-122.19733333-295.13955555-122.19733334-111.50222222 0-216.29155555 43.46311111-295.13955556 122.19733334-162.70222222 162.70222222-162.70222222 427.46311111 0 590.16533333 78.96177778 78.96177778 183.75111111 122.31111111 295.13955556 122.31111111zM179.2 179.42755555c64.28444445-64.17066667 149.61777778-99.55555555 240.41244445-99.55555555 90.79466667 0 176.24177778 35.38488889 240.41244444 99.55555555 132.55111111 132.55111111 132.55111111 348.38755555 0 480.93866667-64.28444445 64.17066667-149.61777778 99.55555555-240.41244444 99.55555556S243.48444445 724.53688889 179.2 660.36622222C46.64888889 527.70133333 46.64888889 311.97866667 179.2 179.42755555z" fill="#333303" p-id="12018"></path>
                     </svg>
-                </div>
-
+                </div>
                 <svg class="search-toggle-xs" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="18925" width="200" height="200">
                     <path d="M1008.190624 932.031321l-236.471871-236.471871a431.153179 431.153179 0 1 0-76.157382 76.157382l236.407873 236.471872a53.758152 53.758152 0 0 0 76.157382 0 53.758152 53.758152 0 0 0 0-76.157383zM107.805575 431.184538a323.636875 323.636875 0 0 1 323.316886-323.380884 323.700873 323.700873 0 0 1 323.380883 323.380884 323.636875 323.636875 0 0 1-323.380883 323.316886 323.636875 323.636875 0 0 1-323.316886-323.316886z" p-id="18926"></path>
                 </svg>
             </section>
-        </section>
-
+        </section>
         <section class="row below">
-            <section class="container">
-
+            <section class="container">
                 <!-- 分类 -->
                 <nav class="nav">
                     <?php $this->widget('Widget_Metas_Category_List')->to($categorys); ?>
@@ -236,8 +227,7 @@
                             <?php } ?>
                         <?php endif; ?>
                     <?php endwhile; ?>
-                </nav>
-
+                </nav>
                 <!-- 统计 -->
                 <?php if ($this->options->JCensusStatus === 'on') : ?>
                     <section class="census">
@@ -251,8 +241,7 @@
                             <section id="census"></section>
                         </nav>
                     </section>
-                <?php endif; ?>
-
+                <?php endif; ?>
                 <?php if ($this->options->JSignStatus === 'on') : ?>
                     <?php if ($this->user->hasLogin()) : ?>
                         <section class="logged">
@@ -264,12 +253,12 @@
                             </section>
                             <nav class="j-dropdown">
                                 <?php if ($this->user->group == 'administrator') : ?>
-                                    <a rel="nofollow" target="_balnk" href="<?php $this->options->adminUrl("options-theme.php"); ?>">修改外观</a>
+                                    <a rel="nofollow" target="_blank" href="<?php $this->options->adminUrl("options-theme.php"); ?>">修改外观</a>
                                 <?php endif; ?>
                                 <?php if ($this->user->group == 'administrator' || $this->user->group == 'editor' || $this->user->group == 'contributor') : ?>
-                                    <a rel="nofollow" target="_balnk" href="<?php $this->options->adminUrl("manage-posts.php"); ?>">管理文章</a>
+                                    <a rel="nofollow" target="_blank" href="<?php $this->options->adminUrl("manage-posts.php"); ?>">管理文章</a>
                                 <?php endif; ?>
-                                <a rel="nofollow" target="_balnk" href="<?php $this->options->adminUrl(); ?>">进入后台</a>
+                                <a rel="nofollow" target="_blank" href="<?php $this->options->adminUrl(); ?>">进入后台</a>
                                 <a rel="nofollow" href="<?php $this->options->logoutUrl(); ?>">退出登录</a>
                             </nav>
                         </section>
@@ -329,28 +318,23 @@
                             <?php endif; ?>
                         </section>
                     <?php endif; ?>
-                <?php endif; ?>
-
+                <?php endif; ?>
                 <!-- 弹幕 -->
                 <?php if ($this->options->JBarragerStatus === 'on') : ?>
                     <input id="barrager" class="barrager" type="checkbox" title="开启/关闭弹幕">
                 <?php endif; ?>
             </section>
-        </section>
-
+        </section>
         <?php if ($this->options->JProgressStatus === 'on') : ?>
             <section id="progress" class="progress"></section>
-        <?php endif; ?>
-
+        <?php endif; ?>
     </header>
 <?php else : ?>
-    <header class="container-fluid j-header j-header-fluid">
-
+    <header class="container-fluid j-header j-header-fluid">
         <!-- 进度条 -->
         <?php if ($this->options->JProgressStatus === 'on') : ?>
             <section id="progress" class="progress"></section>
-        <?php endif; ?>
-
+        <?php endif; ?>
         <div class="j-slide slide">
             <span></span>
             <span></span>
@@ -366,10 +350,8 @@
                     <img src="https://xggm.top/logo1.png" />
                 <?php endif; ?>
             </a>
-        </h1>
-
-        <section class="left j-nav">
-
+        </h1>
+        <section class="left j-nav">
             <!-- 链接 -->
             <nav class="nav">
                 <a class="link <?php if ($this->is('index')) : ?>active<?php endif; ?>" href="<?php $this->options->siteUrl(); ?>">首页</a>
@@ -396,8 +378,7 @@
                             </section>
                         <?php } ?>
                     <?php endif; ?>
-                <?php endwhile; ?>
-
+                <?php endwhile; ?>
                 <!-- 页面 -->
                 <section class="drop">
                     <section class="j-drop">
@@ -412,8 +393,7 @@
                             <a class="<?php if ($this->is('page', $pages->slug)) : ?>active<?php endif; ?>" href="<?php $pages->permalink(); ?>"><?php $pages->title(); ?></a>
                         <?php endwhile; ?>
                     </nav>
-                </section>
-
+                </section>
                 <!-- 统计 -->
                 <?php if ($this->options->JCensusStatus === 'on') : ?>
                     <section class="drop drop-census">
@@ -428,17 +408,13 @@
                         </nav>
                     </section>
                 <?php endif; ?>
-            </nav>
-
+            </nav>
             <!-- 弹幕 -->
             <?php if ($this->options->JBarragerStatus === 'on') : ?>
                 <input id="barrager" class="barrager" type="checkbox" title="开启/关闭弹幕">
-            <?php endif; ?>
-
-        </section>
-
-        <section class="right">
-
+            <?php endif; ?>
+        </section>
+        <section class="right">
             <!-- 登录/注册 -->
             <?php if ($this->options->JSignStatus === 'on') : ?>
                 <?php if ($this->user->hasLogin()) : ?>
@@ -448,12 +424,12 @@
                         </section>
                         <nav class="j-dropdown">
                             <?php if ($this->user->group == 'administrator') : ?>
-                                <a rel="nofollow" target="_balnk" href="<?php $this->options->adminUrl("options-theme.php"); ?>">修改外观</a>
+                                <a rel="nofollow" target="_blank" href="<?php $this->options->adminUrl("options-theme.php"); ?>">修改外观</a>
                             <?php endif; ?>
                             <?php if ($this->user->group == 'administrator' || $this->user->group == 'editor' || $this->user->group == 'contributor') : ?>
-                                <a rel="nofollow" target="_balnk" href="<?php $this->options->adminUrl("manage-posts.php"); ?>">管理文章</a>
+                                <a rel="nofollow" target="_blank" href="<?php $this->options->adminUrl("manage-posts.php"); ?>">管理文章</a>
                             <?php endif; ?>
-                            <a rel="nofollow" target="_balnk" href="<?php $this->options->adminUrl(); ?>">进入后台</a>
+                            <a rel="nofollow" target="_blank" href="<?php $this->options->adminUrl(); ?>">进入后台</a>
                             <a rel="nofollow" href="<?php $this->options->logoutUrl(); ?>">退出登录</a>
                         </nav>
                     </section>
@@ -506,8 +482,7 @@
                         <?php endif; ?>
                     </section>
                 <?php endif; ?>
-            <?php endif; ?>
-
+            <?php endif; ?>
             <!-- 搜索 -->
             <form class="search j-search" method="get" action="<?php $this->options->siteUrl(); ?>">
                 <input maxlength="20" name="s" autocomplete="off" <?php if ($this->is('search')) : ?>value="<?php $this->archiveTitle(' &raquo; ', '', ''); ?>" <?php endif; ?> type="text" placeholder="请输入关键字..." />
@@ -517,8 +492,7 @@
                     </svg>
                 </button>
                 <span></span>
-            </form>
-
+            </form>
             <div class="search-toggle j-search-toggle">
                 <svg t="1605187854542" class="close" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="15933" width="200" height="200">
                     <path d="M578.382 512.5L861.58 795.696c18.745 18.745 18.745 49.137 0 67.883-18.746 18.745-49.138 18.745-67.883 0L510.5 580.382 227.304 863.58c-18.745 18.745-49.137 18.745-67.883 0-18.745-18.746-18.745-49.138 0-67.883L442.618 512.5 159.42 229.304c-18.745-18.745-18.745-49.137 0-67.883 18.746-18.745 49.138-18.745 67.883 0L510.5 444.618 793.696 161.42c18.745-18.745 49.137-18.745 67.883 0 18.745 18.746 18.745 49.138 0 67.883L578.382 512.5z" p-id="15934"></path>
@@ -527,14 +501,12 @@
                     <path d="M419.61244445 837.17688889c98.53155555 0 191.71555555-33.90577778 266.46755555-96.14222222l269.08444445 269.08444444c7.50933333 7.50933333 17.408 11.264 27.30666666 11.264s19.79733333-3.75466667 27.30666667-11.264c15.13244445-15.13244445 15.13244445-39.59466667 0-54.61333333L740.80711111 686.30755555c136.07822222-163.84 127.43111111-408.12088889-26.05511111-561.6071111-78.848-78.73422222-183.63733333-122.19733333-295.13955555-122.19733334-111.50222222 0-216.29155555 43.46311111-295.13955556 122.19733334-162.70222222 162.70222222-162.70222222 427.46311111 0 590.16533333 78.96177778 78.96177778 183.75111111 122.31111111 295.13955556 122.31111111zM179.2 179.42755555c64.28444445-64.17066667 149.61777778-99.55555555 240.41244445-99.55555555 90.79466667 0 176.24177778 35.38488889 240.41244444 99.55555555 132.55111111 132.55111111 132.55111111 348.38755555 0 480.93866667-64.28444445 64.17066667-149.61777778 99.55555555-240.41244444 99.55555556S243.48444445 724.53688889 179.2 660.36622222C46.64888889 527.70133333 46.64888889 311.97866667 179.2 179.42755555z" fill="#333303" p-id="12018"></path>
                 </svg>
             </div>
-        </section>
-
+        </section>
         <svg class="search-toggle-xs" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="18925" width="200" height="200">
             <path d="M1008.190624 932.031321l-236.471871-236.471871a431.153179 431.153179 0 1 0-76.157382 76.157382l236.407873 236.471872a53.758152 53.758152 0 0 0 76.157382 0 53.758152 53.758152 0 0 0 0-76.157383zM107.805575 431.184538a323.636875 323.636875 0 0 1 323.316886-323.380884 323.700873 323.700873 0 0 1 323.380883 323.380884 323.636875 323.636875 0 0 1-323.380883 323.316886 323.636875 323.636875 0 0 1-323.316886-323.316886z" p-id="18926"></path>
         </svg>
     </header>
-<?php endif; ?>
-
+<?php endif; ?>
 <div class="j-sidebar-xs">
     <div class="mask"></div>
     <div class="content">
@@ -600,8 +572,7 @@
             </div>
         <?php endif; ?>
     </div>
-</div>
-
+</div>
 <div class="j-search-down-xs">
     <div class="content">
         <form method="get" action="<?php $this->options->siteUrl(); ?>">
